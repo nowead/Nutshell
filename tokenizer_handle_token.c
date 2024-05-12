@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:57:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/12 14:25:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/12 22:34:08 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@ void	handle_operator(t_token_handler_args *args, size_t i)
 		*(args->tok_start) = i;
 	}
 }
+
+void	handle_and_if_operator(t_token_handler_args *args, size_t *i)
+{
+	if (tokenlist_add(args->tokenlist, new_token(*(args->tokentype), \
+			ft_substr(args->input, *(args->tok_start), \
+			i - *(args->tok_start)))) == -1)
+				tokenizer_err_exit(args->tokenlist, "token allocation fail");
+}
+//dsfds&&
+//.    
 
 // Handles spaces and separates tokens
 void	handle_space(t_token_handler_args *args, size_t i)
@@ -97,7 +107,9 @@ int	is_part_of_operator(const char *input, size_t tok_start, size_t i)
 	if (len == 2)
 	{
 		// Check for specific compound operators '<<' or '>>'
-		if (ft_strncmp("<<", &input[tok_start], len) == 0 || \
+		if (ft_strncmp("&&", &input[tok_start], len) == 0 || \
+			ft_strncmp("||", &input[tok_start], len) == 0 || \
+			ft_strncmp("<<", &input[tok_start], len) == 0 || \
 			ft_strncmp(">>", &input[tok_start], len) == 0)
 			return (1); // Return 1 if the substring is a recognized compound operator
 		else

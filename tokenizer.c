@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/12 14:11:02 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/12 22:35:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	process_tokens(const char *input, t_tokenlist *tokenlist)
 	i = 0;  // Process each character until end of string
 	while (input[i])
 	{
-		handle_token_creation(&args, i); // Handle creation of token based on current character
+		handle_token_creation(&args, &i); // Handle creation of token based on current character
 		i++;
 	}
 	// After processing all characters, handle any unclosed quotes or final tokens
@@ -60,14 +60,16 @@ void	process_tokens(const char *input, t_tokenlist *tokenlist)
 }
 
 // Handles creation of a single token
-void	handle_token_creation(t_token_handler_args *args, size_t i)
+void	handle_token_creation(t_token_handler_args *args, size_t *i)
 {
-	if (is_operator((args->input)[i]) && *(args->quotetype) == NO_QUOTE)
-		handle_operator(args, i); // Handle operators outside of quotes
-	else if (ft_isspace((args->input)[i]) && *(args->quotetype) == NO_QUOTE)
-		handle_space(args, i); // Handle spaces outside of quotes
+	if (is_operator((args->input)[*i]) && *(args->quotetype) == NO_QUOTE)
+		handle_operator(args, *i); // Handle operators outside of quotes
+	else if ((args->input)[*i] == '&' && is_part_of_operator(args->input, *i, (*i) + 1))
+		handle_and_if_operator(args, i);
+	else if (ft_isspace((args->input)[*i]) && *(args->quotetype) == NO_QUOTE)
+		handle_space(args, *i); // Handle spaces outside of quotes
 	else
-		handle_word(args, i); // Handle words or quoted text
+		handle_word(args, *i); // Handle words or quoted text
 }
 
 // Handles errors by cleaning up and exiting
@@ -98,7 +100,7 @@ int	main(void)
 {
 	t_tokenlist	*tokenlist;
 
-	tokenlist = tokenizer(" asd|sdf\"d<<<'s' f\" ><< f ");
+	tokenlist = tokenizer(" asd|sdf\"d<<<'s' f\" >><< f ");
 	print_tokenlist(tokenlist);
 	ft_printf("size:%d\n", tokenlist->size);
 	tokenlist_clear(tokenlist);

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/12 14:12:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/12 21:54:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,17 @@
 typedef enum e_tokentype
 {
 	TOK_UNKNOWN,			// Token type unknown
+	TOK_OPERATOR,			// Token is an operator
 	TOK_WORD,				// Token is a word
-	TOK_OPERATOR			// Token is an operator
+
+	TOK_AND_IF,
+	TOK_OR_IF,
+	TOK_PIPE,
+	TOK_LESS,
+	TOK_GREAT,
+	TOK_DLESS,
+	TOK_DGREAT
+	
 }	t_tokentype;
 
 // Defines the types of quotations that can be recognized.
@@ -63,7 +72,7 @@ typedef struct s_token_handler_args
 // tokenizer.c
 t_tokenlist	*tokenizer(const char *input); // Tokenizes the given input string
 void		process_tokens(const char *input, t_tokenlist *tokenlist); // Processes input to generate tokens
-void		handle_token_creation(t_token_handler_args *args, size_t i); // Handles creation of a single token
+void		handle_token_creation(t_token_handler_args *args, size_t *i); // Handles creation of a single token
 void		tokenizer_err_exit(t_tokenlist *tokenlist, char *err_msg); // Handles errors by cleaning up and exiting
 // debugging functions
 int			print_tokenlist(t_tokenlist *tokenlist); // Prints all tokens in the list for debugging
