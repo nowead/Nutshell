@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/12 22:35:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/13 15:34:12 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "tokenize.h"
 
 // Main function to tokenize a given input string.
 // It returns a pointer to a t_tokenlist structure containing the tokens or NULL if an error occurs.
-t_tokenlist	*tokenizer(const char *input)
+t_tokenlist	*tokenize(const char *input)
 {
 	t_tokenlist	*tokenlist;
 
@@ -23,7 +23,7 @@ t_tokenlist	*tokenizer(const char *input)
 	// Attempt to create a new token list to store tokens.
 	tokenlist = new_tokenlist();
 	if (tokenlist == NULL)
-		tokenizer_err_exit(NULL, "tokenlist allocation fail");
+		tokenize_err_exit(NULL, "tokenlist allocation fail");
 	// Process the tokens by examining each character in the input string.
 	process_tokens(input, tokenlist);
 	// Return the populated token list.
@@ -51,12 +51,12 @@ void	process_tokens(const char *input, t_tokenlist *tokenlist)
 	}
 	// After processing all characters, handle any unclosed quotes or final tokens
 	if (quotetype != NO_QUOTE)
-		tokenizer_err_exit(tokenlist, "unclosed quotation detected"); // Error if quote is not closed
+		tokenize_err_exit(tokenlist, "unclosed quotation detected"); // Error if quote is not closed
 	else if (tokentype != TOK_UNKNOWN)
 	// Close a token if there is an unclosed token
 		if (tokenlist_add(tokenlist, new_token(tokentype, \
 		ft_substr(input, tok_start, i - tok_start))) == -1)
-			tokenizer_err_exit(tokenlist, "token allocation fail");
+			tokenize_err_exit(tokenlist, "token allocation fail");
 }
 
 // Handles creation of a single token
@@ -64,8 +64,14 @@ void	handle_token_creation(t_token_handler_args *args, size_t *i)
 {
 	if (is_operator((args->input)[*i]) && *(args->quotetype) == NO_QUOTE)
 		handle_operator(args, *i); // Handle operators outside of quotes
-	else if ((args->input)[*i] == '&' && is_part_of_operator(args->input, *i, (*i) + 1))
+
+	// Check if current and next character combined form '&&' operator outside of quotes
+	else if ((args->input)[*i] == '&' && \
+	is_part_of_operator(args->input, *i, (*i) + 1) && \
+	*(args->quotetype) == NO_QUOTE)
+	// If conditions are met, handle the '&&' operator specifically
 		handle_and_if_operator(args, i);
+
 	else if (ft_isspace((args->input)[*i]) && *(args->quotetype) == NO_QUOTE)
 		handle_space(args, *i); // Handle spaces outside of quotes
 	else
@@ -73,7 +79,7 @@ void	handle_token_creation(t_token_handler_args *args, size_t *i)
 }
 
 // Handles errors by cleaning up and exiting
-void	tokenizer_err_exit(t_tokenlist *tokenlist, char *err_msg)
+void	tokenize_err_exit(t_tokenlist *tokenlist, char *err_msg)
 {
 	if (tokenlist != NULL)
 		tokenlist_clear(tokenlist); // Free all allocated tokens and the token list itself
@@ -100,7 +106,7 @@ int	main(void)
 {
 	t_tokenlist	*tokenlist;
 
-	tokenlist = tokenizer(" asd|sdf\"d<<<'s' f\" >><< f ");
+	tokenlist = tokenize(" asd|s&d&&&&|||df\"d&&&<<<'s' f\" >><< f ");
 	print_tokenlist(tokenlist);
 	ft_printf("size:%d\n", tokenlist->size);
 	tokenlist_clear(tokenlist);

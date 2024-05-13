@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_handle_token.c                           :+:      :+:    :+:   */
+/*   tokenize_handle_operator.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:57:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/12 22:34:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/13 15:29:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "tokenize.h"
 
 // Handles operator tokens
 void	handle_operator(t_token_handler_args *args, size_t i)
@@ -22,7 +22,7 @@ void	handle_operator(t_token_handler_args *args, size_t i)
 			if (tokenlist_add(args->tokenlist, new_token(*(args->tokentype), \
 			ft_substr(args->input, *(args->tok_start), \
 			i - *(args->tok_start)))) == -1)
-				tokenizer_err_exit(args->tokenlist, "token allocation fail");
+				tokenize_err_exit(args->tokenlist, "token allocation fail");
 		*(args->tokentype) = TOK_OPERATOR;
 		*(args->tok_start) = i;
 	}
@@ -32,62 +32,24 @@ void	handle_operator(t_token_handler_args *args, size_t i)
 		if (tokenlist_add(args->tokenlist, new_token(*(args->tokentype), \
 		ft_substr(args->input, *(args->tok_start), \
 		i - *(args->tok_start)))) == -1)
-			tokenizer_err_exit(args->tokenlist, "token allocation fail");
+			tokenize_err_exit(args->tokenlist, "token allocation fail");
 		*(args->tok_start) = i;
 	}
 }
 
+// Handles '&&' and_if operator tokens specifically
 void	handle_and_if_operator(t_token_handler_args *args, size_t *i)
 {
-	if (tokenlist_add(args->tokenlist, new_token(*(args->tokentype), \
-			ft_substr(args->input, *(args->tok_start), \
-			i - *(args->tok_start)))) == -1)
-				tokenizer_err_exit(args->tokenlist, "token allocation fail");
-}
-//dsfds&&
-//.    
-
-// Handles spaces and separates tokens
-void	handle_space(t_token_handler_args *args, size_t i)
-{
+	// Finish the current token if it exists and is not of type 'unknown'
 	if (i > 0 && *(args->tokentype) != TOK_UNKNOWN)
 		if (tokenlist_add(args->tokenlist, new_token(*(args->tokentype), \
 		ft_substr(args->input, *(args->tok_start), \
-		i - *(args->tok_start)))) == -1)
-			tokenizer_err_exit(args->tokenlist, "token allocation fail");
-	*(args->tokentype) = TOK_UNKNOWN; // Reset token type after handling space
-}
-
-// Handles word tokens
-void	handle_word(t_token_handler_args *args, size_t i)
-{
-	if (*(args->tokentype) == TOK_OPERATOR)
-	{
-		// If currently an operator, finish it and start a new token
-		if (tokenlist_add(args->tokenlist, new_token(*(args->tokentype), \
-		ft_substr(args->input, *(args->tok_start), \
-		i - *(args->tok_start)))) == -1)
-			tokenizer_err_exit(args->tokenlist, "token allocation fail");
-		*(args->tok_start) = i;
-	}
-	else if (*(args->tokentype) == TOK_UNKNOWN)
-		*(args->tok_start) = i; // Start a new token if none is currently active
-	*(args->tokentype) = TOK_WORD; // Mark current token as a word
-	// Handle single and double quotes by toggling quote state
-	if ((args->input)[i] == '\'' && *(args->quotetype) != DOUBLE_QUOTE)
-	{
-		if (*(args->quotetype) == NO_QUOTE)
-			*(args->quotetype) = SINGLE_QUOTE;
-		else
-			*(args->quotetype) = NO_QUOTE;
-	}
-	else if ((args->input)[i] == '\"' && *(args->quotetype) != SINGLE_QUOTE)
-	{
-		if (*(args->quotetype) == NO_QUOTE)
-			*(args->quotetype) = DOUBLE_QUOTE;
-		else
-			*(args->quotetype) = NO_QUOTE;
-	}
+		*i - *(args->tok_start)))) == -1)
+			tokenize_err_exit(args->tokenlist, "token allocation fail");
+	// Start a new operator token and increase index to the end of the token
+	*(args->tokentype) = TOK_OPERATOR;
+	*(args->tok_start) = *i;
+	(*i)++;
 }
 
 // Checks if a character is an operator
