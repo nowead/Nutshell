@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/13 15:34:12 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:34:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,31 @@ void	process_tokens(const char *input, t_tokenlist *tokenlist)
 	}
 	// After processing all characters, handle any unclosed quotes or final tokens
 	if (quotetype != NO_QUOTE)
+	{
+		errno = EINVAL;
 		tokenize_err_exit(tokenlist, "unclosed quotation detected"); // Error if quote is not closed
-	else if (tokentype != TOK_UNKNOWN)
-	// Close a token if there is an unclosed token
-		if (tokenlist_add(tokenlist, new_token(tokentype, \
-		ft_substr(input, tok_start, i - tok_start))) == -1)
-			tokenize_err_exit(tokenlist, "token allocation fail");
+	}
+	else
+		add_final_token(&args, i);
 }
 
-// Handles creation of a single token
-void	handle_token_creation(t_token_handler_args *args, size_t *i)
+void	add_final_token(t_token_handler_args *args, size_t i)
 {
-	if (is_operator((args->input)[*i]) && *(args->quotetype) == NO_QUOTE)
-		handle_operator(args, *i); // Handle operators outside of quotes
-
-	// Check if current and next character combined form '&&' operator outside of quotes
-	else if ((args->input)[*i] == '&' && \
-	is_part_of_operator(args->input, *i, (*i) + 1) && \
-	*(args->quotetype) == NO_QUOTE)
-	// If conditions are met, handle the '&&' operator specifically
-		handle_and_if_operator(args, i);
-
-	else if (ft_isspace((args->input)[*i]) && *(args->quotetype) == NO_QUOTE)
-		handle_space(args, *i); // Handle spaces outside of quotes
-	else
-		handle_word(args, *i); // Handle words or quoted text
+	// Check if the current token type is a word
+	if (*(args->tokentype) == TOK_WORD)
+	{
+		// Create a new word token and add it to the token list
+		if (tokenlist_add(args->tokenlist, new_word_token(\
+		ft_substr(args->input, *(args->tok_start), i - *(args->tok_start)))) == -1)
+			tokenize_err_exit(args->tokenlist, "token allocation fail");
+	}
+	// Check if the current token type is an operator
+	else if (*(args->tokentype) >= TOK_AND_IF)
+	{
+		// Create a new operator token and add it to the token list
+		if (tokenlist_add(args->tokenlist, new_operator_token(*(args->tokentype))) == -1)
+			tokenize_err_exit(args->tokenlist, "token allocation fail");
+	}
 }
 
 // Handles errors by cleaning up and exiting
@@ -87,15 +87,57 @@ void	tokenize_err_exit(t_tokenlist *tokenlist, char *err_msg)
 	exit(EXIT_FAILURE); // Exit the program with a failure status
 }
 
+char	*tokentype_to_str(t_tokentype tokentype)
+{
+	switch (tokentype)
+	{
+		case TOK_UNKNOWN:
+			return (ft_strdup("TOK_UNKOWN"));
+			break;
+		case TOK_WORD:
+			return (ft_strdup("TOK_WORD"));
+			break;
+		case TOK_AND_IF:
+			return (ft_strdup("TOK_AND_IF"));
+			break;
+		case TOK_OR_IF:
+			return (ft_strdup("TOK_OR_IF"));
+			break;
+		case TOK_PIPE:
+			return (ft_strdup("TOK_PIPE"));
+			break;
+		case TOK_LESS:
+			return (ft_strdup("TOK_LESS"));
+			break;
+		case TOK_GREAT:
+			return (ft_strdup("TOK_GREAT"));
+			break;
+		case TOK_DLESS:
+			return (ft_strdup("TOK_DLESS"));
+			break;
+		case TOK_DGREAT:
+			return (ft_strdup("TOK_DGREAT"));
+			break;
+		default:
+			break;
+	}
+	return (NULL);
+}
+
 // Prints all tokens in the list for debugging
 int	print_tokenlist(t_tokenlist *tokenlist)
 {
 	t_token	*curr;
+	char	*tokentype_str;
 
 	curr = tokenlist->head;
 	while (curr)
 	{
-		if (ft_printf("%d:%s\n", curr->type, curr->str) == -1)
+		tokentype_str = tokentype_to_str(curr->type);
+		if (ft_printf("%s", tokentype_str) == -1)
+			return (-1);
+		free(tokentype_str);
+		if (ft_printf(":%s\n", curr->str) == -1)
 			return (-1);
 		curr = curr->next;
 	}
@@ -106,8 +148,9 @@ int	main(void)
 {
 	t_tokenlist	*tokenlist;
 
-	tokenlist = tokenize(" asd|s&d&&&&|||df\"d&&&<<<'s' f\" >><< f ");
-	print_tokenlist(tokenlist);
+	tokenlist = tokenize(" & \"&&|'E' R\"<<. <|>>. < || ");
+	if (print_tokenlist(tokenlist) == -1)
+		tokenize_err_exit(tokenlist, "fail to print tokenlist");
 	ft_printf("size:%d\n", tokenlist->size);
 	tokenlist_clear(tokenlist);
 }
