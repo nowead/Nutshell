@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/14 20:51:16 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/15 18:30:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Checks if a character is an operator
 int	is_operator(char c)
 {
-	if (c == '<' || c == '>' || c == '|')
+	if (c == '<' || c == '>' || c == '|' || c == '(' || c == ')')
 		return (1);
 	return (0);
 }
@@ -41,12 +41,16 @@ int	is_part_of_operator(const char *input, size_t tok_start, size_t i)
 t_tokentype	classify_single_operator(char c)
 {
 	if (c == '<')
-		return (TOK_LESS);
+		return (LESS);
 	else if (c == '>')
-		return (TOK_GREAT);
+		return (GREAT);
 	else if (c == '|')
-		return (TOK_PIPE);
-	return (TOK_UNKNOWN);
+		return (PIPE);
+	else if (c == '(')
+		return (LPAREN);
+	else if (c == ')')
+		return (RPAREN);
+	return (UNKNOWN);
 }
 
 // Classifies a compound operator
@@ -57,12 +61,12 @@ size_t tok_start, size_t i)
 
 	len = i - tok_start + 1;
 	if (ft_strncmp("&&", &input[tok_start], len) == 0)
-		return (TOK_AND_IF);
+		return (AND_IF);
 	else if (ft_strncmp("||", &input[tok_start], len) == 0)
-		return (TOK_OR_IF);
+		return (OR_IF);
 	else if (ft_strncmp("<<", &input[tok_start], len) == 0)
-		return (TOK_DLESS);
+		return (DLESS);
 	else if (ft_strncmp(">>", &input[tok_start], len) == 0)
-		return (TOK_DGREAT);
-	return (TOK_UNKNOWN);
+		return (DGREAT);
+	return (UNKNOWN);
 }

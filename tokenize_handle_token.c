@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:57:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/14 21:33:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/15 18:28:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	handle_token_creation(t_token_handler_args *args, size_t *i)
 void	handle_operator(t_token_handler_args *args, size_t i)
 {
 	// Checks if the current token type is not operator
-	if (*(args->tokentype) < TOK_AND_IF)
+	if (*(args->tokentype) < LPAREN)
 	{
 		// add new word token to the list If the current token type is a word
-		if (*(args->tokentype) == TOK_WORD)
+		if (*(args->tokentype) == WORD)
 			if (tokenlist_add(args->tokenlist, \
 			new_word_token(ft_substr(args->input, \
 			*(args->tok_start), i - *(args->tok_start)))) == -1)
@@ -69,56 +69,56 @@ void	handle_operator(t_token_handler_args *args, size_t i)
 
 // Handles '&&' and_if operator tokens specifically
 // Takes token handler arguments and the current index as input
-// Checks if the current token type is 'TOK_WORD' and adds it to the token list
-// Sets the token type to 'TOK_AND_IF' and updates the token start index
+// Checks if the current token type is 'WORD' and adds it to the token list
+// Sets the token type to 'AND_IF' and updates the token start index
 void	handle_and_if_operator(t_token_handler_args *args, size_t *i)
 {
-	if (*(args->tokentype) == TOK_WORD)
+	if (*(args->tokentype) == WORD)
 	{
 		if (tokenlist_add(args->tokenlist, \
 		new_word_token(ft_substr(args->input, \
 		*(args->tok_start), *i - *(args->tok_start)))) == -1)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
 	}
-	else if (*(args->tokentype) >= TOK_AND_IF)
+	else if (*(args->tokentype) >= LPAREN)
 		if (tokenlist_add(args->tokenlist, \
 		new_operator_token(*(args->tokentype))) == -1)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
-	*(args->tokentype) = TOK_AND_IF;
+	*(args->tokentype) = AND_IF;
 	*(args->tok_start) = *i;
 	(*i)++;
 }
 
 // Handles spaces and separates tokens
 // Takes token handler arguments and the current index as input
-// Adds the current token to the token list if the token type is 'TOK_WORD'
-// Resets the token type to 'TOK_UNKNOWN'
+// Adds the current token to the token list if the token type is 'WORD'
+// Resets the token type to 'UNKNOWN'
 void	handle_space(t_token_handler_args *args, size_t i)
 {
-	if (*(args->tokentype) == TOK_WORD)
+	if (*(args->tokentype) == WORD)
 	{
 		if (tokenlist_add(args->tokenlist, \
 		new_word_token(ft_substr(args->input, \
 		*(args->tok_start), i - *(args->tok_start)))) == -1)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
 	}
-	else if (*(args->tokentype) >= TOK_AND_IF)
+	else if (*(args->tokentype) >= LPAREN)
 	{
 		if (tokenlist_add(args->tokenlist, \
 		new_operator_token(*(args->tokentype))) == -1)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
 	}
-	*(args->tokentype) = TOK_UNKNOWN;
+	*(args->tokentype) = UNKNOWN;
 }
 
 // Handles word tokens
 // Takes token handler arguments and the current index as input
 // Checks if the current token type is an operator and adds it to the token list
 // Toggles quote states for single and double quotes
-// Sets the token type to 'TOK_WORD'
+// Sets the token type to 'WORD'
 void	handle_word(t_token_handler_args *args, size_t i)
 {
-	if (*(args->tokentype) >= TOK_AND_IF)
+	if (*(args->tokentype) >= LPAREN)
 	{
 		// If currently an operator, finish it and start a new token
 		if (tokenlist_add(args->tokenlist, \
@@ -126,9 +126,9 @@ void	handle_word(t_token_handler_args *args, size_t i)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
 		*(args->tok_start) = i;
 	}
-	else if (*(args->tokentype) == TOK_UNKNOWN)
+	else if (*(args->tokentype) == UNKNOWN)
 		*(args->tok_start) = i; // Start a new token if none is currently active
-	*(args->tokentype) = TOK_WORD; // Mark current token as a word
+	*(args->tokentype) = WORD; // Mark current token as a word
 	// Handle single and double quotes by toggling quote state
 	if ((args->input)[i] == '\'' && *(args->quotetype) != DOUBLE_QUOTE)
 	{

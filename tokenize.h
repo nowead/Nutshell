@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/14 20:50:07 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:44:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,18 @@
 // Defines various token types that can be recognized.
 typedef enum e_tokentype
 {
-	TOK_UNKNOWN,
-	TOK_WORD,
-	TOK_AND_IF,
-	TOK_OR_IF,
-	TOK_PIPE,
-	TOK_LESS,
-	TOK_GREAT,
-	TOK_DLESS,
-	TOK_DGREAT
+	UNKNOWN,
+	WORD,
+	ASSIGNMENT_WORD,
+	LPAREN,
+	RPAREN,
+	AND_IF,
+	OR_IF,
+	PIPE,
+	LESS,
+	GREAT,
+	DLESS,
+	DGREAT
 }	t_tokentype;
 
 // Defines the types of quotations that can be recognized.
@@ -67,6 +70,7 @@ typedef struct s_token_handler_args
 }	t_token_handler_args;
 
 // Function declarations for tokenizer operations.
+
 // tokenize.c
 t_tokenlist	*tokenize(const char *input); // Tokenizes the given input string
 void		process_tokens(const char *input, t_tokenlist *tokenlist); // Processes input to generate tokens

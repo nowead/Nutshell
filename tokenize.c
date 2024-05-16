@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/14 21:34:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:44:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	process_tokens(const char *input, t_tokenlist *tokenlist)
 	t_token_handler_args	args;
 
 	quotetype = NO_QUOTE;  // Start with no active quotes
-	tokentype = TOK_UNKNOWN;  // Start with unknown token type
+	tokentype = UNKNOWN;  // Start with unknown token type
 	args = (t_token_handler_args){input, &tok_start, \
 			&tokentype, &quotetype, tokenlist};
 	i = 0;  // Process each character until end of string
@@ -62,7 +62,7 @@ void	process_tokens(const char *input, t_tokenlist *tokenlist)
 void	add_final_token(t_token_handler_args *args, size_t i)
 {
 	// Check if the current token type is a word
-	if (*(args->tokentype) == TOK_WORD)
+	if (*(args->tokentype) == WORD)
 	{
 		// Create a new word token and add it to the token list
 		if (tokenlist_add(args->tokenlist, new_word_token(\
@@ -70,7 +70,7 @@ void	add_final_token(t_token_handler_args *args, size_t i)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
 	}
 	// Check if the current token type is an operator
-	else if (*(args->tokentype) >= TOK_AND_IF)
+	else if (*(args->tokentype) >= LPAREN)
 	{
 		// Create a new operator token and add it to the token list
 		if (tokenlist_add(args->tokenlist, new_operator_token(*(args->tokentype))) == -1)
@@ -87,36 +87,46 @@ void	tokenize_err_exit(t_tokenlist *tokenlist, char *err_msg)
 	exit(EXIT_FAILURE); // Exit the program with a failure status
 }
 
+// return tokentype as string to be printed
 char	*tokentype_to_str(t_tokentype tokentype)
 {
 	switch (tokentype)
 	{
-		case TOK_UNKNOWN:
-			return (ft_strdup("TOK_UNKOWN"));
+		case UNKNOWN:
+			return (ft_strdup("UNKOWN"));
 			break;
-		case TOK_WORD:
-			return (ft_strdup("TOK_WORD"));
+		case WORD:
+			return (ft_strdup("WORD"));
 			break;
-		case TOK_AND_IF:
-			return (ft_strdup("TOK_AND_IF"));
+		case ASSIGNMENT_WORD:
+			return (ft_strdup("ASSIGNMENT_WORD"));
 			break;
-		case TOK_OR_IF:
-			return (ft_strdup("TOK_OR_IF"));
+		case LPAREN:
+			return (ft_strdup("LPAREN"));
 			break;
-		case TOK_PIPE:
-			return (ft_strdup("TOK_PIPE"));
+		case RPAREN:
+			return (ft_strdup("RPAREN"));
 			break;
-		case TOK_LESS:
-			return (ft_strdup("TOK_LESS"));
+		case AND_IF:
+			return (ft_strdup("AND_IF"));
 			break;
-		case TOK_GREAT:
-			return (ft_strdup("TOK_GREAT"));
+		case OR_IF:
+			return (ft_strdup("OR_IF"));
 			break;
-		case TOK_DLESS:
-			return (ft_strdup("TOK_DLESS"));
+		case PIPE:
+			return (ft_strdup("PIPE"));
 			break;
-		case TOK_DGREAT:
-			return (ft_strdup("TOK_DGREAT"));
+		case LESS:
+			return (ft_strdup("LESS"));
+			break;
+		case GREAT:
+			return (ft_strdup("GREAT"));
+			break;
+		case DLESS:
+			return (ft_strdup("DLESS"));
+			break;
+		case DGREAT:
+			return (ft_strdup("DGREAT"));
 			break;
 		default:
 			break;
@@ -148,7 +158,7 @@ int	main(void)
 {
 	t_tokenlist	*tokenlist;
 
-	tokenlist = tokenize(" & \"&&|'E' R\"<<. <|>>. < || ");
+	tokenlist = lex("ssd=f (|r=1&&<dsf>||sdf=2314| )esf ");
 	if (print_tokenlist(tokenlist) == -1)
 		tokenize_err_exit(tokenlist, "fail to print tokenlist");
 	ft_printf("size:%d\n", tokenlist->size);

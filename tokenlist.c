@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/13 23:17:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/15 16:44:50 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token	*new_word_token(char *str)
 	if (new_token == NULL)
 		return (NULL); // Return NULL if memory allocation fails
 	*new_token = (t_token){}; // Initialize the token to empty
-	new_token->type = TOK_WORD;
+	new_token->type = WORD;
 	new_token->str = str;
 	return (new_token);
 }
