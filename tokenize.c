@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/16 13:44:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/17 21:38:52 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,17 +137,17 @@ char	*tokentype_to_str(t_tokentype tokentype)
 // Prints all tokens in the list for debugging
 int	print_tokenlist(t_tokenlist *tokenlist)
 {
-	t_token	*curr;
-	char	*tokentype_str;
+	t_tokenlist_node	*curr;
+	char				*tokentype_str;
 
 	curr = tokenlist->head;
 	while (curr)
 	{
-		tokentype_str = tokentype_to_str(curr->type);
+		tokentype_str = tokentype_to_str(curr->token->type);
 		if (ft_printf("%s", tokentype_str) == -1)
 			return (-1);
 		free(tokentype_str);
-		if (ft_printf(":%s\n", curr->str) == -1)
+		if (ft_printf(":%s\n", curr->token->str) == -1)
 			return (-1);
 		curr = curr->next;
 	}
@@ -158,7 +158,7 @@ int	main(void)
 {
 	t_tokenlist	*tokenlist;
 
-	tokenlist = lex("ssd=f (|r=1&&<dsf>||sdf=2314| )esf ");
+	tokenlist = tokenize("ssd=f )((|(r=1&&<dsf>||sdf=2314| )esf ");
 	if (print_tokenlist(tokenlist) == -1)
 		tokenize_err_exit(tokenlist, "fail to print tokenlist");
 	ft_printf("size:%d\n", tokenlist->size);

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/15 16:44:50 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/17 21:35:35 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_token	*new_word_token(char *str)
 	new_token = (t_token *)malloc(sizeof(t_token)); // Allocate memory for a new token
 	if (new_token == NULL)
 		return (NULL); // Return NULL if memory allocation fails
-	*new_token = (t_token){}; // Initialize the token to empty
 	new_token->type = WORD;
 	new_token->str = str;
 	return (new_token);
@@ -45,36 +44,64 @@ t_token *new_operator_token(t_tokentype type)
 	new_token = (t_token *)malloc(sizeof(t_token)); // Allocate memory for a new token
 	if (new_token == NULL)
 		return (NULL); // Return NULL if memory allocation fails
-	*new_token = (t_token){}; // Initialize the token to empty
 	new_token->type = type;
+	new_token->str = NULL;
 	return (new_token);
+}
+
+t_tokenlist_node	*new_tokenlist_node(t_token *token)
+{
+	t_tokenlist_node	*tokenlist_node;
+
+	tokenlist_node = (t_tokenlist_node *)malloc(sizeof(t_tokenlist_node));
+	if (tokenlist_node == NULL)
+		return (NULL);
+	*tokenlist_node = (t_tokenlist_node){};
+	tokenlist_node->token = token;
+	return (tokenlist_node);
 }
 
 // Adds a token to the list
 int	tokenlist_add(t_tokenlist *tokenlist, t_token *token)
 {
+	t_tokenlist_node	*tokenlist_node;
+
 	if (token == NULL)
 		return (-1);  // Return error if token is NULL
+	tokenlist_node = new_tokenlist_node(token);
+	if (tokenlist_node == NULL)
+	{
+		free_token(token);
+		return (-1);
+	}
 	if (tokenlist->head == NULL)  // If list is empty, initialize head and back
 	{
-		tokenlist->head = token;
-		tokenlist->back = token;
+		tokenlist->head = tokenlist_node;
+		tokenlist->back = tokenlist_node;
 	}
 	else // Otherwise, append to the end of the list
 	{
-		tokenlist->back->next = token;
-		token->prev = tokenlist->back;
-		tokenlist->back = token;
+		tokenlist->back->next = tokenlist_node;
+		tokenlist_node->prev = tokenlist->back;
+		tokenlist->back = tokenlist_node;
 	}
 	(tokenlist->size)++; // Increment the size of the token list
 	return (0);
 }
 
+void	free_token(t_token *token)
+{
+	free(token->str);
+	token->str = NULL;
+	free(token);
+	token = NULL;
+}
+
 // Clears the token list, freeing all resources
 void	tokenlist_clear(t_tokenlist *tokenlist)
 {
-	t_token	*curr;
-	t_token	*prev;
+	t_tokenlist_node	*curr;
+	t_tokenlist_node	*prev;
 
 	if (tokenlist == NULL)
 		return ; // If the token list is NULL, there's nothing to clear, so return immediately
@@ -84,9 +111,8 @@ void	tokenlist_clear(t_tokenlist *tokenlist)
 	{
 		prev = curr; // Hold the current token
 		curr = curr->next; // Move to the next token
-		free(prev->str); // Free the string associated with the current token
-		prev->str = NULL; // Nullify the string pointer after freeing
-		free(prev); // Free the token structure itself
+		free_token(prev->token);
+		free(prev); // Free the tokenlist_node structure itself
 	}
 	prev = NULL; // Nullify the temporary token pointer
 	free(tokenlist); // Free the token list structure
