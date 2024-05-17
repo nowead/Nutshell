@@ -21,7 +21,7 @@ and_or           :        pipe_sequence and_or'
 and_or'          : AND_IF pipe_sequence and_or'
                  | OR_IF  pipe_sequence and_or'
                  | ℇ
-								 ;
+                 ;
 
 pipe_sequence    : command pipe_sequence'
                  ;

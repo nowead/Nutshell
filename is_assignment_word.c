@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex.c                                              :+:      :+:    :+:   */
+/*   is_assignment_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/16 13:44:19 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/17 22:01:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize.h"
+
+static int	is_valid_name(const char *str, size_t len);
 
 // This function determines if a token is an assignment word.
 // It checks if the token string starts with '=' (in which case it returns 0).
@@ -33,7 +35,7 @@ int	is_assignment_word(t_token *token)
 // This function checks if a given string (of specified length) is a valid name.
 // It must not be empty, must not start with a digit,
 // and must consist of alphanumeric characters or underscores.
-int	is_valid_name(const char *str, size_t len)
+static int	is_valid_name(const char *str, size_t len)
 {
 	size_t	i;
 
