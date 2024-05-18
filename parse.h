@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/17 22:47:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/18 17:32:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ typedef enum e_symbol
 
 typedef struct s_parsetree_node
 {
+	int						index;
 	t_symbol				sym;
 	t_token					*token;
 	struct s_parsetree_node	*parent;
-	struct s_parsetree_node	*left;
-	struct s_parsetree_node	*right;
+	struct s_parsetree_node	**child;
+	size_t					child_num;
 }	t_parsetree_node;
 
 #endif
