@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/19 20:32:41 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/20 23:16:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,11 @@ typedef struct s_ast_node
 	struct s_ast_node	**child;
 	size_t				child_num;
 }	t_ast_node;
+
+// parsetree.c
+t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num);
+void		add_ast_node_child(t_ast_node *node, t_ast_node *child);
+void		free_ast_node(t_ast_node *root, t_ast_node *node);
+void		clear_ast(t_ast_node *root);
 
 #endif

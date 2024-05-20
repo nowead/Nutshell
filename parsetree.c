@@ -6,11 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/19 22:14:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/20 23:16:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+static void	free_ast_recursive(t_ast_node *root, t_ast_node *node);
 
 t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num)
 {
@@ -49,7 +51,12 @@ void	free_ast_node(t_ast_node *root, t_ast_node *node)
 	node = NULL;
 }
 
-void	clear_ast(t_ast_node *root, t_ast_node *node)
+void clear_ast(t_ast_node *root)
+{
+	free_ast_recursive(root, root);
+}
+
+static void	free_ast_recursive(t_ast_node *root, t_ast_node *node)
 {
 	int	i;
 
@@ -61,7 +68,7 @@ void	clear_ast(t_ast_node *root, t_ast_node *node)
 	i = 0;
 	while (i < node->child_num)
 	{
-		clear_ast(root, node->child[i]);
+		free_ast_recursive(root, node->child[i]);
 		i++;
 	}
 	free_ast_node(root, node);
