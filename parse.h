@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/20 23:16:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/22 14:38:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 typedef enum e_symbol
 {
 	TERMINAL,
-	PROGRAM,
 	AND_OR,
 	AND_OR_,
 	PIPE_SEQUENCE,
@@ -32,9 +31,7 @@ typedef enum e_symbol
 	CMD_PREFIX,
 	CMD_PREFIX_,
 	CMD_SUFFIX,
-	CMD_SUFFIX_,
 	REDIRECT_LIST,
-	REDIRECT_LIST_,
 	IO_REDIRECT,
 	IO_FILE,
 	FILENAME,
@@ -55,7 +52,7 @@ typedef struct s_ast_node
 // parsetree.c
 t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num);
 void		add_ast_node_child(t_ast_node *node, t_ast_node *child);
-void		free_ast_node(t_ast_node *root, t_ast_node *node);
-void		clear_ast(t_ast_node *root);
+void		free_ast_node(t_ast_node *node);
+void		clear_ast(t_ast_node *node);
 
 #endif

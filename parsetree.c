@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/20 23:16:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/21 14:37:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	add_ast_node_child(t_ast_node *node, t_ast_node *child)
 	child->parent = node;
 }
 
-void	free_ast_node(t_ast_node *root, t_ast_node *node)
+void	free_ast_node(t_ast_node *node)
 {
-	if (root != node)
+	if (node->parent != NULL)
 		node->parent->child[node->sibling_index] = NULL;
 	free(node->child);
 	*node = (t_ast_node){};
@@ -51,25 +51,20 @@ void	free_ast_node(t_ast_node *root, t_ast_node *node)
 	node = NULL;
 }
 
-void clear_ast(t_ast_node *root)
-{
-	free_ast_recursive(root, root);
-}
-
-static void	free_ast_recursive(t_ast_node *root, t_ast_node *node)
+static void	clear_ast(t_ast_node *node)
 {
 	int	i;
 
-	if (node->child_num == 0)
+	if (node->child == NULL)
 	{
-		free_ast_node(root, node);
+		free_ast_node(node);
 		return ;
 	}
 	i = 0;
 	while (i < node->child_num)
 	{
-		free_ast_recursive(root, node->child[i]);
+		clear_ast(node->child[i]);
 		i++;
 	}
-	free_ast_node(root, node);
+	free_ast_node(node);
 }

@@ -5,8 +5,8 @@
 %token  ASSIGNMENT_WORD
 %token  AND_IF    OR_IF
 /*      '&&'      '||'       */
-%token  DLESS  DGREAT
-/*      '<<'   '>>'     */
+%token  DLESS     DGREAT
+/*      '<<'      '>>'       */
 
 /* -------------------------------------------------------
    The Grammar
@@ -21,7 +21,7 @@ and_or           :        pipe_sequence and_or'
 and_or'          : AND_IF pipe_sequence and_or'
                  | OR_IF  pipe_sequence and_or'
                  | ℇ
-                 ;
+				 ;
 
 pipe_sequence    : command pipe_sequence'
                  ;
@@ -30,7 +30,6 @@ pipe_sequence'   | '|' command pipe_sequence'
                  ;
 
 command          : simple_command
-                 | subshell
                  | subshell redirect_list
                  ;
 
@@ -38,15 +37,13 @@ subshell         : '(' and_or ')'
                  ;
 
 simple_command   : cmd_prefix cmd_word cmd_suffix
-                 | cmd_prefix cmd_word
                  | cmd_prefix
                  | cmd_name cmd_suffix
-                 | cmd_name
                  ;
 
-cmd_name         : WORD                   /* Apply rule 7a */
+cmd_name         : WORD          /* Apply rule 7a */
                  ;
-cmd_word         : WORD                   /* Apply rule 7b */
+cmd_word         : WORD          /* Apply rule 7b */
                  ;
 
 cmd_prefix       : io_redirect cmd_prefix'
@@ -57,19 +54,13 @@ cmd_prefix'      : io_redirect cmd_prefix'
                  | ℇ
                  ;
 
-cmd_suffix       : io_redirect cmd_suffix'
-                 | WORD cmd_suffix'
-                 ;
-cmd_suffix'      : io_redirect cmd_suffix'
-                 | WORD cmd_suffix'
+cmd_suffix       : io_redirect cmd_suffix
+                 | WORD cmd_suffix
                  | ℇ
                  ;
 
-
-redirect_list    : io_redirect redirect_list'
-                 ;
-redirect_list'   : io_redirect redirect_list'
-								 | ℇ
+redirect_list    : io_redirect redirect_list
+                 | ℇ
                  ;
 
 io_redirect      :           io_file
@@ -81,11 +72,11 @@ io_file          : '<'       filename
                  | DGREAT    filename
                  ;
                  
-filename         : WORD                      /* Apply rule 2 */
+filename         : WORD           /* Apply rule 2 */
                  ;
                  
 io_here          : DLESS     here_end
                  ;
                  
-here_end         : WORD                      /* Apply rule 3 */
+here_end         : WORD           /* Apply rule 3 */
                  ;
