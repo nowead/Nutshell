@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/23 21:39:37 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/23 23:38:49 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_ast_node	*program(t_tokenlist_node **tokenlist_node, t_token **err)
 	if (root == NULL)
 		return (NULL);
 	if (and_or(tokenlist_node, root, err) && *tokenlist_node == NULL)
+	// and_or에서 1이 반환되었는데 tokenlist가 끝나지 않은 경우가 있는지 확인 필요
 		return (root);
 	clear_ast(root);
 	return (NULL);
@@ -88,27 +89,24 @@ int	and_or(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 	add_ast_node_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL, 2));
 	add_ast_node_child(curr, new_ast_node(1, AND_OR_, NULL, 2));
 	if (pipe_sequence(tokenlist_node, curr->child[0], err))
+	// 반환값이 0인 경우에 err가 항상 켜져 있는지 아닌지 확인 필요
 		return (and_or_(tokenlist_node, curr->child[1], err));
 	return (0);
 }
 
 int	and_or_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
-	if (curr_tokentype(tokenlist_node) == AND_IF || \
-	curr_tokentype(tokenlist_node) == OR_IF)
+	if (accept(AND_IF, tokenlist_node) || accept(OR_IF, tokenlist_node))
+	{
 		curr->token = curr_token(tokenlist_node);
 		add_ast_node_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL, 2));
 		add_ast_node_child(curr, new_ast_node(1, AND_OR_, NULL, 3));
-	if (accept(AND_IF, tokenlist_node))
-	{
 		if (pipe_sequence(tokenlist_node, curr->child[1], err))
 			return (and_or_(tokenlist_node, curr->child[2], err));
+		return (0);
 	}
-	else if (accept(OR_IF, tokenlist_node))
-	{
-		if (pipe_sequence(tokenlist_node, curr->child[1], err))
-			return (and_or_(tokenlist_node, curr->child[2], err));
-	}
+	if (curr_token(tokenlist_node) != NULL)
+		*err = curr_token(tokenlist_node);
 	if (*err != NULL)
 		return (0);
 	return (1);
