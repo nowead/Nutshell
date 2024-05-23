@@ -6,11 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/17 21:35:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/23 19:47:15 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
+#include "minishell.h"
 
 // Creates a new token list
 t_tokenlist	*new_tokenlist(void)

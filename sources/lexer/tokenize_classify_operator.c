@@ -6,11 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/15 18:30:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/23 19:47:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
+#include "minishell.h"
 
 // Checks if a character is an operator
 int	is_operator(char c)

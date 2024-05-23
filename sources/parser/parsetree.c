@@ -6,13 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/21 14:37:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/23 19:47:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
-
-static void	free_ast_recursive(t_ast_node *root, t_ast_node *node);
+#include "minishell.h"
 
 t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num)
 {

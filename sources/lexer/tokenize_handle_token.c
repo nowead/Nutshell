@@ -6,11 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:57:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/17 21:33:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/23 19:47:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
+#include "minishell.h"
 
 // Handles creation of a single token
 // Takes token handler arguments and the current index as input

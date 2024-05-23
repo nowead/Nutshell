@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/22 14:38:36 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/23 19:46:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PARSE_H
 
 # include "libft.h"
-# include "tokenize.h"
 
 typedef enum e_symbol
 {
