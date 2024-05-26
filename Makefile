@@ -1,7 +1,7 @@
 NAME = parser
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
 LIBFT_FLAGS = -Llibft -lft
@@ -45,13 +45,17 @@ $(NAME): $(OBJ) $(LIBFT)
 $(LIBFT): $(LIBFT_SRC) $(LIBFT_HEADER)
 	make -C $(LIBFT_DIR)
 
-%.o: %.c $(HEADER) $(LIBFT_HEADER)
-	$(CC) $(CFLAGS) -Ilibft -c $< -o $@
+sources/%.o: sources/%.c $(HEADER) $(LIBFT_HEADER)
+	$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+
+sources/lexer/%.o: sources/lexer/%.c $(HEADER) $(LIBFT_HEADER)
+	$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+
+sources/parser/%.o: sources/parser/%.c $(HEADER) $(LIBFT_HEADER)
+	$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
-	rm -f $(OBJ_BONUS)
-	rm -f bonus
 	make -C $(LIBFT_DIR) fclean
 
 fclean: clean

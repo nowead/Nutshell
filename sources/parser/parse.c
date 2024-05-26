@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/23 23:38:49 by damin            ###   ########.fr       */
+/*   Updated: 2024/05/26 22:27:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_ast_node *parse(const char* input)
 	root = program(&tokenlist_node, &err);
 	if (err != NULL)
 		dprintf(2, "syntax error near unexpected token: %s\n", \
-		tokentype_to_str(curr_token(tokenlist_node)));
+		tokentype_to_str(curr_tokentype(&tokenlist_node)));
 	return (root);
 }
 
@@ -96,13 +96,15 @@ int	and_or(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 
 int	and_or_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
-	if (accept(AND_IF, tokenlist_node) || accept(OR_IF, tokenlist_node))
+	if (curr_tokentype(tokenlist_node) == AND_IF || \
+	curr_tokentype(tokenlist_node) == OR_IF)
 	{
 		curr->token = curr_token(tokenlist_node);
+		set_next_token(tokenlist_node);
 		add_ast_node_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL, 2));
 		add_ast_node_child(curr, new_ast_node(1, AND_OR_, NULL, 3));
-		if (pipe_sequence(tokenlist_node, curr->child[1], err))
-			return (and_or_(tokenlist_node, curr->child[2], err));
+		if (pipe_sequence(tokenlist_node, curr->child[0], err))
+			return (and_or_(tokenlist_node, curr->child[1], err));
 		return (0);
 	}
 	if (curr_token(tokenlist_node) != NULL)
@@ -129,11 +131,9 @@ int	pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token 
 	{
 		add_ast_node_child(curr, new_ast_node(0, COMMAND, NULL, 2));
 		add_ast_node_child(curr, new_ast_node(1, PIPE_SEQUENCE_, NULL, 2));
-	}
-	if (accept(PIPE, tokenlist_node))
-	{
-		if (command(tokenlist_node, curr->child[1], err))
-			return (pipe_sequence_(tokenlist_node, curr->child[2], err));
+		set_next_token(tokenlist_node);
+		if (command(tokenlist_node, curr->child[0], err))
+			return (pipe_sequence_(tokenlist_node, curr->child[1], err));
 	}
 	if (*err != NULL)
 		return (0);
@@ -144,12 +144,13 @@ int	command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
 	if (*tokenlist_node == NULL)
 		return (0);
-	if (curr_tokentype(tokenlist_node) == LPAREN)
+	if (accept(LPAREN, tokenlist_node))
 	{
 		add_ast_node_child(curr, new_ast_node(0, SUBSHELL, NULL, 1));
 		add_ast_node_child(curr, new_ast_node(1, REDIRECT_LIST, NULL, 2));
 		if (subshell(tokenlist_node, curr->child[0], err))
-			return (redirect_list(tokenlist_node, curr->child[1], err));
+			if (expect(RPAREN, tokenlist_node, err))
+				return (redirect_list(tokenlist_node, curr->child[1], err));
 	}
 	else
 	{
@@ -181,10 +182,12 @@ int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token 
 	else if (*err == NULL)
 	{
 		free_ast_node(curr->child[0]);
-		add_ast_node_child(curr, new_ast_node(0, CMD_NAME, curr_token(tokenlist_node), 0));
-		add_ast_node_child(curr, new_ast_node(1, CMD_SUFFIX, curr_token(tokenlist_node), 0));
+		add_ast_node_child(curr, new_ast_node(0, CMD_NAME, NULL, 0));
 		if (cmd_name(tokenlist_node, curr->child[0], err))
+		{
+			add_ast_node_child(curr, new_ast_node(1, CMD_SUFFIX, NULL, 2));
 			return (cmd_suffix(tokenlist_node, curr->child[1], err));
+		}
 	}
 	return (0);
 }
@@ -197,20 +200,26 @@ int	cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 
 int	cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
-	curr->token = curr_token(tokenlist_node);
-	return (accept(WORD, tokenlist_node));
+	if (curr_tokentype(tokenlist_node) == WORD)
+	{
+		curr->token = curr_token(tokenlist_node);
+		set_next_token(tokenlist_node);
+		return (1);
+	}
+	return (0);
 }
 
 int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
 	add_ast_node_child(curr, new_ast_node(0, IO_REDIRECT, NULL, 1));
-	add_ast_node_child(curr, new_ast_node(1, CMD_PREFIX, NULL, 2));
+	add_ast_node_child(curr, new_ast_node(1, CMD_PREFIX_, NULL, 2));
 	if (io_redirect(tokenlist_node, curr->child[0], err))
 		return (cmd_prefix_(tokenlist_node, curr->child[1], err));
-	else if (*err == NULL && accept(ASSIGNMENT_WORD, tokenlist_node))
+	else if (*err == NULL && curr_tokentype(tokenlist_node) == ASSIGNMENT_WORD)
 	{
 		free_ast_node(curr->child[0]);
 		add_ast_node_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0));
+		set_next_token(tokenlist_node);
 		return (cmd_prefix_(tokenlist_node, curr->child[1], err));
 	}
 	free_ast_node(curr->child[0]);
@@ -221,13 +230,14 @@ int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **er
 int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
 	add_ast_node_child(curr, new_ast_node(0, IO_REDIRECT, NULL, 1));
-	add_ast_node_child(curr, new_ast_node(1, CMD_PREFIX, NULL, 2));
+	add_ast_node_child(curr, new_ast_node(1, CMD_PREFIX_, NULL, 2));
 	if (io_redirect(tokenlist_node, curr->child[0], err))
 		return (cmd_prefix_(tokenlist_node, curr->child[1], err));
-	else if (*err == NULL && accept(ASSIGNMENT_WORD, tokenlist_node))
+	else if (*err == NULL && curr_tokentype(tokenlist_node) == ASSIGNMENT_WORD)
 	{
 		free_ast_node(curr->child[0]);
 		add_ast_node_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0));
+		set_next_token(tokenlist_node);
 		return (cmd_prefix_(tokenlist_node, curr->child[1], err));
 	}
 	if (*err != NULL)
@@ -240,9 +250,10 @@ int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **e
 int	cmd_suffix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
 	add_ast_node_child(curr, new_ast_node(1, CMD_SUFFIX, NULL, 2));
-	if (accept(WORD, tokenlist_node))
+	if (curr_tokentype(tokenlist_node) == WORD)
 	{
-		add_ast_node_child(curr, new_ast_node(0, WORD, curr_token(tokenlist_node), 0));
+		add_ast_node_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0));
+		set_next_token(tokenlist_node);
 		return (cmd_suffix(tokenlist_node, curr->child[1], err));
 	}
 	else
@@ -251,8 +262,6 @@ int	cmd_suffix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **er
 		if (io_redirect(tokenlist_node, curr->child[0], err))
 			return (cmd_suffix(tokenlist_node, curr->child[1], err));
 	}
-	if (err != NULL)
-		return (0);
 	free_ast_node(curr->child[0]);
 	free_ast_node(curr->child[1]);
 	return (1);
@@ -285,10 +294,12 @@ int	io_redirect(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **e
 int	io_file(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
 	add_ast_node_child(curr, new_ast_node(0, FILENAME, NULL, 0));
-	if (accept(LESS, tokenlist_node) || accept(GREAT, tokenlist_node) || \
-	accept(DGREAT, tokenlist_node))
+	if (curr_tokentype(tokenlist_node) == LESS || \
+	curr_tokentype(tokenlist_node) == GREAT || \
+	curr_tokentype(tokenlist_node) == DGREAT)
 	{
 		curr->token = curr_token(tokenlist_node);
+		set_next_token(tokenlist_node);
 		return (filename(tokenlist_node, curr->child[0], err));
 	}
 	free_ast_node(curr->child[0]);
@@ -304,9 +315,10 @@ int	filename(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 int	io_here(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err)
 {
 	add_ast_node_child(curr, new_ast_node(0, HERE_END, NULL, 0));
-	if (accept(DLESS, tokenlist_node))
+	if (curr_tokentype(tokenlist_node) == DLESS)
 	{
 		curr->token = curr_token(tokenlist_node);
+		set_next_token(tokenlist_node);
 		return (here_end(tokenlist_node, curr->child[0], err));
 	}
 	free_ast_node(curr->child[0]);
