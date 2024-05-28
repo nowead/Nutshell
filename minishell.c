@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/05/28 19:58:22 by damin            ###   ########.fr       */
+/*   Updated: 2024/05/28 21:55:00 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	save_termi_attr(struct termios *old_term, struct termios *new_term)
 
 void	restore_termi_attr(struct termios *old_term)
 {
-    tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
+    tcsetattr(STDIN_FILENO, TCSANOW, old_term);
 }
 
 int	main(void)
@@ -49,12 +49,12 @@ int	main(void)
 	struct termios	new_term;
 
 	save_termi_attr(&old_term, &new_term);
+	set_signal();
     while(1)
 	{
         line = readline("Nutshell $ ");
         if (!line)
 		{
-
             break;
 		}
         add_history(line);
