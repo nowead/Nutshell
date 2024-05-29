@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/05/28 21:55:00 by damin            ###   ########.fr       */
+/*   Updated: 2024/05/29 10:33:32 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,16 @@ int	main(void)
 	set_signal();
     while(1)
 	{
-        line = readline("Nutshell $ ");
+        line = readline("Nutshell $ \033[s");
         if (!line)
 		{
-            break;
+        	printf("\033[u\033[1B\033[1A");
+            printf("exit\n");
+            exit(-1);
+		}
+		else if (*line == '\0')
+		{
+			free(line);
 		}
         add_history(line);
         free(line);
