@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/21 10:59:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/31 21:40:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef enum e_tokentype
 	LESS,
 	GREAT,
 	DLESS,
-	DGREAT
+	DGREAT,
+	NEWLINE
 }	t_tokentype;
 
 // Defines the types of quotations that can be recognized.

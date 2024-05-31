@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/24 21:54:24 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/31 21:20:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int			pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_toke
 int			command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);
 int			subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);
 int			simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);
+int			simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);
 int			cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);
 int			cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);
 int			cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token **err);

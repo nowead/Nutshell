@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/26 21:10:33 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/31 16:23:56 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	clear_ast(t_ast_node *node)
 {
 	int	i;
 
+	if (node == NULL)
+		return ;
 	if (node->child == NULL)
 	{
 		free_ast_node(node);

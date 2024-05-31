@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/23 22:13:34 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/05/31 22:02:27 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	add_final_token(t_token_handler_args *args, size_t i)
 		if (tokenlist_add(args->tokenlist, new_operator_token(*(args->tokentype))) == -1)
 			tokenize_err_exit(args->tokenlist, "token allocation fail");
 	}
+	if (tokenlist_add(args->tokenlist, new_operator_token(NEWLINE)) == -1)
+		tokenize_err_exit(args->tokenlist, "token allocation fail");
 }
 
 // Handles errors by cleaning up and exiting
@@ -127,6 +129,9 @@ char	*tokentype_to_str(t_tokentype tokentype)
 			break;
 		case DGREAT:
 			return (ft_strdup("DGREAT"));
+			break;
+		case NEWLINE:
+			return (ft_strdup("NEWLINE"));
 			break;
 		default:
 			break;
