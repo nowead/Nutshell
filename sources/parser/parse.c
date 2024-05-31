@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/31 22:37:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/01 01:33:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_token
 			return (1);
 		*err = curr_token(tokenlist_node);
 	}
+	free_ast_node(curr->child[0]);
 	return (0);
 }
 
