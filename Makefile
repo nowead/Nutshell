@@ -1,7 +1,7 @@
 NAME = parser
 
 CC = cc
-CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
+# CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
 LIBFT_FLAGS = -Llibft -lft
@@ -40,7 +40,7 @@ LIBFT_OBJ = $(patsubst %.c, %.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT_FLAGS)	-fsanitize=address -o $@
+	$(CC) $(OBJ) $(LIBFT_FLAGS) -o $@
 
 $(LIBFT): $(LIBFT_SRC) $(LIBFT_HEADER)
 	make -C $(LIBFT_DIR)

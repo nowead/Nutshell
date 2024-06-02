@@ -6,25 +6,29 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/31 22:47:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/02 21:38:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	leak_check(void)
+{
+	system("leaks parser");
+}
+
 int main()
 {
-    // Example usage
-    // Assuming you have functions to create and populate the AST nodes
+	t_ast	*ast;
 
-    // Example of creating and printing a simple AST node
-    // t_tokenlist	*tokenlist;
-	t_ast_node	*root;
-    
-    // Call the print function
-	// tokenlist = tokenize("ls <");
-	root = parse("ls << ||");
-	print_ast(root, 0);
-
+	atexit(leak_check);
+	ast = parse("ls");
+	if (ast != NULL)
+	{
+		print_ast(ast->root, 0);
+		tokenlist_clear(ast->tokenlist);
+		clear_ast(ast->root);
+		free(ast);
+	}
     return (0);
 }

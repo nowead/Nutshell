@@ -6,14 +6,14 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/31 22:03:22 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/02 20:08:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Function to print the token type as a string
-const char *get_token_type_string(t_tokentype type) {
+static const char *get_token_type_string(t_tokentype type) {
     switch (type) {
         case UNKNOWN: return "UNKNOWN";
         case WORD: return "WORD";
@@ -33,7 +33,7 @@ const char *get_token_type_string(t_tokentype type) {
 }
 
 // Function to print the symbol type as a string
-const char *get_symbol_type_string(t_symbol sym) {
+static const char *get_symbol_type_string(t_symbol sym) {
     switch (sym) {
         case TERMINAL: return "TERMINAL";
         case AND_OR: return "AND_OR";

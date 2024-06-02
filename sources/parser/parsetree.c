@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/31 16:23:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:32:27 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,26 @@ t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t
 	return (node);
 }
 
-void	add_ast_node_child(t_ast_node *node, t_ast_node *child)
+int	add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err)
 {
+	if (child == NULL)
+	{
+		err->errnum = ENOMEM;
+		return (-1);
+	}
 	if (node->child == NULL)
 	{
-		node->child = (t_ast_node **)ft_calloc(node->child_num, sizeof(t_ast_node *));
+		node->child = \
+		(t_ast_node **)ft_calloc(node->child_num, sizeof(t_ast_node *));
+		if (node->child == NULL)
+		{
+			err->errnum = ENOMEM;
+			return (-1);
+		}
 	}
 	node->child[child->sibling_index] = child;
 	child->parent = node;
+	return (0);
 }
 
 void	free_ast_node(t_ast_node *node)
