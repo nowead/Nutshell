@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/05/29 10:33:32 by damin            ###   ########.fr       */
+/*   Updated: 2024/05/29 13:05:40 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,18 @@ void	set_signal()
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	save_termi_attr(struct termios *old_term, struct termios *new_term)
+void	set_echoctl(struct termios *old_term)
 {
+	struct termios	new_term;
+
 	tcgetattr(STDIN_FILENO, old_term);
-    tcgetattr(STDIN_FILENO, new_term);
-    new_term->c_lflag &= ~(ICANON | ECHOCTL);
-    tcsetattr(STDIN_FILENO, TCSANOW, new_term);
+    tcgetattr(STDIN_FILENO, &new_term);
+    new_term.c_lflag &= ~(ECHOCTL);
+    //new_term->c_lflag &= ~(ICANON | ECHOCTL); //?CANONICAL mode on/off
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
 }
 
-void	restore_termi_attr(struct termios *old_term)
+void	restore_echoctl(struct termios *old_term)
 {
     tcsetattr(STDIN_FILENO, TCSANOW, old_term);
 }
@@ -46,9 +49,8 @@ int	main(void)
 {
 	char			*line;
 	struct termios	old_term;
-	struct termios	new_term;
 
-	save_termi_attr(&old_term, &new_term);
+	set_echoctl(&old_term);
 	set_signal();
     while(1)
 	{
@@ -59,15 +61,10 @@ int	main(void)
             printf("exit\n");
             exit(-1);
 		}
-		else if (*line == '\0')
-		{
-			free(line);
-		}
-        add_history(line);
-        free(line);
+		if (*line != '\0')
+			add_history(line);
+		free(line);
     }
-	restore_termi_attr(&old_term);
+	restore_echoctl(&old_term);
 	return (0);
 }
-
-//gcc minishell.c minishell.h -lreadline -L${HOME}/.brew/opt/readline/lib
