@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/02 21:38:39 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:58:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main()
 	t_ast	*ast;
 
 	atexit(leak_check);
-	ast = parse("ls");
+	ast = parse("<");
 	if (ast != NULL)
 	{
 		print_ast(ast->root, 0);

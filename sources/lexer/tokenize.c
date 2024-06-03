@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/31 22:02:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:59:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,66 +89,16 @@ void	tokenize_err_exit(t_tokenlist *tokenlist, char *err_msg)
 	exit(EXIT_FAILURE); // Exit the program with a failure status
 }
 
-// return tokentype as string to be printed
-char	*tokentype_to_str(t_tokentype tokentype)
-{
-	switch (tokentype)
-	{
-		case UNKNOWN:
-			return (ft_strdup("UNKOWN"));
-			break;
-		case WORD:
-			return (ft_strdup("WORD"));
-			break;
-		case ASSIGNMENT_WORD:
-			return (ft_strdup("ASSIGNMENT_WORD"));
-			break;
-		case LPAREN:
-			return (ft_strdup("LPAREN"));
-			break;
-		case RPAREN:
-			return (ft_strdup("RPAREN"));
-			break;
-		case AND_IF:
-			return (ft_strdup("AND_IF"));
-			break;
-		case OR_IF:
-			return (ft_strdup("OR_IF"));
-			break;
-		case PIPE:
-			return (ft_strdup("PIPE"));
-			break;
-		case LESS:
-			return (ft_strdup("LESS"));
-			break;
-		case GREAT:
-			return (ft_strdup("GREAT"));
-			break;
-		case DLESS:
-			return (ft_strdup("DLESS"));
-			break;
-		case DGREAT:
-			return (ft_strdup("DGREAT"));
-			break;
-		case NEWLINE:
-			return (ft_strdup("NEWLINE"));
-			break;
-		default:
-			break;
-	}
-	return (NULL);
-}
-
 // Prints all tokens in the list for debugging
 int	print_tokenlist(t_tokenlist *tokenlist)
 {
 	t_tokenlist_node	*curr;
-	char				*tokentype_str;
+	const char			*tokentype_str;
 
 	curr = tokenlist->head;
 	while (curr)
 	{
-		tokentype_str = tokentype_to_str(curr->token->type);
+		tokentype_str = get_token_type_string(curr->token->type);
 		if (ft_printf("%s", tokentype_str) == -1)
 			return (-1);
 		free(tokentype_str);

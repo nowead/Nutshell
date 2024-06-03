@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/02 21:48:15 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/03 18:58:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_ast	*parse(const char* input)
 	}
 	if (err.token != NULL)
 		dprintf(2, "syntax error near unexpected token \'%s\'\n", \
-		tokentype_to_str(err.token->type));
+		get_token_type_string(err.token->type));
 	if (ast == NULL)
 		tokenlist_clear(tokenlist);
 	return (ast);
