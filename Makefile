@@ -9,7 +9,7 @@ LIBFT_FLAGS = -Llibft -lft
 LIBFT			=	$(LIBFT_DIR)libft.a
 LIBFT_HEADER	=	$(addprefix $(LIBFT_DIR), libft.h ft_printf.h get_next_line.h)
 HEADER			=	$(addprefix $(HEADER_DIR), $(HEADER_FILES))
-SRC				=	sources/main.c \
+SRC				=	sources/parser_main.c \
 					$(addprefix $(LEXER_DIR), $(LEXER_SRC)) \
 					$(addprefix $(PARSER_DIR), $(PARSER_SRC))
 OBJ				=	$(patsubst %.c, %.o, $(SRC))

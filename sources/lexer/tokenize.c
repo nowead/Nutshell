@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 18:59:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/03 21:41:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	print_tokenlist(t_tokenlist *tokenlist)
 		tokentype_str = get_token_type_string(curr->token->type);
 		if (ft_printf("%s", tokentype_str) == -1)
 			return (-1);
-		free(tokentype_str);
 		if (ft_printf(":%s\n", curr->token->str) == -1)
 			return (-1);
 		curr = curr->next;
