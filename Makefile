@@ -4,14 +4,17 @@ CC = cc
 # CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
-LIBFT_FLAGS = -Llibft -lft
+LIBFT_FLAGS  = -Llibft -lft
+RL_FLAG		 = -lreadline -L${HOME}/.brew/opt/readline/lib
+RL_INCLUDES	 = -I${HOME}/.brew/opt/readline/include
 
 LIBFT			=	$(LIBFT_DIR)libft.a
 LIBFT_HEADER	=	$(addprefix $(LIBFT_DIR), libft.h ft_printf.h get_next_line.h)
 HEADER			=	$(addprefix $(HEADER_DIR), $(HEADER_FILES))
 SRC				=	sources/main.c \
 					$(addprefix $(LEXER_DIR), $(LEXER_SRC)) \
-					$(addprefix $(PARSER_DIR), $(PARSER_SRC))
+					$(addprefix $(PARSER_DIR), $(PARSER_SRC))\
+					$(addprefix $(PROMPT_DIR), $(PROMPT_SRC))
 OBJ				=	$(patsubst %.c, %.o, $(SRC))
 
 
@@ -19,10 +22,12 @@ LIBFT_DIR = libft/
 HEADER_DIR = includes/
 LEXER_DIR = sources/lexer/
 PARSER_DIR = sources/parser/
+PROMPT_DIR = sources/prompt/
 
-HEADER_FILES	=	minishell.h tokenize.h	parse.h
+HEADER_FILES	=	minishell.h tokenize.h	parse.h prompt.h
 LEXER_SRC		=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c
+PROMPT_SRC		=	prompt.c
 LIBFT_SRC = $(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\
 ft_atol.c		ft_isascii.c    ft_isspace.c	ft_memcmp.c     ft_putendl_fd.c ft_strdup.c     ft_strlen.c\
@@ -64,51 +69,51 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: damin <damin@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/29 10:33:57 by damin             #+#    #+#              #
-#    Updated: 2024/05/29 14:37:54 by damin            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# # **************************************************************************** #
+# #                                                                              #
+# #                                                         :::      ::::::::    #
+# #    Makefile                                           :+:      :+:    :+:    #
+# #                                                     +:+ +:+         +:+      #
+# #    By: damin <damin@student.42.fr>                +#+  +:+       +#+         #
+# #                                                 +#+#+#+#+#+   +#+            #
+# #    Created: 2024/05/29 10:33:57 by damin             #+#    #+#              #
+# #    Updated: 2024/05/29 14:37:54 by damin            ###   ########.fr        #
+# #                                                                              #
+# # **************************************************************************** #
 
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
-RL_FLAG		= -lreadline -L${HOME}/.brew/opt/readline/lib
-NAME		= minishell
+# CC			= cc
+# CFLAGS		= -Wall -Wextra -Werror
+# RL_FLAG		= -lreadline -L${HOME}/.brew/opt/readline/lib
+# NAME		= minishell
 
-SRCS		= minishell.c
+# SRCS		= minishell.c
 
-OBJS		= $(SRCS:.c=.o)
+# OBJS		= $(SRCS:.c=.o)
 
-HAEDERS		= minishell.h
-RL_INCLUDES	= -I${HOME}/.brew/opt/readline/include
-DEFENDENCY	= $(HAEDERS)
+# HAEDERS		= minishell.h
+# RL_INCLUDES	= -I${HOME}/.brew/opt/readline/include
+# DEFENDENCY	= $(HAEDERS)
 
-AR			= ar
-ARFLAGS		= rcs
-RM			= rm -f
+# AR			= ar
+# ARFLAGS		= rcs
+# RM			= rm -f
 
-all: $(NAME)
+# all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(RL_FLAG) $^ -o $(NAME)
+# $(NAME): $(OBJS)
+# 	$(CC) $(CFLAGS) $(RL_FLAG) $^ -o $(NAME)
 
-%.o: %.c $(DEFENDENCY)
-	$(CC) $(CFLAGS)  -c $<
+# %.o: %.c $(DEFENDENCY)
+# 	$(CC) $(CFLAGS)  -c $<
 
-clean:
-	$(RM) $(OBJS)
+# clean:
+# 	$(RM) $(OBJS)
 
-fclean: clean
-	$(RM) $(NAME)
+# fclean: clean
+# 	$(RM) $(NAME)
 
-re:
-	make fclean
-	make all
+# re:
+# 	make fclean
+# 	make all
 
-.PHONY: all clean bonus fclean re
+# .PHONY: all clean bonus fclean re
