@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 21:40:30 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 19:47:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,21 @@ int	command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 
 int	subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
+	if (curr_tokentype(tokenlist_node) == LPAREN)
+	{
+		set_next_token(tokenlist_node);
+		if (add_ast_child(curr, new_ast_node(0, AND_OR, NULL, 2), err))
+			return (0);
+		if (and_or(tokenlist_node, curr->child[0], err))
+		{
+			if (curr_tokentype(tokenlist_node) == RPAREN)
+			{
+				set_next_token(tokenlist_node);
+				return (1);
+			}
+		}
+		err->token = curr_token(tokenlist_node);
+	}
 	return (0);
 }
 
@@ -360,6 +375,7 @@ int	redirect_list(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err
 			return (0);
 		return (redirect_list(tokenlist_node, curr->child[1], err));
 	}
+	clear_ast(curr->child[0]);
 	if (is_ast_err(err))
 		return (0);
 	return (1);

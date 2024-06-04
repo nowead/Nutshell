@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 21:46:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 19:40:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main()
 	t_ast	*ast;
 
 	atexit(leak_check);
-	ast = parse("<< EOF < infile ls < infile1 > outfile | cat");
+	ast = parse("(ls -l)");
 	if (ast != NULL)
 	{
 		ft_printf("\n\n");
