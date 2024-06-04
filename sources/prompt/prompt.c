@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/05/29 13:05:40 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/04 15:47:17 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	restore_echoctl(struct termios *old_term)
     tcsetattr(STDIN_FILENO, TCSANOW, old_term);
 }
 
-int	main(void)
+int	prompt(void)
 {
 	char			*line;
 	struct termios	old_term;

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/05/28 17:55:34 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/04 15:47:37 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PROMPT_H
+# define PROMPT_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -33,5 +33,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # endif
+
+int prompt(void);
 
 #endif
