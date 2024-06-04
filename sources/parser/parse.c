@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 18:58:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/03 21:40:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,18 @@ int	is_ast_err(t_ast_err *err)
 
 t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 {
-	t_tokenlist_node	**tokenlist_node;
+	t_tokenlist_node	*tokenlist_node;
 	t_ast				*ast;
 	t_ast_node			*root;
 
 	if (tokenlist == NULL)
 		return (NULL);
-	tokenlist_node = &(tokenlist->head);
+	tokenlist_node = tokenlist->head;
 	root = new_ast_node(0, AND_OR, NULL, 2);
 	if (root == NULL)
 		return (NULL);
-	if (and_or(tokenlist_node, root, err) && \
-	curr_tokentype(tokenlist_node) == NEWLINE)
+	if (and_or(&tokenlist_node, root, err) && \
+	curr_tokentype(&tokenlist_node) == NEWLINE)
 	{
 		ast = (t_ast *)malloc(sizeof(t_ast));
 		if (ast == NULL)
@@ -84,8 +84,8 @@ t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 		return (ast);
 	}
 	if (!is_ast_err(err) && \
-	curr_tokentype(tokenlist_node) != NEWLINE)
-		err->token = curr_token(tokenlist_node);
+	curr_tokentype(&tokenlist_node) != NEWLINE)
+		err->token = curr_token(&tokenlist_node);
 	clear_ast(root);
 	return (NULL);
 }

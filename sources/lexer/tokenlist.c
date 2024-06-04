@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/23 19:47:15 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 17:25:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_token	*new_word_token(char *str)
 {
 	t_token	*new_token;
 
+	if (str == NULL)
+		return (NULL);
 	new_token = (t_token *)malloc(sizeof(t_token)); // Allocate memory for a new token
 	if (new_token == NULL)
 		return (NULL); // Return NULL if memory allocation fails

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/31 21:40:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 18:11:27 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,9 @@ typedef struct s_token_handler_args
 
 // tokenize.c
 t_tokenlist			*tokenize(const char *input); // Tokenizes the given input string
-void				process_tokens(const char *input, t_tokenlist *tokenlist); // Processes input to generate tokens
-void				add_final_token(t_token_handler_args *args, size_t i); // Handles the creation of the final token
-void				tokenize_err_exit(t_tokenlist *tokenlist, char *err_msg); // Handles errors by cleaning up and exiting
+int					process_tokens(const char *input, t_tokenlist *tokenlist); // Processes input to generate tokens
+int					add_final_token(t_token_handler_args *args, size_t i); // Handles the creation of the final token
 // debugging functions
-char				*tokentype_to_str(t_tokentype tokentype); // Converts tokentype to corresponding string
 int					print_tokenlist(t_tokenlist *tokenlist); // Prints all tokens in the list for debugging
 
 // tokenlist.c
@@ -96,11 +94,11 @@ void				free_token(t_token *token); // Frees a token
 void				tokenlist_clear(t_tokenlist *tokenlist); // Clears the token list, freeing all resources
 
 // tokenize_handle_token.c
-void				handle_token_creation(t_token_handler_args *args, size_t *i); // Handles creation of a single token
-void				handle_operator(t_token_handler_args *args, size_t i); // Handles operator tokens
-void				handle_and_if_operator(t_token_handler_args *args, size_t *i);
-void				handle_space(t_token_handler_args *args, size_t i); // Handles spaces and separates tokens
-void				handle_word(t_token_handler_args *args, size_t i); // Handles word tokens
+int					handle_token_creation(t_token_handler_args *args, size_t *i); // Handles creation of a single token
+int					handle_operator(t_token_handler_args *args, size_t i); // Handles operator tokens
+int					handle_and_if_operator(t_token_handler_args *args, size_t *i);
+int					handle_space(t_token_handler_args *args, size_t i); // Handles spaces and separates tokens
+int					handle_word(t_token_handler_args *args, size_t i); // Handles word tokens
 
 // tokenize_classify_operator.c
 int					is_operator(char c);  // Checks if a character is an operator
