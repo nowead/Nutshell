@@ -1,4 +1,4 @@
-NAME = parser
+NAME = minishell
 
 CC = cc
 # CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
@@ -16,7 +16,6 @@ SRC				=	sources/parser_main.c \
 					$(addprefix $(PARSER_DIR), $(PARSER_SRC))\
 					$(addprefix $(PROMPT_DIR), $(PROMPT_SRC))
 OBJ				=	$(patsubst %.c, %.o, $(SRC))
-
 
 LIBFT_DIR = libft/
 HEADER_DIR = includes/
@@ -45,26 +44,34 @@ LIBFT_OBJ = $(patsubst %.c, %.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT_FLAGS) -o $@
+	@$(CC) $(OBJ) $(RL_FLAG) $(LIBFT_FLAGS) -o $@
+	@echo "\033[0;33mminshell\033[0m compiled."
 
 $(LIBFT): $(LIBFT_SRC) $(LIBFT_HEADER)
-	make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR)
+	@echo "\033[0;32mlibft\033[0m compiled."
 
 sources/%.o: sources/%.c $(HEADER) $(LIBFT_HEADER)
-	$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
 
 sources/lexer/%.o: sources/lexer/%.c $(HEADER) $(LIBFT_HEADER)
-	$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
 
 sources/parser/%.o: sources/parser/%.c $(HEADER) $(LIBFT_HEADER)
-	$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+
+sources/prompt/%.o: sources/prompt/%.c $(HEADER) $(LIBFT_HEADER)
+	@$(CC) $(CFLAGS) $(RL_FLAG) -Ilibft -Iincludes -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
-	make -C $(LIBFT_DIR) fclean
+	@rm -f $(OBJ)
+	@echo "\033[0;32mobjects\033[0m removed."
+	@make -C $(LIBFT_DIR) fclean
+	@echo "\033[0;32mlibft\033[0m removed."
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "\033[0;31mminishell\033[0m removed."
 
 re: fclean all
 

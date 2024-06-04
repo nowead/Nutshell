@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 21:46:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 19:43:29 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	leak_check(void)
-{
-	system("leaks parser");
-}
+// void	leak_check(void)
+// {
+// 	system("leaks parser");
+// }
 
 int main()
 {
 	t_ast	*ast;
 
-	atexit(leak_check);
+	// atexit(leak_check);
 	ast = parse("<< EOF < infile ls < infile1 > outfile | cat");
+	prompt();
 	if (ast != NULL)
 	{
 		ft_printf("\n\n");
