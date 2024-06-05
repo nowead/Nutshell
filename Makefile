@@ -1,7 +1,7 @@
 NAME = parser
 
 CC = cc
-# CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
 LIBFT_FLAGS  = -Llibft -lft
@@ -27,7 +27,7 @@ PROMPT_DIR = sources/prompt/
 HEADER_FILES	=	minishell.h tokenize.h	parse.h prompt.h
 LEXER_SRC		=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c
-PROMPT_SRC		=	prompt.c
+# PROMPT_SRC		=	prompt.c
 LIBFT_SRC = $(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\
 ft_atol.c		ft_isascii.c    ft_isspace.c	ft_memcmp.c     ft_putendl_fd.c ft_strdup.c     ft_strlen.c\
@@ -45,7 +45,7 @@ LIBFT_OBJ = $(patsubst %.c, %.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) $(LIBFT_FLAGS) -o $@
+	$(CC) $(OBJ) $(LIBFT_FLAGS) -g -o $@
 
 $(LIBFT): $(LIBFT_SRC) $(LIBFT_HEADER)
 	make -C $(LIBFT_DIR)

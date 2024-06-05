@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/23 19:47:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 20:21:12 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	is_assignment_word(t_token *token)
 {
 	const char	*equalsign_start;
 
-	if ((token->str)[0] == '=')
+	if (token->type == ASSIGNMENT_WORD)
+		return (1);
+	if (token->type != WORD || (token->str)[0] == '=')
 		return (0);
 	equalsign_start = ft_strchr(token->str, '=');
 	if (equalsign_start == NULL)
