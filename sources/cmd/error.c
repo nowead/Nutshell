@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 19:45:48 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/07 19:04:27 by damin            ###   ########.fr       */
+/*   Created: 2024/06/07 19:01:34 by damin             #+#    #+#             */
+/*   Updated: 2024/06/07 19:02:39 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL
-# define MINISHELL
+#include "minishell.h"
 
-# include "tokenize.h"
-# include "parse.h"
-# include "prompt.h"
-# include "cmd.h"
-
-#endif
+void	err_ctrl(char *err, int sys, int exit_status)
+{
+	if (!sys)
+		ft_putendl_fd(err, 2);
+	else
+		perror(err);
+	exit(exit_status);
+}
