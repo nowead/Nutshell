@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 18:56:30 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/09 17:06:53 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void print_ast(t_ast_node *node, int depth) {
     if (node == NULL) {
         return;
     }
-
-
     // Print indentation for current depth
     for (int i = 0; i < depth; i++) {
         printf("  ");

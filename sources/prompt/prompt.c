@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/09 15:50:44 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/09 21:14:14 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 void	ast_clear(t_ast	*ast)
 {
-	ft_printf("\n\n");
-	print_ast(ast->root, 0);
-	ft_printf("\n\n");
+	// ft_printf("\n\n");
+	// print_ast(ast->root, 0);
+	// ft_printf("\n\n");
 	tokenlist_clear(ast->tokenlist);
 	clear_ast(ast->root);
 	free(ast);
@@ -47,12 +47,14 @@ int	prompt(void)
         if (!line)
 			exit_prompt();
 		if (*line != '\0')
+		{
 			add_history(line);
-		ast = parse(line);
-		//ctrl_cmd(ast);
-		free(line);
-		if (ast != NULL)
-			ast_clear(ast);
+			ast = parse(line);
+			ctrl_cmd(ast);
+			free(line);
+			if (ast != NULL)
+				ast_clear(ast);
+		}
     }
 	restore_echoctl(&old_term);
 	return (0);

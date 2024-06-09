@@ -14,7 +14,8 @@ HEADER			=	$(addprefix $(HEADER_DIR), $(HEADER_FILES))
 SRC				=	sources/parser_main.c \
 					$(addprefix $(LEXER_DIR), $(LEXER_SRC)) \
 					$(addprefix $(PARSER_DIR), $(PARSER_SRC))\
-					$(addprefix $(PROMPT_DIR), $(PROMPT_SRC))
+					$(addprefix $(PROMPT_DIR), $(PROMPT_SRC))\
+					$(addprefix $(CMD_DIR), $(CMD_SRC))
 OBJ				=	$(patsubst %.c, %.o, $(SRC))
 
 LIBFT_DIR = libft/
@@ -22,11 +23,13 @@ HEADER_DIR = includes/
 LEXER_DIR = sources/lexer/
 PARSER_DIR = sources/parser/
 PROMPT_DIR = sources/prompt/
+CMD_DIR = sources/cmd/
 
-HEADER_FILES	=	minishell.h tokenize.h	parse.h prompt.h
+HEADER_FILES	=	minishell.h tokenize.h	parse.h prompt.h cmd.h
 LEXER_SRC		=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c
 PROMPT_SRC		=	prompt.c	signal.c
+CMD_SRC			=	ctrl_cmd.c	io.c	error.c
 LIBFT_SRC = $(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\
 ft_atol.c		ft_isascii.c    ft_isspace.c	ft_memcmp.c     ft_putendl_fd.c ft_strdup.c     ft_strlen.c\

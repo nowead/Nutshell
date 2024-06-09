@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/07 19:05:12 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/09 21:32:11 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # include <readline/history.h>
 # endif
 
-void    err_ctrl(char *err, int sys, int exit_status);
+void	err_ctrl(char *err, int sys, int exit_status);
 
+//io.c
+void	e_io_here(char *token_str);
+
+void	ctrl_cmd(t_ast *ast);
 #endif
