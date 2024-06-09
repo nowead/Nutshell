@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/07 16:19:51 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/09 15:50:44 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,21 @@
 #define USE_READLINE
 #include "minishell.h"
 
-void	handler(int signo)
+void	ast_clear(t_ast	*ast)
 {
-	if (signo != SIGINT)
-		return ;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
-}
-void	set_signal()
-{
-	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_IGN);
+	ft_printf("\n\n");
+	print_ast(ast->root, 0);
+	ft_printf("\n\n");
+	tokenlist_clear(ast->tokenlist);
+	clear_ast(ast->root);
+	free(ast);
 }
 
-void	set_echoctl(struct termios *old_term)
+void	exit_prompt()
 {
-	struct termios	new_term;
-
-	tcgetattr(STDIN_FILENO, old_term);
-    tcgetattr(STDIN_FILENO, &new_term);
-    new_term.c_lflag &= ~(ECHOCTL);
-    //new_term->c_lflag &= ~(ICANON | ECHOCTL); //?CANONICAL mode on/off
-    tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
-}
-
-void	restore_echoctl(struct termios *old_term)
-{
-    tcsetattr(STDIN_FILENO, TCSANOW, old_term);
+	printf("\033[u\033[1B\033[1A");
+	printf("exit\n");
+	exit(-1);
 }
 
 int	prompt(void)
@@ -59,24 +45,14 @@ int	prompt(void)
 		printf("\b\b\b\b\b\b\b\b\b\b\b");
 		line = readline("Nutshell $ ");
         if (!line)
-		{
-        	printf("\033[u\033[1B\033[1A");
-            printf("exit\n");
-            exit(-1);
-		}
+			exit_prompt();
 		if (*line != '\0')
 			add_history(line);
 		ast = parse(line);
+		//ctrl_cmd(ast);
 		free(line);
 		if (ast != NULL)
-		{
-			ft_printf("\n\n");
-			print_ast(ast->root, 0);
-			ft_printf("\n\n");
-			tokenlist_clear(ast->tokenlist);
-			clear_ast(ast->root);
-			free(ast);
-		}
+			ast_clear(ast);
     }
 	restore_echoctl(&old_term);
 	return (0);
