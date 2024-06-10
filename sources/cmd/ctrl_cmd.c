@@ -6,17 +6,18 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:57:38 by damin             #+#    #+#             */
-/*   Updated: 2024/06/09 21:41:16 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/10 20:57:55 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define USE_READLINE
 #include "minishell.h"
 
 void	exec(t_ast_node *node)
 {
-	//printf("Symbol: %s\n", get_symbol_type_string(node->sym));
-	printf("  Token Type: %s\n", get_token_type_string(node->token->type));
-	printf("  Token String: %s\n", node->token->str);
+	// printf("Symbol: %s\n", get_symbol_type_string(node->sym));
+	// printf("  Token Type: %s\n", get_token_type_string(node->token->type));
+	// printf("  Token String: %s\n", node->token->str);
 	if (node->sym == HERE_END)
 		e_io_here(node->token->str);
 }

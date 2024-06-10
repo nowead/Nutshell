@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/09 15:29:57 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/10 20:35:18 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,20 @@ void	handler(int signo)
 	rl_replace_line("", 1);
 	rl_redisplay();
 }
-void	set_signal()
+
+void	c_handler(int signo)
 {
-	signal(SIGINT, handler);
+	if (signo != SIGINT)
+		return ;
+	exit(130);
+}
+
+void	set_signal(pid_t pid)
+{
+	if (pid != 0)
+		signal(SIGINT, handler);
+	else if (pid == 0)
+		signal(SIGINT, c_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
