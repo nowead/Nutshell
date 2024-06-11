@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/10 21:07:02 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/11 12:19:32 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,12 @@ int	prompt(void)
 	t_ast			*ast;
 
 	set_echoctl(&old_term);
-	set_signal(1);
     while(1)
 	{
+		set_signal(1);
 		printf("Nutshell $ \033[s");
 		printf("\b\b\b\b\b\b\b\b\b\b\b");
 		line = readline("Nutshell $ ");
-		// ft_printf("%s\n\n", line);
         if (!line)
 			exit_prompt();
 		if (*line != '\0')
