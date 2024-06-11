@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 18:57:15 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/04 20:19:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void		set_next_token(t_tokenlist_node **tokenlist_node);
 t_tokentype	curr_tokentype(t_tokenlist_node **tokenlist_node);
 t_token		*curr_token(t_tokenlist_node **tokenlist_node);
 int			is_ast_err(t_ast_err *err);
+
+// is_assignment_word.c
+int			is_assignment_word(t_token *token);
 
 t_ast		*program(t_tokenlist *tokenlist, t_ast_err *err);
 
