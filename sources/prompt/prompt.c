@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/11 12:19:32 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/12 17:22:12 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	prompt(void)
 			exit_prompt();
 		if (*line != '\0')
 		{
-			add_history(line);
 			ast = parse(line);
 			ctrl_cmd(ast);
 			if (ast != NULL)
 				ast_clear(ast);
+			add_history(line);
 		}
 		free(line);
     }
