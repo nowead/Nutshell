@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:57:38 by damin             #+#    #+#             */
-/*   Updated: 2024/06/12 20:37:03 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/13 13:26:24 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	exec_cmd(t_ast_node *node)
 
 void	ctrl_cmd(t_ast *ast)
 {
-	// ft_printf("\n\n");
-	// print_ast(ast->root, 0);
-	// ft_printf("\n\n\n");
+	ft_printf("\n\n");
+	print_ast(ast->root, 0);
+	ft_printf("\n\n\n");
 	// print_tokenlist(ast->tokenlist);
 	// ft_printf("\n\n");
 	exec_cmd(ast->root);

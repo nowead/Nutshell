@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 19:24:23 by damin             #+#    #+#             */
-/*   Updated: 2024/05/30 19:49:55 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/13 15:44:23 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,22 @@ int	main(int ac, char **av, char **envp)
 		err_ctrl("invaild input.", 0, EXIT_FAILURE);
 	i = 2;
 	fd[2] = valid_fd();
+
 	if (pipe(fd) == -1)
 		err_ctrl("pipe generate fail", 1, EXIT_FAILURE);
+
+
 	if (!is_here_doc(av))
 		first_process(av, envp, fd);
 	else
 		here_doc_process(av, fd);
+
 	while (++i < ac - 2)
 		child_process(av[i], envp, fd);
+
 	last_process(av, ac, envp, fd);
+
+
 	if (close(fd[0]) == -1 || close(fd[1]) == -1 || close(fd[2]) == -1)
 		err_ctrl("close error ", 1, EXIT_FAILURE);
 	while (i-- > 1)
