@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/11 12:54:55 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/14 14:47:57 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handler(int signo)
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();
+	printf("\033[s");
 }
 
 void	c_handler(int signo)

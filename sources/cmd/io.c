@@ -6,10 +6,11 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/11 13:44:33 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/14 17:52:54 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define	 USE_READLINE
 #include "minishell.h"
 
 int	valid_fd(void)
@@ -35,15 +36,17 @@ void	io_readline(int fd[3], const char *str)
 	line = "none";
 	while (line != 0)
 	{
-		ft_printf("heredoc> ");
-		line = get_next_line(STDIN_FILENO);
+		// ft_printf("heredoc> ");
+		// line = get_next_line(STDIN_FILENO);
+		printf("heredoc> \033[s\b\b\b\b\b\b\b\b\b");
+		line = readline("heredoc> ");
 		if (!line)
 		{
-			printf("\n");
+			printf("\033[u\033[1B\033[1A");
 			break ;
 		}
-		if (ft_strlen(line) - 1 == ft_strlen(str) && \
-		ft_strncmp(line, str, ft_strlen(line) - 1) == 0)
+		if (ft_strlen(line) == ft_strlen(str) && \
+		ft_strncmp(line, str, ft_strlen(line)) == 0)
 			break ;
 		ft_putstr_fd(line, fd[2]);
 		free(line);
@@ -80,13 +83,13 @@ void	heredoc_parents(int fd[3])
 		if (c_pid != -1)
 			break ;
 	}
-	if (WEXITSTATUS(status) != 130)
-		print_fd(fd);
+	// if (WEXITSTATUS(status) != 130)
+	// 	print_fd(fd);
 	if (close(fd[2]) == -1)
 		err_ctrl("close error ", 1, EXIT_FAILURE);
 }
 
-void	e_io_here(char *token_str)
+int	e_io_here(t_ast_node *node)
 {
 	pid_t	pid;
 	int		fd[3];
@@ -95,17 +98,23 @@ void	e_io_here(char *token_str)
 	fd[2] = valid_fd();
 	pid = fork();
 	if (pid == -1)
-		err_ctrl("fork fail ", 1, EXIT_FAILURE);
+		return (-1);
 	if (pid == 0)
 	{
 		set_signal(pid);
 		if (dup2(fd[1], fd[2]) == -1)
 			err_ctrl("dup2 error ", 1, EXIT_FAILURE);
-		io_readline(fd, token_str);
+		io_readline(fd, node->child[0]->token->str);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1 || close(fd[2]) == -1)
 			err_ctrl("close error ", 1, EXIT_FAILURE);
 		exit(EXIT_SUCCESS);
 	}
 	else
 		heredoc_parents(fd);
+	return (0);
+}
+
+int	e_io_file(t_ast_node *node)
+{
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/12 15:41:25 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/14 14:25:51 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 void	err_ctrl(char *err, int sys, int exit_status);
 
 //io.c
-void	e_io_here(char *token_str);
+int     e_io_file(t_ast_node *node);
+int 	e_io_here(t_ast_node *node);
 
 //cmd_a.c
 int     e_and_or(t_ast_node *node);
