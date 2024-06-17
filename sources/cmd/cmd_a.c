@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_a.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/16 17:31:32 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/17 23:15:27 by mindaewon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,11 @@ int	e_io_redirect(t_ast_node *node)
 	//return (-1);
 }
 
-int	e_cmd_suffix(t_ast_node *node, char *option)
+int	e_cmd_suffix(t_ast_node *node, char **option)
 {
 	size_t	dst_size;
 
-	if (node == NULL)
-		return (0);
-	if (node->child)
+	if (node != NULL && node->child)
 	{
 		if (node->child[0] && node->child[0]->sym == IO_REDIRECT)
 		{
@@ -76,13 +74,12 @@ int	e_cmd_suffix(t_ast_node *node, char *option)
 		}
 		else if (node->child[0] && node->child[0]->sym == TERMINAL)
 		{
-			dst_size = ft_strlen(option) + ft_strlen(node->child[0]->token->str) + 2;
-			option = (char *)ft_realloc(option, dst_size);
-			if (option == NULL)
+			dst_size = ft_strlen(*option) + ft_strlen(node->child[0]->token->str) + 2;
+			*option = (char *)ft_realloc(*option, dst_size);
+			if (*option == NULL)
 				return (-1);
-			ft_strlcat(option, " ", ft_strlen(option) + 2);
-			ft_strlcat(option, node->child[0]->token->str, dst_size);
-			// new_option = ft_strjoin(option, node->child[0]->token->str);
+			ft_strlcat(*option, " ", ft_strlen(*option) + 2);
+			ft_strlcat(*option, node->child[0]->token->str, dst_size);
 			if (e_cmd_suffix(node->child[1], option) == -1)
 				return (-1);
 		}
@@ -90,10 +87,15 @@ int	e_cmd_suffix(t_ast_node *node, char *option)
 	return (0);
 }
 
-int	e_cmd_name(t_ast_node *node, char *option)
+int	e_cmd_name(t_ast_node *node, char **option)
 {
-	printf("[cmd_name:%s] : [cmd_options:%s]\n", node->token->str, option);
-	return (-1);
+	char	**options;
+
+	printf("[cmd_name:%s] : [cmd_options:%s]\n", node->token->str, *option);
+	options = ft_split(*option, ' ');
+	if (options == NULL)
+		return (-1);
+	return (0);
 }
 
 int	e_cmd_prefix_(t_ast_node *node)
@@ -131,11 +133,12 @@ int	e_cmd_prefix(t_ast_node *node)
 
 int e_simple_cmd(t_ast_node *node)
 {
-	char	*option;
+	char	**option;
 	int		ret;
 
 	ret = -1;
-	option = (char *)ft_calloc(1, sizeof(char));
+	option = (char **)malloc(sizeof(char *));
+	*option = (char *)calloc(1, sizeof(char));
 	if (option == NULL)
 		return (-1);
 	if (node->child[0]->sym == CMD_PREFIX && node->child[1] == NULL)
@@ -152,6 +155,7 @@ int e_simple_cmd(t_ast_node *node)
 		if (e_cmd_suffix(node->child[2], option) != -1)
 			ret = e_cmd_name(node->child[1], option);
 	}
+	free(*option);
 	free(option);
 	return (ret);
 }
@@ -234,7 +238,7 @@ int	e_pipe_sequence(t_ast_node *node)
 			return (-1);
 		curr = curr->child[1];
 	}
-	return (last_cmd(curr, 1));
+	return (last_cmd(curr->child[0], 1));
 }
 
 int e_and_or_(t_ast_node *node, int ret_pipe_sequence)
