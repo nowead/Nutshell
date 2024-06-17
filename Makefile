@@ -5,8 +5,10 @@ CFLAGS = -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
 LIBFT_FLAGS  = -Llibft -lft
-RL_FLAG		 = -lreadline -L${HOME}/.brew/opt/readline/lib
-RL_INCLUDES	 = -I${HOME}/.brew/opt/readline/include
+# RL_FLAG		 = -lreadline -L${HOME}/.brew/opt/readline/lib
+# RL_INCLUDES	 = -I${HOME}/.brew/opt/readline/include
+RL_FLAG		 = -lreadline -L/opt/homebrew/opt/readline/lib
+RL_INCLUDES	 = -I/opt/homebrew/opt/readline/include
 
 LIBFT			=	$(LIBFT_DIR)libft.a
 LIBFT_HEADER	=	$(addprefix $(LIBFT_DIR), libft.h ft_printf.h get_next_line.h)
@@ -55,7 +57,7 @@ $(LIBFT): $(LIBFT_SRC) $(LIBFT_HEADER)
 	@echo "\033[0;32mlibft\033[0m compiled."
 
 sources/%.o: sources/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
 
 sources/lexer/%.o: sources/lexer/%.c $(HEADER) $(LIBFT_HEADER)
 	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
@@ -64,7 +66,7 @@ sources/parser/%.o: sources/parser/%.c $(HEADER) $(LIBFT_HEADER)
 	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
 
 sources/prompt/%.o: sources/prompt/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) $(RL_FLAG) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

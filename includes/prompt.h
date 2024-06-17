@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/09 20:25:32 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/17 18:10:14 by mindaewon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int prompt(void);
 
 //signal.c
 void    handler(int signo);
-void	set_signal();
+void	set_signal(pid_t pid);
 void	set_echoctl(struct termios *old_term);
 void	restore_echoctl(struct termios *old_term);
 #endif
