@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_a.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/17 23:15:27 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/06/18 11:47:20 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,11 @@ int e_simple_cmd(t_ast_node *node)
 
 	ret = -1;
 	option = (char **)malloc(sizeof(char *));
+	if (option == NULL)
+		return (-1);
 	*option = (char *)calloc(1, sizeof(char));
+	if (*option == NULL)
+		return (-1);
 	if (option == NULL)
 		return (-1);
 	if (node->child[0]->sym == CMD_PREFIX && node->child[1] == NULL)

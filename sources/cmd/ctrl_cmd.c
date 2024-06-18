@@ -6,22 +6,22 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:57:38 by damin             #+#    #+#             */
-/*   Updated: 2024/06/14 15:52:55 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/18 11:33:06 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define USE_READLINE
 #include "minishell.h"
 
-void	exec(t_ast_node *node)
-{
-	// printf("Symbol: %s\n", get_symbol_type_string(node->sym));
-	// printf("  Token Type: %s\n", get_token_type_string(node->token->type));
-	// printf("  Token String: %s\n", node->token->str);
-	// if (node->sym == IO_HERE)
-	// 	e_io_here(node->parent->child[i + 1]->token->str);
-	// 	//node->token->str
-}
+// void	exec(t_ast_node *node)
+// {
+// 	// printf("Symbol: %s\n", get_symbol_type_string(node->sym));
+// 	// printf("  Token Type: %s\n", get_token_type_string(node->token->type));
+// 	// printf("  Token String: %s\n", node->token->str);
+// 	// if (node->sym == IO_HERE)
+// 	// 	e_io_here(node->parent->child[i + 1]->token->str);
+// 	// 	//node->token->str
+// }
 
 // void	exec_cmd(t_ast_node *node)
 // {
@@ -53,7 +53,8 @@ void	exec_cmd(t_ast_node *node)
 void	ctrl_cmd(t_ast *ast)
 {
 	ft_printf("\n\n");
-	print_ast(ast->root, 0);
+	if (ast != NULL)
+		print_ast(ast->root, 0);
 	ft_printf("\n\n\n");
 	// print_tokenlist(ast->tokenlist);
 	// ft_printf("\n\n");
