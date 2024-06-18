@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/18 14:49:15 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/18 17:21:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int	e_io_file(t_ast_node *node)
 {
 	int	fd;
 
+	if (close(STDIN_FILENO) == -1)
+		err_ctrl("file close error ", 1, EXIT_FAILURE);
 	if (node->child[0]->token->type == LESS)
 		fd = open(node->child[1]->token->str, O_RDONLY);
 	else if (node->child[0]->token->type == GREAT)
@@ -125,6 +127,7 @@ int	e_io_file(t_ast_node *node)
 	else if (node->child[0]->token->type == DGREAT)
 		fd = open(node->child[1]->token->str, O_WRONLY | O_CREAT | O_APPEND);
 	if (fd == -1)
-		err_ctrl("file open error", 1, 2);
+		err_ctrl("file open error", 1, EXIT_FAILURE);
+
 	return (0);
 }
