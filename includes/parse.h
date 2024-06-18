@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 19:40:11 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 21:38:20 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSE_H
 
 # include "libft.h"
+
+#define INCOMPLETE_CMD 1001
 
 #define INCOMPLETE_CMD 1001
 
@@ -63,7 +65,7 @@ typedef struct s_ast_err
 }	t_ast_err;
 
 // parse.c
-t_ast				*parse(const char *input, int *incomplete_command_flag);
+t_ast				*parse(const char *input, int *incomplete_command);
 
 void				set_next_token(t_tokenlist_node **tokenlist_node);
 t_tokentype			curr_tokentype(t_tokenlist_node **tokenlist_node);

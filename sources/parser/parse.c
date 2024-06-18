@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 20:00:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 21:41:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_ast	*parse(const char* input, int *incomplete_cmd)
 	t_ast_err			err;
 
 	tokenlist = tokenize(input, incomplete_cmd);
+	if (tokenlist == NULL)
+		return (NULL);
 	if (tokenlist == NULL)
 		return (NULL);
 	if (expand_parameter(tokenlist))
@@ -167,7 +169,7 @@ int	pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 			if (pipe_sequence_(tokenlist_node, curr->child[1], err))
 				return (1);
 		}
-		if (curr_tokentype == NEWLINE)
+		if (curr_tokentype(tokenlist_node) == NEWLINE)
 			err->errnum = INCOMPLETE_CMD;
 		else
 			err->token = curr_token(tokenlist_node);
@@ -204,7 +206,7 @@ int	subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err
 	if (curr_tokentype(tokenlist_node) == LPAREN)
 	{
 		set_next_token(tokenlist_node);
-		if (curr_tokentype == NEWLINE)
+		if (curr_tokentype(tokenlist_node) == NEWLINE)
 		{
 			err->errnum = INCOMPLETE_CMD;
 			return (0);

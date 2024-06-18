@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 19:56:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 21:40:58 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	process_tokens(const char *input, t_tokenlist *tokenlist, int *incomplete_cm
 	// After processing all characters, handle any unclosed quotes or final tokens
 	if (quotetype != NO_QUOTE)
 	{
-		incomplete_cmd = 1; // Error if quote is not closed
+		*incomplete_cmd = 1; // Error if quote is not closed
 		return (-1);
 	}
 	else if (add_final_token(&args, i) == -1)

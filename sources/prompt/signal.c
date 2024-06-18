@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/17 18:23:30 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/06/18 21:26:26 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,24 @@ void	c_handler(int signo)
 	if (signo != SIGINT)
 		return ;
 	printf("\n");
-	exit(130);
+	exit(128 + SIGINT);
 }
 
-void	set_signal(pid_t pid)
+void	incomplete_cmd_handler(int signo)
 {
-	if (pid != 0)
+	if (signo != SIGINT)
+		return ;
+	printf("\nNutshell $ \033[s");
+}
+
+void	set_signal(int handler_type)
+{
+	if (handler_type == 1)
 		signal(SIGINT, handler);
-	else if (pid == 0)
+	else if (handler_type == 0)
 		signal(SIGINT, c_handler);
+	else if(handler_type == 2)
+		signal(SIGINT, incomplete_cmd_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 

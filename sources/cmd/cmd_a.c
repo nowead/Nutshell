@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/18 11:47:20 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/18 20:25:13 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,30 @@ int	e_assignment_word(t_ast_node *node)
 	return (0);
 }
 
-int	e_redirect_list(t_ast_node *node)
-{
-	if (node->sym == IO_FILE)
-		return (e_io_file(node));
-	else if (node->sym == IO_HERE)
-		return (e_io_here(node->child[0]));
-	return (0);
-}
-
 int	e_io_redirect(t_ast_node *node)
 {
 	if (node->child[0]->sym == IO_FILE)
 		return (e_io_file(node->child[0]));
 	else if (node->child[0]->sym == IO_HERE)
 		return (e_io_here(node->child[0]));
-	return (0);
-	//return (-1);
+	return (-1);
+}
+
+int	e_redirect_list(t_ast_node *node)
+{
+	int	ret;
+
+	ret = -1;
+	if (node == NULL)
+		return (0);
+	if (node->child)
+	{
+		if (node->child[0])
+			ret = e_io_redirect(node->child[0]);
+		if (node->child[1] && ret != -1)
+			return (e_redirect_list(node->child[1]));
+	}
+	return (ret);
 }
 
 int	e_cmd_suffix(t_ast_node *node, char **option)
@@ -154,10 +161,9 @@ int e_simple_cmd(t_ast_node *node)
 	}
 	else
 	{
-		if (e_cmd_prefix(node->child[0]) == -1)
-			ret = -1;
-		if (e_cmd_suffix(node->child[2], option) != -1)
-			ret = e_cmd_name(node->child[1], option);
+		if (e_cmd_prefix(node->child[0]) != -1)
+			if (e_cmd_suffix(node->child[2], option) != -1)
+				ret = e_cmd_name(node->child[1], option);
 	}
 	free(*option);
 	free(option);
