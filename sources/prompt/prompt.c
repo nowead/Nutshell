@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/18 20:11:00 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 21:27:06 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	exit_prompt()
 int	prompt(void)
 {
 	char			*line;
+	char			*new_line;
+	char			*join;
 	struct termios	old_term;
 	t_ast			*ast;
 	int				incomplete_cmd;
@@ -42,14 +44,40 @@ int	prompt(void)
     while(1)
 	{
 		set_signal(1);
-		printf("Nutshell $ \033[s");
-		printf("\b\b\b\b\b\b\b\b\b\b\b");
+		printf("Nutshell $ \033[s\b\b\b\b\b\b\b\b\b\b\b");
 		line = readline("Nutshell $ ");
         if (!line)
 			exit_prompt();
 		if (*line != '\0')
 		{
-			ast = parse(line, &incomplete_cmd);
+			while (1)
+			{
+				// ast = parse(line, &err);
+				set_signal(2);
+				incomplete_cmd = 0;
+				ast = parse(line, &incomplete_cmd);
+				if (incomplete_cmd)
+				{
+					printf("> \033[s\b\b");
+					new_line = readline("> ");
+					// if (signo == SIGINT)
+					if (!new_line)
+					{
+						printf("\033[u\033[1B\033[1A");
+						break ;
+					}
+					join = ft_strjoin(line, new_line);
+					free(line);
+					free(new_line);
+					if (join == NULL)
+						break;
+					line = join;
+				}
+				else
+					break;
+			}
+			if (incomplete_cmd)
+				continue ;
 			ctrl_cmd(ast);
 			if (ast != NULL)
 				ast_clear(ast);

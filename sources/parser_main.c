@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 20:16:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 20:27:30 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,8 @@
 
 int main()
 {
-	t_ast	*ast;
-	int		incomplete_cmd;
-
-	incomplete_cmd = 0;
-	ast = parse("ls && |", &incomplete_cmd);
-	if (ast != NULL)
-	{
-		print_tokenlist(ast->tokenlist);
-		tokenlist_clear(ast->tokenlist);
-		clear_ast(ast->root);
-		free(ast);
-	}
-	else if (incomplete_cmd == 1)
-	{
-		printf("> \n");
-	}
+	// atexit(leak_check);
+	prompt();
     return (0);
 	// t_tokenlist	*tokenlist;
 
