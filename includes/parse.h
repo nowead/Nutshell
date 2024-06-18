@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/04 20:19:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 10:32:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,49 +61,73 @@ typedef struct s_ast_err
 }	t_ast_err;
 
 // parse.c
-t_ast		*parse(const char *input);
+t_ast				*parse(const char *input);
 
-void		set_next_token(t_tokenlist_node **tokenlist_node);
-t_tokentype	curr_tokentype(t_tokenlist_node **tokenlist_node);
-t_token		*curr_token(t_tokenlist_node **tokenlist_node);
-int			is_ast_err(t_ast_err *err);
+void				set_next_token(t_tokenlist_node **tokenlist_node);
+t_tokentype			curr_tokentype(t_tokenlist_node **tokenlist_node);
+t_token				*curr_token(t_tokenlist_node **tokenlist_node);
+int					is_ast_err(t_ast_err *err);
+
+t_ast				*program(t_tokenlist *tokenlist, t_ast_err *err);
+
+int					and_or(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					and_or_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					pipe_sequence(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr);
+int					cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr);
+int					cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					cmd_suffix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					cmd_suffix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					redirect_list(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					io_redirect(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					io_file(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					filename(t_tokenlist_node **tokenlist_node, t_ast_node *curr);
+int					io_here(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					here_end(t_tokenlist_node **tokenlist_node, t_ast_node *curr);
 
 // is_assignment_word.c
-int			is_assignment_word(t_token *token);
-
-t_ast		*program(t_tokenlist *tokenlist, t_ast_err *err);
-
-int			and_or(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			and_or_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			pipe_sequence(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			cmd_suffix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			cmd_suffix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			redirect_list(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			io_redirect(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			io_file(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			filename(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			io_here(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
-int			here_end(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
+int					is_assignment_word(t_token *token);
 
 //print_ast.c
-void		print_ast(t_ast_node *node, int depth);
-const char *get_token_type_string(t_tokentype type);
-const char *get_symbol_type_string(t_symbol sym);
+void				print_ast(t_ast_node *node, int depth);
+const char			 *get_token_type_string(t_tokentype type);
+const char			 *get_symbol_type_string(t_symbol sym);
 
 // parsetree.c
-t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num);
-int			add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err);
-void		free_ast_node(t_ast_node *node);
-void		clear_ast(t_ast_node *node);
+t_ast_node			*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num);
+int					add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err);
+void				free_ast_node(t_ast_node *node);
+void				clear_ast(t_ast_node *node);
 
+//is_assignment_word
+int					is_valid_name(const char *str, size_t len);
+
+//split_quotes.c
+t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);
+
+// expand_parameter.c
+int					expand_parameter(t_tokenlist *tokenlist);
+t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist);
+t_tokenlist			*split_subtokens_into_fields(t_tokenlist *subtokenlist);
+int					handle_no_quote_token(t_tokenlist_node **curr_subtok, t_tokenlist *fields);
+int					handle_first_field(char *str, size_t *i, t_tokenlist *fields);
+int					handle_middle_field(char *str, size_t *i, t_tokenlist *fields, int *is_space);
+int					handle_last_field(t_tokenlist *fields, t_tokenlist_node **curr_subtok);
+void				handle_quote_token(t_tokenlist *subtokenlist, t_tokenlist_node **curr_subtok, t_tokenlist *fields);
+t_token				*merge_two_tokens(t_token *token1, t_token *token2);
+t_token				*get_field(char *str, size_t *i);
+void				insert_fields_into_tokenlist(t_tokenlist *tokenlist, t_tokenlist_node *tokenlist_node, t_tokenlist *fields);
+
+// split_into_subtokens.c
+t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);
+
+// expand_subtokenlist.c
+int					expand_parameters_in_subtokens(t_tokenlist *subtokenlist);
 
 #endif
