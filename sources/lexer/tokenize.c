@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/06 22:18:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 19:56:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Main function to tokenize a given input string.
 // It returns a pointer to a t_tokenlist structure containing the tokens or NULL if an error occurs.
-t_tokenlist	*tokenize(const char *input)
+t_tokenlist	*tokenize(const char *input, int *incomplete_cmd)
 {
 	t_tokenlist	*tokenlist;
 
@@ -28,7 +28,7 @@ t_tokenlist	*tokenize(const char *input)
 		return (NULL);
 	}
 	// Process the tokens by examining each character in the input string.
-	if (process_tokens(input, tokenlist) == -1)
+	if (process_tokens(input, tokenlist, incomplete_cmd) == -1)
 	{
 		tokenlist_clear(tokenlist);
 		return (NULL);
@@ -38,7 +38,7 @@ t_tokenlist	*tokenize(const char *input)
 }
 
 // Processes input to generate tokens
-int	process_tokens(const char *input, t_tokenlist *tokenlist)
+int	process_tokens(const char *input, t_tokenlist *tokenlist, int *incomplete_cmd)
 {
 	t_tokentype				tokentype;
 	t_quotetype				quotetype;
@@ -59,8 +59,7 @@ int	process_tokens(const char *input, t_tokenlist *tokenlist)
 	// After processing all characters, handle any unclosed quotes or final tokens
 	if (quotetype != NO_QUOTE)
 	{
-		errno = EINVAL;
-		perror("unclosed quotation detected"); // Error if quote is not closed
+		incomplete_cmd = 1; // Error if quote is not closed
 		return (-1);
 	}
 	else if (add_final_token(&args, i) == -1)

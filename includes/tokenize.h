@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 10:46:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 19:55:12 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_token_handler_args
 }	t_token_handler_args;
 
 // tokenize.c
-t_tokenlist			*tokenize(const char *input); // Tokenizes the given input string
+t_tokenlist			*tokenize(const char *input, int *incomplete_cmd); // Tokenizes the given input string
 int					process_tokens(const char *input, t_tokenlist *tokenlist); // Processes input to generate tokens
 int					add_final_token(t_token_handler_args *args, size_t i); // Handles the creation of the final token
 // debugging function
