@@ -1,14 +1,14 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
 LIBFT_FLAGS  = -Llibft -lft
-# RL_FLAG		 = -lreadline -L${HOME}/.brew/opt/readline/lib
-# RL_INCLUDES	 = -I${HOME}/.brew/opt/readline/include
-RL_FLAG		 = -lreadline -L/opt/homebrew/opt/readline/lib
-RL_INCLUDES	 = -I/opt/homebrew/opt/readline/include
+RL_FLAG		 = -lreadline -L${HOME}/.brew/opt/readline/lib
+RL_INCLUDES	 = -I${HOME}/.brew/opt/readline/include
+# RL_FLAG		 = -lreadline -L/opt/homebrew/opt/readline/lib
+# RL_INCLUDES	 = -I/opt/homebrew/opt/readline/include
 
 LIBFT			=	$(LIBFT_DIR)libft.a
 LIBFT_HEADER	=	$(addprefix $(LIBFT_DIR), libft.h ft_printf.h get_next_line.h)

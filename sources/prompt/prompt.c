@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/12 17:22:12 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/18 12:41:27 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	prompt(void)
     while(1)
 	{
 		set_signal(1);
-		printf("Nutshell $ \033[s");
-		printf("\b\b\b\b\b\b\b\b\b\b\b");
+		printf("Nutshell $ \033[s\b\b\b\b\b\b\b\b\b\b\b");
 		line = readline("Nutshell $ ");
         if (!line)
 			exit_prompt();

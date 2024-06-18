@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/17 18:23:30 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/06/18 12:11:59 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	c_handler(int signo)
 	if (signo != SIGINT)
 		return ;
 	printf("\n");
-	exit(130);
+	exit(128 + SIGINT);
 }
 
 void	set_signal(pid_t pid)
