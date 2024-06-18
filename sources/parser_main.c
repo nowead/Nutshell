@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/05 14:34:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/17 22:10:19 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int main()
 {
 	t_ast	*ast;
 
-	// atexit(leak_check);
-	ast = parse("a=b c=d aaa g=h");
+	atexit(leak_check);
+	ast = parse("$\"a\"");
 	if (ast != NULL)
 	{
-		// print_tokenlist(ast->tokenlist);
+		print_tokenlist(ast->tokenlist);
 		ft_printf("\n\n");
 		print_ast(ast->root, 0);
 		ft_printf("\n\n");
@@ -34,4 +34,12 @@ int main()
 		free(ast);
 	}
     return (0);
+	// t_tokenlist	*tokenlist;
+
+	// atexit(leak_check);
+	// tokenlist = tokenize("a b c");
+	// expand_parameter(tokenlist);
+	// print_tokenlist(tokenlist);
+	// tokenlist_clear(tokenlist);
+	// return (0);
 }

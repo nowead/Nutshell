@@ -1,7 +1,7 @@
 NAME = parser
 
 CC = cc
-CFLAGS = -g #-Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 HEADER_FLAGS = -Iincludes
 LIBFT_FLAGS  = -Llibft -lft
@@ -26,7 +26,8 @@ PROMPT_DIR = sources/prompt/
 
 HEADER_FILES	=	minishell.h tokenize.h	parse.h prompt.h
 LEXER_SRC		=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
-PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c
+PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c		split_into_subtokens.c\
+					expand_subtokenlist.c	expand_parameter.c
 # PROMPT_SRC		=	prompt.c
 LIBFT_SRC = $(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\

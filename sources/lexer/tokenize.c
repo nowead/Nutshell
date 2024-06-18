@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/04 18:19:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/06 22:18:47 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,10 @@ int	print_tokenlist(t_tokenlist *tokenlist)
 	while (curr)
 	{
 		tokentype_str = get_token_type_string(curr->token->type);
-		if (ft_printf("%s", tokentype_str) == -1)
+		if (ft_printf("%s:", tokentype_str) == -1)
 			return (-1);
-		if (ft_printf(":%s\n", curr->token->str) == -1)
+		ft_printf("quote:%d:", curr->token->quote);
+		if (ft_printf("%s\n", curr->token->str) == -1)
 			return (-1);
 		curr = curr->next;
 	}

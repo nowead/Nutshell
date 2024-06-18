@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/03 18:56:30 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/06 22:20:19 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,41 +59,31 @@ const char *get_symbol_type_string(t_symbol sym) {
 }
 
 // Recursive function to print the AST
-void print_ast(t_ast_node *node, int depth) {
-
-    if (node == NULL) {
+void print_ast(t_ast_node *node, int depth)
+{
+    if (node == NULL)
         return;
-    }
-
 
     // Print indentation for current depth
-    for (int i = 0; i < depth; i++) {
+    for (int i = 0; i < depth; i++)
         printf("  ");
-    }
     // Print the current node's details
     printf("Node (Depth %d):\n", depth);
-	// for (int i = 0; i < depth; i++) {
-    //     printf("  ");
-    // }
-	// printf("  Address: %p\n", node);
-    for (int i = 0; i < depth; i++) {
+    for (int i = 0; i < depth; i++)
         printf("  ");
-    }
     printf("  Symbol: %s\n", get_symbol_type_string(node->sym));
 
-    if (node->token != NULL) {
-        for (int i = 0; i < depth; i++) {
+    if (node->token != NULL)
+	{
+        for (int i = 0; i < depth; i++)
             printf("  ");
-        }
         printf("  Token Type: %s\n", get_token_type_string(node->token->type));
-        for (int i = 0; i < depth; i++) {
+        for (int i = 0; i < depth; i++)
             printf("  ");
-        }
         printf("  Token String: %s\n", node->token->str);
     }
 
     // Print the child nodes
-    for (size_t i = 0; node->child != NULL && i < node->child_num; i++) {
+    for (size_t i = 0; node->child != NULL && i < node->child_num; i++)
         print_ast(node->child[i], depth + 1);
-    }
 }

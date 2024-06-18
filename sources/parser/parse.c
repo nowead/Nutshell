@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/05 14:32:38 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/18 10:56:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_ast	*parse(const char* input)
 	t_ast_err			err;
 
 	tokenlist = tokenize(input);
+	if (expand_parameter(tokenlist))
+		return (tokenlist_clear(tokenlist));
 	err = (t_ast_err){};
 	ast = program(tokenlist, &err);
 	if (err.errnum != 0)
@@ -214,7 +216,7 @@ int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 	{
 		if (add_ast_child(curr, new_ast_node(1, CMD_WORD, NULL, 1), err))
 			return (0);
-		if (cmd_word(tokenlist_node, curr->child[1], err))
+		if (cmd_word(tokenlist_node, curr->child[1]))
 		{
 			if (add_ast_child(curr, new_ast_node(2, CMD_SUFFIX, NULL, 2), err))
 				return (0);
@@ -236,7 +238,7 @@ int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_e
 	clear_ast(curr->child[0]);
 	if (add_ast_child(curr, new_ast_node(0, CMD_NAME, NULL, 0), err))
 		return (0);
-	if (cmd_name(tokenlist_node, curr->child[0], err))
+	if (cmd_name(tokenlist_node, curr->child[0]))
 	{
 		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL, 2), err))
 			return (0);
@@ -248,7 +250,7 @@ int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_e
 	return (0);
 }
 
-int	cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
+int	cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 {
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{
@@ -261,7 +263,7 @@ int	cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err
 	return (0);
 }
 
-int	cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
+int	cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 {
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{
@@ -418,14 +420,14 @@ int	io_file(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 		set_next_token(tokenlist_node);
 		if (add_ast_child(curr, new_ast_node(0, FILENAME, NULL, 0), err))
 			return (0);
-		if (filename(tokenlist_node, curr->child[0], err))
+		if (filename(tokenlist_node, curr->child[0]))
 			return (1);
 		err->token = curr_token(tokenlist_node);
 	}
 	return (0);
 }
 
-int	filename(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
+int	filename(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 {
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{
@@ -444,14 +446,14 @@ int	io_here(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 		set_next_token(tokenlist_node);
 		if (add_ast_child(curr, new_ast_node(0, HERE_END, NULL, 0), err))
 			return (0);
-		if (here_end(tokenlist_node, curr->child[0], err))
+		if (here_end(tokenlist_node, curr->child[0]))
 			return (1);
 		err->token = curr_token(tokenlist_node);
 	}
 	return (0);
 }
 
-int	here_end(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
+int	here_end(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 {
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{

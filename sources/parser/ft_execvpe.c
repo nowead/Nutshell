@@ -6,11 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/12 13:38:16 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/07 15:20:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 static char	*ft_execvpe_search(const char *file, char *dirs[]);
 static char	*path_join(const char *dir, const char *file);
@@ -28,7 +28,7 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 	}
 	if (ft_strchr(file, '/'))
 		return (execve(file, argv, envp));
-	dirs = ft_split(ft_getenv("PATH", envp), ':');
+	dirs = ft_split(getenv("PATH"), ':');
 	if (dirs == NULL)
 		return (-1);
 	path = ft_execvpe_search(file, dirs);
