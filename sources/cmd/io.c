@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/18 17:21:35 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/18 18:03:57 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,17 @@ int	e_io_file(t_ast_node *node)
 {
 	int	fd;
 
-	if (close(STDIN_FILENO) == -1)
-		err_ctrl("file close error ", 1, EXIT_FAILURE);
-	if (node->child[0]->token->type == LESS)
-		fd = open(node->child[1]->token->str, O_RDONLY);
-	else if (node->child[0]->token->type == GREAT)
-		fd = open(node->child[1]->token->str, O_WRONLY | O_CREAT | O_TRUNC);
-	else if (node->child[0]->token->type == DGREAT)
-		fd = open(node->child[1]->token->str, O_WRONLY | O_CREAT | O_APPEND);
+	if (node->token->type == LESS)
+		fd = open(node->child[0]->token->str, O_RDONLY);
+	else if (node->token->type == GREAT)
+		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_TRUNC);
+	else if (node->token->type == DGREAT)
+		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_APPEND);
 	if (fd == -1)
 		err_ctrl("file open error", 1, EXIT_FAILURE);
-
+	if (dup2(fd, STDIN_FILENO) == -1)
+		err_ctrl("dup2 error", 1, EXIT_FAILURE);
+	if (close(fd) == -1)
+		err_ctrl("file close error ", 1, EXIT_FAILURE);
 	return (0);
 }

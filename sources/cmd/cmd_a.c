@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/18 20:25:13 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/19 15:23:19 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,21 +175,36 @@ int	e_subshell(t_ast_node *node)
 	return (0);
 }
 
-int	first_cmd(t_ast_node *node)
+int	first_cmd(t_ast_node *node, int fd[3])
 {
-	ft_printf("this is first_cmd\n");
-	if (node->child)
+	pid_t	pid;
+
+	if (pipe(fd) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
 	{
-		if (node->child[0] && node->child[0]->sym == SIMPLE_COMMAND)
-			return (e_simple_cmd(node->child[0]));
-		else
- 			if (e_redirect_list(node->child[1]) != -1)
-				return (e_subshell(node->child[0]));
+		ft_printf("this is first_cmd\n");
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			err_ctrl("dup2 error ", 1, EXIT_FAILURE);
+		if (close(fd[0]) == -1 || close(fd[1]) == -1)
+			err_ctrl("close error ", 1, EXIT_FAILURE);
+		if (node->child)
+		{
+			if (node->child[0] && node->child[0]->sym == SIMPLE_COMMAND)
+				return (e_simple_cmd(node->child[0]));
+			else
+				if (e_redirect_list(node->child[1]) != -1)
+					return (e_subshell(node->child[0]));
+		}
 	}
-	return (-1);
+	return (0
+	);
 }
 
-int	middle_cmd(t_ast_node *node)
+int	middle_cmd(t_ast_node *node, int fd[3])
 {
 	ft_printf("this is middle_cmd\n");
 	if (node->child)
@@ -203,7 +218,7 @@ int	middle_cmd(t_ast_node *node)
 	return (0);
 }
 
-int	last_cmd(t_ast_node *node, int depth)
+int	last_cmd(t_ast_node *node, int depth, int fd[3])
 {
 	if (depth == 0) // 단일 명령어
 	{
@@ -235,20 +250,21 @@ int	last_cmd(t_ast_node *node, int depth)
 int	e_pipe_sequence(t_ast_node *node)
 {
 	t_ast_node	*curr;
+	int			fd[3];
 
 	curr = node;
 	if (curr->child[1]->child == NULL || curr->child[1]->child[0] == NULL)
-		return (last_cmd(curr->child[0], 0)); 
-	if (first_cmd(curr->child[0]) == -1)
+		return (last_cmd(curr->child[0], 0, fd)); 
+	if (first_cmd(curr->child[0], fd) == -1)
 		return (-1);
 	curr = curr->child[1];
 	while (curr->child[1]->child && curr->child[1]->child[0])
 	{
-		if (middle_cmd(curr->child[0]) == -1)
+		if (middle_cmd(curr->child[0], fd[3]) == -1)
 			return (-1);
 		curr = curr->child[1];
 	}
-	return (last_cmd(curr->child[0], 1));
+	return (last_cmd(curr->child[0], 1, fd[3]));
 }
 
 int e_and_or_(t_ast_node *node, int ret_pipe_sequence)
