@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 13:27:10 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 17:04:50 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	incomplete_cmd_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
-	sigint_flag = 1;
+	sigint_flag = 0;
 	printf("\n");
-	// rl_replace_line("\nNutshell $ ", 1);
-    // rl_on_new_line();
-    // rl_redisplay();
-	// printf("\033[s");
+	rl_replace_line("Nutshell $ ", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	printf("\033[s");
 }
 
 void	set_signal(int handler_type)
