@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 17:04:50 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 17:26:35 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	incomplete_cmd_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
-	sigint_flag = 0;
+	sigint_flag = 1;
 	printf("\n");
 	rl_replace_line("Nutshell $ ", 0);
 	rl_on_new_line();
