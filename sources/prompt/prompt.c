@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 15:07:31 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 15:32:12 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	prompt(void)
 		line = readline("Nutshell $ ");
         if (!line)
 			exit_prompt();
-		while (*line != '\0')
+		while (1)
 		{
 			set_signal(2);
 			incomplete_cmd = 0;
