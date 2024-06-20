@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_a.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/19 22:45:57 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 11:50:12 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int	exec_cmd(t_ast_node *curr)
 	else
 		if (e_redirect_list(curr->child[1]) != -1)
 			return (e_subshell(curr->child[0]));
+	return (-1);
 }
 
 int	first_cmd(t_ast_node *curr, int fd[3])

@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/19 15:22:41 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 15:07:31 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,44 +50,48 @@ int	prompt(void)
 		line = readline("Nutshell $ ");
         if (!line)
 			exit_prompt();
-		if (*line != '\0')
+		while (*line != '\0')
 		{
-			while (1)
-			{
-				set_signal(2);
-				incomplete_cmd = 0;
-				ast = parse(line, &incomplete_cmd);
-				if (incomplete_cmd)
-				{
-					printf("> \033[s\b\b");
-					new_line = readline("> ");
-					if (sigint_flag)
-					{
-						sigint_flag = 0;
-						break ;
-					}
-					if (!new_line)
-					{
-						printf("\033[u\033[1B\033[1A");
-						break ;
-					}
-					join = ft_strjoin(line, new_line);
-					free(line);
-					free(new_line);
-					if (join == NULL)
-						break;
-					line = join;
-				}
-				else
-					break;
-			}
+			set_signal(2);
+			incomplete_cmd = 0;
+			ast = parse(line, &incomplete_cmd);
 			if (incomplete_cmd)
-				continue ;
-			ctrl_cmd(ast);
-			if (ast != NULL)
-				ast_clear(ast);
-			add_history(line);
+			{
+				printf("> \033[s\b\b");
+				new_line = readline("> ");
+				if (sigint_flag)
+				{
+					printf("sigint is recieved\n");
+					sigint_flag = 0;
+					if (new_line)
+						free(new_line);
+					break ;
+				}
+				if (!new_line)
+				{
+					printf("\033[u\033[1B\033[1A");
+					break ;
+				}
+				join = ft_strjoin(line, new_line);
+				free(line);
+				free(new_line);
+				if (join == NULL)
+					break;
+				line = join;
+			}
+			else
+				break;
 		}
+		if (incomplete_cmd)
+		{
+			if (line != NULL)
+				free(line);
+			continue ;
+		}
+		ctrl_cmd(ast);
+		if (ast != NULL)
+			ast_clear(ast);
+		add_history(line);
 		free(line);
     }
 	restore_echoctl(&old_term);
