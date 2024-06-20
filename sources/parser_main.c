@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 20:27:30 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int main()
 	// tokenlist = tokenize("a b c");
 	// expand_parameter(tokenlist);
 	// print_tokenlist(tokenlist);
-	// tokenlist_clear(tokenlist);
+	// clear_tokenlist(tokenlist);
 	// return (0);
 }

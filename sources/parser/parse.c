@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 20:09:57 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_ast	*parse(const char* input, int *incomplete_cmd)
 	if (tokenlist == NULL)
 		return (NULL);
 	if (expand_parameter(tokenlist))
-		return (tokenlist_clear(tokenlist));
+		return (clear_tokenlist(tokenlist));
 	err = (t_ast_err){};
 	ast = program(tokenlist, &err);
 	if (err.errnum == INCOMPLETE_CMD)
@@ -36,7 +36,7 @@ t_ast	*parse(const char* input, int *incomplete_cmd)
 		ft_dprintf(2, "syntax error near unexpected token \'%s\'\n", \
 		get_token_type_string(err.token->type));
 	if (ast == NULL)
-		tokenlist_clear(tokenlist);
+		clear_tokenlist(tokenlist);
 	return (ast);
 }
 
@@ -91,7 +91,7 @@ t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 	if (!is_ast_err(err) && \
 	curr_tokentype(&tokenlist_node) != NEWLINE)
 		err->token = curr_token(&tokenlist_node);
-	clear_ast(root);
+	clear_ast_tree(root);
 	return (NULL);
 }
 
@@ -184,7 +184,7 @@ int	command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 		return (1);
 	else if (!is_ast_err(err))
 	{
-		clear_ast(curr->child[0]);
+		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, new_ast_node(0, SUBSHELL, NULL, 1), err))
 			return (0);
 		if (subshell(tokenlist_node, curr->child[0], err))
@@ -241,7 +241,7 @@ int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 			err->token = curr_token(tokenlist_node);
 			return (0);
 		}
-		clear_ast(curr->child[1]);
+		clear_ast_tree(curr->child[1]);
 		return (1);
 	}
 	else if (!is_ast_err(err))
@@ -251,7 +251,7 @@ int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 
 int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	if (add_ast_child(curr, new_ast_node(0, CMD_NAME, NULL, 0), err))
 		return (0);
 	if (cmd_name(tokenlist_node, curr->child[0]))
@@ -262,7 +262,7 @@ int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_e
 			return (1);
 		err->token = curr_token(tokenlist_node);
 	}
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	return (0);
 }
 
@@ -308,7 +308,7 @@ int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *e
 	is_assignment_word(curr_token(tokenlist_node)))
 	{
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
-		clear_ast(curr->child[0]);
+		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, \
 		new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0), err))
 			return (0);
@@ -338,7 +338,7 @@ int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 	is_assignment_word(curr_token(tokenlist_node)))
 	{
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
-		clear_ast(curr->child[0]);
+		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0), err))
 			return (0);
 		set_next_token(tokenlist_node);
@@ -350,7 +350,7 @@ int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 	}
 	if (is_ast_err(err))
 		return (0);
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	return (1);
 }
 
@@ -387,7 +387,7 @@ int	cmd_suffix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 			return (1);
 		err->token = curr_token(tokenlist_node);
 	}
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	if (is_ast_err(err))
 		return (0);
 	return (1);
@@ -403,7 +403,7 @@ int	redirect_list(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err
 			return (0);
 		return (redirect_list(tokenlist_node, curr->child[1], err));
 	}
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	if (is_ast_err(err))
 		return (0);
 	return (1);
@@ -417,12 +417,12 @@ int	io_redirect(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 		return (1);
 	if (is_ast_err(err))
 		return (0);
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	if (add_ast_child(curr, new_ast_node(0, IO_HERE, NULL, 1), err))
 		return (0);
 	if (io_here(tokenlist_node, curr->child[0], err))
 		return (1);
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	return (0);
 }
 

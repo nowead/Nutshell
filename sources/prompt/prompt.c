@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 18:01:55 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 21:18:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 #include "minishell.h"
 
 int	sigint_flag = 0;
-
-void	ast_clear(t_ast	*ast)
-{
-	// ft_printf("\n\n");
-	// print_ast(ast->root, 0);
-	// ft_printf("\n\n");
-	tokenlist_clear(ast->tokenlist);
-	clear_ast(ast->root);
-	free(ast);
-}
 
 void	exit_prompt(struct termios *old_term)
 {
@@ -53,7 +43,7 @@ int	prompt(void)
 
 	set_echoctl(&old_term);
 	incomplete_cmd = 0;
-	set_signal(1);
+	set_signal(SIGINT_HANDLER);
     while(1)
 	{
 		if (!incomplete_cmd)
@@ -70,7 +60,7 @@ int	prompt(void)
 		}
 		if (sigint_flag == 1)
 		{
-			set_signal(1);
+			set_signal(SIGINT_HANDLER);
 			incomplete_cmd = 0;
 			sigint_flag = 0;
 		}
@@ -90,14 +80,14 @@ int	prompt(void)
 		ast = parse(line, &incomplete_cmd);
 		if (incomplete_cmd)
 		{
-			set_signal(2);
+			set_signal(SIGINT_INCOMPLETE_CMD_HANDLER);
 			old_line = line;
 			continue;
 		}
 		else
-			set_signal(1);
+			set_signal(SIGINT_HANDLER);
 		ctrl_cmd(ast);
-		ast_clear(ast);
+		clear_ast(ast);
 		add_history(line);
 		free(line);
     }
@@ -160,7 +150,7 @@ int	prompt(void)
 // 		if (ast != NULL)
 // 			ctrl_cmd(ast);
 // 		if (ast != NULL)
-// 			ast_clear(ast);
+// 			clear_ast(ast);
 // 		add_history(line);
 // 		free(line);
 //     }

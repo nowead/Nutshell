@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_a.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 15:37:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 21:50:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,6 @@ int e_simple_cmd(t_ast_node *curr)
 	*option = (char *)ft_calloc(1, sizeof(char));
 	if (*option == NULL)
 		return (-1);
-	if (option == NULL)
-		return (-1);
 	if (curr->child[0]->sym == CMD_PREFIX && curr->child[1] == NULL)
 		ret = e_cmd_prefix(curr->child[0]);
 	else if(curr->child[0]->sym == CMD_NAME)
@@ -245,7 +243,7 @@ int	last_cmd(t_ast_node *curr, int fd[3])
 	pid = fork();
 	if (pid == -1)
 	{
-		close(fd[0]); // fd[1], fd[2] are already closed
+		close(fd[0]);
 		return (-1);
 	}
 	if (pid == 0)

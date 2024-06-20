@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 10:33:51 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 19:51:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	free_ast_node(t_ast_node *node)
 	node = NULL;
 }
 
-void	clear_ast(t_ast_node *node)
+void	clear_ast_tree(t_ast_node *node)
 {
 	size_t	i;
 
@@ -72,8 +72,18 @@ void	clear_ast(t_ast_node *node)
 	i = 0;
 	while (i < node->child_num)
 	{
-		clear_ast(node->child[i]);
+		clear_ast_tree(node->child[i]);
 		i++;
 	}
 	free_ast_node(node);
+}
+
+void	clear_ast(t_ast	*ast)
+{
+	// ft_printf("\n\n");
+	// print_ast(ast->root, 0);
+	// ft_printf("\n\n");
+	clear_tokenlist(ast->tokenlist);
+	clear_ast_tree(ast->root);
+	free(ast);
 }

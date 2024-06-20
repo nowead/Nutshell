@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ctrl_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:57:38 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 15:32:45 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 21:24:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ctrl_cmd(t_ast *ast)
 {
-	ft_printf("\nctrl_cmd\n");
+	ft_printf("ctrl_cmd\n");
 	// if (ast != NULL)
 	// 	print_ast(ast->root, 0);
 	// ft_printf("\n\n\n");

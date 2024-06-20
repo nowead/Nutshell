@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 17:26:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 21:22:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #define	USE_READLINE
 #include "minishell.h"
 
-void	handler(int signo)
+void	handler(int sig)
 {
-	if (signo != SIGINT)
+	if (sig != SIGINT)
 		return ;
 	printf("\n");
 	rl_on_new_line();
@@ -25,17 +25,17 @@ void	handler(int signo)
 	printf("\033[s");
 }
 
-void	c_handler(int signo)
+void	child_handler(int sig)
 {
-	if (signo != SIGINT)
+	if (sig != SIGINT)
 		return ;
 	printf("\n");
 	exit(128 + SIGINT);
 }
 
-void	incomplete_cmd_handler(int signo)
+void	incomplete_cmd_handler(int sig)
 {
-	if (signo != SIGINT)
+	if (sig != SIGINT)
 		return ;
 	sigint_flag = 1;
 	printf("\n");
@@ -47,11 +47,11 @@ void	incomplete_cmd_handler(int signo)
 
 void	set_signal(int handler_type)
 {
-	if (handler_type == 1)
+	if (handler_type == SIGINT_HANDLER)
 		signal(SIGINT, handler);
-	else if (handler_type == 0)
-		signal(SIGINT, c_handler);
-	else if(handler_type == 2)
+	else if (handler_type == SIGINT_CHILD_HANDLER)
+		signal(SIGINT, child_handler);
+	else if(handler_type == SIGINT_INCOMPLETE_CMD_HANDLER)
 		signal(SIGINT, incomplete_cmd_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

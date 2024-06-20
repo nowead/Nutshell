@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 20:28:05 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/20 19:51:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ const char			 *get_symbol_type_string(t_symbol sym);
 t_ast_node			*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num);
 int					add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err);
 void				free_ast_node(t_ast_node *node);
-void				clear_ast(t_ast_node *node);
+void				clear_ast_tree(t_ast_node *node);
+void				clear_ast(t_ast	*ast);
 
 //is_assignment_word
 int					is_valid_name(const char *str, size_t len);
