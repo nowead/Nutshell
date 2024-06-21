@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 21:22:43 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:43:47 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #define	USE_READLINE
 #include "minishell.h"
 
-void	handler(int sig)
+void	handler(int signo)
 {
-	if (sig != SIGINT)
+	if (signo != SIGINT)
 		return ;
 	printf("\n");
 	rl_on_new_line();
@@ -25,24 +25,24 @@ void	handler(int sig)
 	printf("\033[s");
 }
 
-void	child_handler(int sig)
+void	child_handler(int signo)
 {
-	if (sig != SIGINT)
+	if (signo != SIGINT)
 		return ;
 	printf("\n");
 	exit(128 + SIGINT);
 }
 
-void	incomplete_cmd_handler(int sig)
+void	incomplete_cmd_handler(int signo)
 {
-	if (sig != SIGINT)
+	if (signo != SIGINT)
 		return ;
 	sigint_flag = 1;
-	printf("\n");
-	rl_replace_line("Nutshell $ ", 0);
+	printf("\nNutshell $ ");
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
-	printf("\033[s");
+	printf("\033[2D \b\033[s");
 }
 
 void	set_signal(int handler_type)

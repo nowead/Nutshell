@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsetree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/20 19:51:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/21 13:32:06 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	clear_ast(t_ast	*ast)
 	// ft_printf("\n\n");
 	// print_ast(ast->root, 0);
 	// ft_printf("\n\n");
+	if (ast == NULL)
+		return ;
 	clear_tokenlist(ast->tokenlist);
 	clear_ast_tree(ast->root);
 	free(ast);
