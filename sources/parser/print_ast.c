@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 11:17:01 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/21 21:27:03 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ void print_ast(t_ast_node *node, int depth)
     for (int i = 0; i < depth; i++)
         printf("  ");
     printf("  Symbol: %s\n", get_symbol_type_string(node->sym));
+	for (int i = 0; i < depth; i++)
+        printf("  ");
+	printf("  Child_num: %zu\n", node->child_num);
 
     if (node->token != NULL)
 	{

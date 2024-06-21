@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_a.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 21:50:24 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/21 21:09:57 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,38 +35,31 @@ void	*ft_realloc(void *ptr, size_t new_size)
 	return (new_ptr);
 }
 
-int	e_assignment_word(t_ast_node *curr)
+void	e_assignment_word(t_ast_node *curr)
 {
-	return (0);
+	
 }
 
-int	e_io_redirect(t_ast_node *curr)
+void	e_io_redirect(t_ast_node *curr)
 {
 	if (curr->child[0]->sym == IO_FILE)
 		return (e_io_file(curr->child[0]));
 	else if (curr->child[0]->sym == IO_HERE)
 		return (e_io_here(curr->child[0]));
-	return (-1);
 }
 
-int	e_redirect_list(t_ast_node *curr)
+void	e_redirect_list(t_ast_node *curr)
 {
-	int	ret;
-
-	ret = -1;
-	if (curr == NULL)
-		return (0);
 	if (curr->child)
 	{
 		if (curr->child[0])
-			ret = e_io_redirect(curr->child[0]);
-		if (curr->child[1] && ret != -1)
-			return (e_redirect_list(curr->child[1]));
+			e_io_redirect(curr->child[0]);
+		if (curr->child[1])
+			e_redirect_list(curr->child[1]);
 	}
-	return (ret);
 }
 
-int	e_cmd_suffix(t_ast_node *curr, char **option)
+void	e_cmd_suffix(t_ast_node *curr, char **option)
 {
 	size_t	dst_size;
 
@@ -74,99 +67,130 @@ int	e_cmd_suffix(t_ast_node *curr, char **option)
 	{
 		if (curr->child[0] && curr->child[0]->sym == IO_REDIRECT)
 		{
-			if (e_io_redirect(curr->child[0]) == -1)
-				return (-1);
-			if (e_cmd_suffix(curr->child[1], option) == -1)
-				return (-1);
+			e_io_redirect(curr->child[0]);
+			e_cmd_suffix(curr->child[1], option);
 		}
 		else if (curr->child[0] && curr->child[0]->sym == TERMINAL)
 		{
 			dst_size = ft_strlen(*option) + ft_strlen(curr->child[0]->token->str) + 2;
 			*option = (char *)ft_realloc(*option, dst_size);
 			if (*option == NULL)
-				return (-1);
+				err_ctrl("malloc failed", 1, EXIT_FAILURE);
 			ft_strlcat(*option, " ", ft_strlen(*option) + 2);
 			ft_strlcat(*option, curr->child[0]->token->str, dst_size);
-			if (e_cmd_suffix(curr->child[1], option) == -1)
-				return (-1);
+			e_cmd_suffix(curr->child[1], option);
 		}
 	}
-	return (0);
 }
 
-int	e_cmd_name(t_ast_node *curr, char **option)
+// int	e_cmd_name(t_ast_node *curr, char **option)
+// {
+// 	char	**options;
+
+
+// 	printf("[cmd_name:%s] : [cmd_options:%s]\n", curr->token->str, *option);
+// 	options = ft_split(*option, ' ');
+// 	if (options == NULL)
+// 		return (-1);
+// 	return (0);
+// }
+
+void	make_option(char **option)
 {
 	char	**options;
 
-	printf("[cmd_name:%s] : [cmd_options:%s]\n", curr->token->str, *option);
 	options = ft_split(*option, ' ');
 	if (options == NULL)
-		return (-1);
-	return (0);
+		err_ctrl("malloc failed", 1, EXIT_FAILURE);
 }
 
-int	e_cmd_prefix_(t_ast_node *curr)
-{
-	int	ret;
+// int	e_cmd_prefix_(t_ast_node *curr)
+// {
+// 	int	ret;
 
-	ret  = -1;
-	if (curr == NULL)
-		return (0);
-	if (curr->child)
+// 	ret  = -1;
+// 	if (curr == NULL)
+// 		return (0);
+// 	if (curr->child)
+// 	{
+// 		if (curr->child[0] && curr->child[0]->sym == IO_REDIRECT)
+// 			e_io_redirect(curr->child[0]);
+// 		else if (curr->child[0] && curr->child[0]->sym == ASSIGNMENT_WORD)
+// 			e_assignment_word(curr->child[0]);
+// 		if (curr->child[1] && ret != -1)
+// 			return (e_cmd_prefix_(curr->child[1]));
+// 	}
+// 	return (0);
+// }
+
+void	e_cmd_prefix(t_ast_node *curr)
+{
+	while (curr->child && curr->child[1])
 	{
 		if (curr->child[0] && curr->child[0]->sym == IO_REDIRECT)
-			ret = e_io_redirect(curr->child[0]);
+			e_io_redirect(curr->child[0]);
 		else if (curr->child[0] && curr->child[0]->sym == ASSIGNMENT_WORD)
-			ret = e_assignment_word(curr->child[0]);
-		if (curr->child[1] && ret != -1)
+			e_assignment_word(curr->child[0]);
+		if (curr->child[1])
 			return (e_cmd_prefix_(curr->child[1]));
 	}
-	return (0);
-}
-
-int	e_cmd_prefix(t_ast_node *curr)
-{
-	int	ret;
-
-	ret = -1;
-	if (curr->child[0] && curr->child[0]->sym == IO_REDIRECT)
-		ret = e_io_redirect(curr->child[0]);
-	else if (curr->child[0] && curr->child[0]->sym == ASSIGNMENT_WORD)
-		ret = e_assignment_word(curr->child[0]);
-	if (curr->child[1] && ret != -1)
-		return (e_cmd_prefix_(curr->child[1]));
-	return (ret);
 }
 
 int e_simple_cmd(t_ast_node *curr)
 {
-	char	**option;
-	int		ret;
+	char	**argv;
+	char	*cmd_name;
 
-	ret = -1;
-	option = (char **)malloc(sizeof(char *));
-	if (option == NULL)
-		return (-1);
-	*option = (char *)ft_calloc(1, sizeof(char));
-	if (*option == NULL)
-		return (-1);
+	//argv - cmd_name - option1 - option2 - ...
 	if (curr->child[0]->sym == CMD_PREFIX && curr->child[1] == NULL)
-		ret = e_cmd_prefix(curr->child[0]);
+		e_cmd_prefix(curr->child[0]);
 	else if(curr->child[0]->sym == CMD_NAME)
 	{
-		if (e_cmd_suffix(curr->child[1], option) != -1)
-			ret = (e_cmd_name(curr->child[0], option));
+		e_cmd_suffix(curr->child[1], &argv);
+		// e_cmd_name(curr->child[0], &argv);
+		make_option(&argv);
+		cmd_name = curr->child[1]->token->str;
 	}
 	else
 	{
-		if (e_cmd_prefix(curr->child[0]) != -1)
-			if (e_cmd_suffix(curr->child[2], option) != -1)
-				ret = e_cmd_name(curr->child[1], option);
+		e_cmd_prefix(curr->child[0]);
+		e_cmd_suffix(curr->child[2], &argv);
+		// e_cmd_name(curr->child[1], &argv);
+		make_option(&argv);
+		cmd_name = curr->child[1]->token->str;
 	}
-	free(*option);
-	free(option);
-	return (ret);
+	return (-1);
 }
+
+// int e_simple_cmd(t_ast_node *curr)
+// {
+// 	char	**option;
+// 	int		ret;
+
+// 	ret = -1;
+// 	option = (char **)malloc(sizeof(char *));
+// 	if (option == NULL)
+// 		return (-1);
+// 	*option = (char *)ft_calloc(1, sizeof(char));
+// 	if (*option == NULL)
+// 		return (-1);
+// 	if (curr->child[0]->sym == CMD_PREFIX && curr->child[1] == NULL)
+// 		ret = e_cmd_prefix(curr->child[0]);
+// 	else if(curr->child[0]->sym == CMD_NAME)
+// 	{
+// 		if (e_cmd_suffix(curr->child[1], option) != -1)
+// 			ret = (e_cmd_name(curr->child[0], option));
+// 	}
+// 	else
+// 	{
+// 		if (e_cmd_prefix(curr->child[0]) != -1)
+// 			if (e_cmd_suffix(curr->child[2], option) != -1)
+// 				ret = e_cmd_name(curr->child[1], option);
+// 	}
+// 	free(*option);
+// 	free(option);
+// 	return (ret);
+// }
 
 int	e_subshell(t_ast_node *node)
 {

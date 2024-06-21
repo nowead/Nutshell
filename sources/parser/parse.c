@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/21 21:09:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 	if (tokenlist == NULL)
 		return (NULL);
 	tokenlist_node = tokenlist->head;
-	root = new_ast_node(0, AND_OR, NULL, 2);
+	root = new_ast_node(0, AND_OR, NULL);
 	if (root == NULL)
 		return (NULL);
 	if (and_or(&tokenlist_node, root, err) && \
@@ -97,11 +97,11 @@ t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 
 int	and_or(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL, 2), err))
+	if (add_ast_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL), err, 2))
 		return (0);
 	if (pipe_sequence(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, AND_OR_, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, AND_OR_, NULL), err, 2))
 			return (0);
 		if (and_or_(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -122,11 +122,11 @@ int	and_or_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 			err->errnum = INCOMPLETE_CMD;
 			return (0);
 		}
-		if (add_ast_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL), err, 2))
 			return (0);
 		if (pipe_sequence(tokenlist_node, curr->child[0], err))
 		{
-			if (add_ast_child(curr, new_ast_node(1, AND_OR_, NULL, 3), err))
+			if (add_ast_child(curr, new_ast_node(1, AND_OR_, NULL), err, 2))
 				return (0);
 			if (and_or_(tokenlist_node, curr->child[1], err))
 				return (1);
@@ -139,11 +139,11 @@ int	and_or_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 
 int	pipe_sequence(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL, 2), err))
+	if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL), err, 2))
 		return (0);
 	if (command(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, PIPE_SEQUENCE_, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, PIPE_SEQUENCE_, NULL), err, 2))
 			return (0);
 		if (pipe_sequence_(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -157,12 +157,12 @@ int	pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 	if (curr_tokentype(tokenlist_node) == PIPE)
 	{
 		set_next_token(tokenlist_node);
-		if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL), err, 2))
 			return (0);
 		if (command(tokenlist_node, curr->child[0], err))
 		{
 			if (add_ast_child(curr, \
-			new_ast_node(1, PIPE_SEQUENCE_, NULL, 2), err))
+			new_ast_node(1, PIPE_SEQUENCE_, NULL), err, 2))
 				return (0);
 			if (pipe_sequence_(tokenlist_node, curr->child[1], err))
 				return (1);
@@ -178,19 +178,19 @@ int	pipe_sequence_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 
 int	command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, SIMPLE_COMMAND, NULL, 3), err))
+	if (add_ast_child(curr, new_ast_node(0, SIMPLE_COMMAND, NULL), err, 2))
 		return (0);
 	if (simple_command(tokenlist_node, curr->child[0], err))
 		return (1);
 	else if (!is_ast_err(err))
 	{
 		clear_ast_tree(curr->child[0]);
-		if (add_ast_child(curr, new_ast_node(0, SUBSHELL, NULL, 1), err))
+		if (add_ast_child(curr, new_ast_node(0, SUBSHELL, NULL), err, 2))
 			return (0);
 		if (subshell(tokenlist_node, curr->child[0], err))
 		{
 			if (add_ast_child(curr, \
-			new_ast_node(1, REDIRECT_LIST, NULL, 2), err))
+			new_ast_node(1, REDIRECT_LIST, NULL), err, 2))
 				return (0);
 			if (redirect_list(tokenlist_node, curr->child[1], err))
 				return (1);
@@ -209,7 +209,7 @@ int	subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err
 			err->errnum = INCOMPLETE_CMD;
 			return (0);
 		}
-		if (add_ast_child(curr, new_ast_node(0, AND_OR, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(0, AND_OR, NULL), err, 1))
 			return (0);
 		if (and_or(tokenlist_node, curr->child[0], err))
 		{
@@ -226,15 +226,15 @@ int	subshell(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err
 
 int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, CMD_PREFIX, NULL, 2), err))
+	if (add_ast_child(curr, new_ast_node(0, CMD_PREFIX, NULL), err, 3))
 		return (0);
 	if (cmd_prefix(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_WORD, NULL, 1), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_WORD, NULL), err, 3))
 			return (0);
 		if (cmd_word(tokenlist_node, curr->child[1]))
 		{
-			if (add_ast_child(curr, new_ast_node(2, CMD_SUFFIX, NULL, 2), err))
+			if (add_ast_child(curr, new_ast_node(2, CMD_SUFFIX, NULL), err, 3))
 				return (0);
 			if (cmd_suffix(tokenlist_node, curr->child[2], err))
 				return (1);
@@ -252,11 +252,11 @@ int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
 	clear_ast_tree(curr->child[0]);
-	if (add_ast_child(curr, new_ast_node(0, CMD_NAME, NULL, 0), err))
+	if (add_ast_child(curr, new_ast_node(0, CMD_NAME, NULL), err, 3))
 		return (0);
 	if (cmd_name(tokenlist_node, curr->child[0]))
 	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL), err, 3))
 			return (0);
 		if (cmd_suffix(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -294,11 +294,11 @@ int	cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 
 int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL, 1), err))
+	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
 		return (0);
 	if (io_redirect(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
 			return (0);
 		if (cmd_prefix_(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -310,10 +310,10 @@ int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *e
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
 		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, \
-		new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0), err))
+		new_ast_node(0, TERMINAL, curr_token(tokenlist_node)), err, 2))
 			return (0);
 		set_next_token(tokenlist_node);
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
 			return (0);
 		if (cmd_prefix_(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -324,11 +324,11 @@ int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *e
 
 int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL, 1), err))
+	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
 		return (0);
 	if (io_redirect(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
 			return (0);
 		if (cmd_prefix_(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -339,10 +339,10 @@ int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 	{
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
 		clear_ast_tree(curr->child[0]);
-		if (add_ast_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0), err))
+		if (add_ast_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node)), err, 2))
 			return (0);
 		set_next_token(tokenlist_node);
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
 			return (0);
 		if (cmd_prefix_(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -359,10 +359,10 @@ int	cmd_suffix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *e
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{
 		if (add_ast_child(curr, \
-		new_ast_node(0, TERMINAL, curr_token(tokenlist_node), 0), err))
+		new_ast_node(0, TERMINAL, curr_token(tokenlist_node)), err, 2))
 			return (0);
 		set_next_token(tokenlist_node);
-		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL), err, 2))
 			return (0);
 		if (cmd_suffix(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -377,11 +377,11 @@ int	cmd_suffix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *e
 
 int	cmd_suffix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL, 1), err))
+	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
 		return (0);
 	if (io_redirect(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL), err, 2))
 			return (0);
 		if (cmd_suffix(tokenlist_node, curr->child[1], err))
 			return (1);
@@ -395,11 +395,11 @@ int	cmd_suffix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 
 int	redirect_list(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL, 1), err))
+	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
 		return (0);
 	if (io_redirect(tokenlist_node, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, REDIRECT_LIST, NULL, 2), err))
+		if (add_ast_child(curr, new_ast_node(1, REDIRECT_LIST, NULL), err, 2))
 			return (0);
 		return (redirect_list(tokenlist_node, curr->child[1], err));
 	}
@@ -411,14 +411,14 @@ int	redirect_list(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err
 
 int	io_redirect(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_FILE, NULL, 1), err))
+	if (add_ast_child(curr, new_ast_node(0, IO_FILE, NULL), err, 1))
 		return (0);
 	if (io_file(tokenlist_node, curr->child[0], err))
 		return (1);
 	if (is_ast_err(err))
 		return (0);
 	clear_ast_tree(curr->child[0]);
-	if (add_ast_child(curr, new_ast_node(0, IO_HERE, NULL, 1), err))
+	if (add_ast_child(curr, new_ast_node(0, IO_HERE, NULL), err, 1))
 		return (0);
 	if (io_here(tokenlist_node, curr->child[0], err))
 		return (1);
@@ -434,7 +434,7 @@ int	io_file(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 	{
 		curr->token = curr_token(tokenlist_node);
 		set_next_token(tokenlist_node);
-		if (add_ast_child(curr, new_ast_node(0, FILENAME, NULL, 0), err))
+		if (add_ast_child(curr, new_ast_node(0, FILENAME, NULL), err, 1))
 			return (0);
 		if (filename(tokenlist_node, curr->child[0]))
 			return (1);
@@ -460,7 +460,7 @@ int	io_here(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 	{
 		curr->token = curr_token(tokenlist_node);
 		set_next_token(tokenlist_node);
-		if (add_ast_child(curr, new_ast_node(0, HERE_END, NULL, 0), err))
+		if (add_ast_child(curr, new_ast_node(0, HERE_END, NULL), err, 1))
 			return (0);
 		if (here_end(tokenlist_node, curr->child[0]))
 			return (1);

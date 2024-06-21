@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/20 19:51:37 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ const char			 *get_token_type_string(t_tokentype type);
 const char			 *get_symbol_type_string(t_symbol sym);
 
 // parsetree.c
-t_ast_node			*new_ast_node(int sibling_index, t_symbol sym, t_token *token, size_t child_num);
-int					add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err);
+t_ast_node			*new_ast_node(int sibling_index, t_symbol sym, t_token *token);
+int					add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err, int max_child_num);
 void				free_ast_node(t_ast_node *node);
 void				clear_ast_tree(t_ast_node *node);
 void				clear_ast(t_ast	*ast);
