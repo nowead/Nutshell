@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/06/23 17:38:28 by seonseo          ###   ########.fr       */
+/*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
+/*   Updated: 2024/06/23 22:58:46 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # define PARSE_H
 
 # include "libft.h"
-
-#define INCOMPLETE_CMD 1001
 
 #define INCOMPLETE_CMD 1001
 
