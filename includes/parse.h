@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/23 17:02:19 by seonseo          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/06/23 17:38:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PARSE_H
 # define PARSE_H
@@ -107,7 +108,8 @@ const char			 *get_symbol_type_string(t_symbol sym);
 t_ast_node			*new_ast_node(int sibling_index, t_symbol sym, t_token *token);
 int					add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err, size_t max_child_num);
 void				free_ast_node(t_ast_node *node);
-void				clear_ast(t_ast_node *node);
+void				clear_ast_tree(t_ast_node *node);
+void				clear_ast(t_ast	*ast);
 
 //is_assignment_word
 int					is_valid_name(const char *str, size_t len);

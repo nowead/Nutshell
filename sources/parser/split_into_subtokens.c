@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:21:29 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/16 19:27:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ t_tokenlist	*split_into_subtokens(t_tokenlist_node *tokenlist_node)
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			if (tokenlist_add(subtokenlist, split_quoted_token(str, &i)))
-				return (tokenlist_clear(subtokenlist));
+				return (clear_tokenlist(subtokenlist));
 		}
 		else if (tokenlist_add(subtokenlist, split_unquoted_token(str, &i)))
-			return (tokenlist_clear(subtokenlist));
+			return (clear_tokenlist(subtokenlist));
 	}
 	return (subtokenlist);
 }

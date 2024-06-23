@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/17 20:05:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	free_tokenlist_node(t_tokenlist_node *tokenlist_node)
 }
 
 // Clears the token list, freeing all resources
-void	*tokenlist_clear(t_tokenlist *tokenlist)
+void	*clear_tokenlist(t_tokenlist *tokenlist)
 {
 	t_tokenlist_node	*curr;
 	t_tokenlist_node	*prev;

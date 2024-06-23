@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 21:38:43 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/23 17:38:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void				tokenlist_add_node(t_tokenlist *tokenlist, t_tokenlist_node *tokenlist_n
 int					tokenlist_add(t_tokenlist *tokenlist, t_token *token); // Adds a token to the list
 void				free_token(t_token *token); // Frees a token
 void				free_tokenlist_node(t_tokenlist_node *tokenlist_node); // Frees a node of the tokenlist
-void				*tokenlist_clear(t_tokenlist *tokenlist); // Clears the token list, freeing all resources
+void				*clear_tokenlist(t_tokenlist *tokenlist); // Clears the token list, freeing all resources
 void				pop_tokenlist_node(t_tokenlist *tokenlist, t_tokenlist_node *tokenlist_node);
 void				delete_tokenlist_node(t_tokenlist *tokenlist, t_tokenlist_node *tokenlist_node);
 

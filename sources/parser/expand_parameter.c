@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 10:35:37 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node,
 	if (subtokenlist == NULL)
 		return (NULL);
 	if (expand_parameters_in_subtokens(subtokenlist))
-		return (tokenlist_clear(subtokenlist));
+		return (clear_tokenlist(subtokenlist));
 	fields = split_subtokens_into_fields(subtokenlist);
-	tokenlist_clear(subtokenlist);
+	clear_tokenlist(subtokenlist);
 	if (fields == NULL)
 		return (NULL);
 	insert_fields_into_tokenlist(tokenlist, tokenlist_node, fields);

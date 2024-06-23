@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 21:40:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/23 17:37:03 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tokenlist	*tokenize(const char *input, int *incomplete_cmd)
 	// Process the tokens by examining each character in the input string.
 	if (process_tokens(input, tokenlist, incomplete_cmd) == -1)
 	{
-		tokenlist_clear(tokenlist);
+		clear_tokenlist(tokenlist);
 		return (NULL);
 	}
 	// Return the populated token list.

@@ -6,12 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/23 17:13:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/23 17:32:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token)
 t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token)
 {
 	t_ast_node	*node;
@@ -36,6 +37,7 @@ int	add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err, size_t ma
 	{
 		node->child = \
 		(t_ast_node **)ft_calloc(max_child_num, sizeof(t_ast_node *));
+		(t_ast_node **)ft_calloc(max_child_num, sizeof(t_ast_node *));
 		if (node->child == NULL)
 		{
 			err->errnum = ENOMEM;
@@ -45,6 +47,7 @@ int	add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err, size_t ma
 	node->child[child->sibling_index] = child;
 	(node->child_num)++;
 	child->parent = node;
+	node->child_num++;
 	return (0);
 }
 
@@ -65,7 +68,7 @@ void	free_ast_node(t_ast_node *node)
 	node = NULL;
 }
 
-void	clear_ast(t_ast_node *node)
+void	clear_ast_tree(t_ast_node *node)
 {
 	size_t	i;
 
@@ -76,9 +79,17 @@ void	clear_ast(t_ast_node *node)
 	}
 	i = 0;
 	while (node->child_num)
+	while (node->child_num)
 	{
-		clear_ast(node->child[i]);
+		clear_ast_tree(node->child[i]);
 		i++;
 	}
 	free_ast_node(node);
+}
+
+void	clear_ast(t_ast	*ast)
+{
+	clear_tokenlist(ast->tokenlist);
+	clear_ast_tree(ast->root);
+	free(ast);
 }

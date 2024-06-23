@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/18 21:26:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/21 17:33:30 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handler(int signo)
 	printf("\033[s");
 }
 
-void	c_handler(int signo)
+void	child_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
@@ -37,16 +37,21 @@ void	incomplete_cmd_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
-	printf("\nNutshell $ \033[s");
+	sigint_flag = 1;
+	printf("\nNutshell $ ");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	printf("\033[2D \b\033[s");
 }
 
 void	set_signal(int handler_type)
 {
-	if (handler_type == 1)
+	if (handler_type == SIGINT_HANDLER)
 		signal(SIGINT, handler);
-	else if (handler_type == 0)
-		signal(SIGINT, c_handler);
-	else if(handler_type == 2)
+	else if (handler_type == SIGINT_CHILD_HANDLER)
+		signal(SIGINT, child_handler);
+	else if(handler_type == SIGINT_INCOMPLETE_CMD_HANDLER)
 		signal(SIGINT, incomplete_cmd_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
