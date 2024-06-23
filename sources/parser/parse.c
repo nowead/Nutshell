@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/21 21:09:22 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/23 11:44:31 by mindaewon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_ast	*parse(const char* input, int *incomplete_cmd)
 	t_ast_err			err;
 
 	tokenlist = tokenize(input, incomplete_cmd);
+	if (tokenlist == NULL)
+		return (NULL);
 	if (tokenlist == NULL)
 		return (NULL);
 	if (expand_parameter(tokenlist))
