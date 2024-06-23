@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/23 17:36:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/23 17:43:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ int	command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 		return (1);
 	else if (!is_ast_err(err))
 	{
-		clear_ast(curr->child[0]);
+		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, new_ast_node(0, SUBSHELL, NULL), err, 2))
 			return (0);
 		if (subshell(tokenlist_node, curr->child[0], err))
@@ -253,7 +253,7 @@ int	simple_command(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_er
 
 int	simple_command_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err)
 {
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	if (add_ast_child(curr, new_ast_node(0, CMD_NAME, NULL), err, 3))
 		return (0);
 	if (cmd_name(tokenlist_node, curr->child[0]))
@@ -340,7 +340,7 @@ int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 	is_assignment_word(curr_token(tokenlist_node)))
 	{
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
-		clear_ast(curr->child[0]);
+		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, new_ast_node(0, TERMINAL, curr_token(tokenlist_node)), err, 2))
 			return (0);
 		set_next_token(tokenlist_node);
@@ -419,7 +419,7 @@ int	io_redirect(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 		return (1);
 	if (is_ast_err(err))
 		return (0);
-	clear_ast(curr->child[0]);
+	clear_ast_tree(curr->child[0]);
 	if (add_ast_child(curr, new_ast_node(0, IO_HERE, NULL), err, 1))
 		return (0);
 	if (io_here(tokenlist_node, curr->child[0], err))

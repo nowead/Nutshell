@@ -16,8 +16,8 @@ HEADER			=	$(addprefix $(HEADER_DIR), $(HEADER_FILES))
 SRC				=	sources/parser_main.c \
 					$(addprefix $(LEXER_DIR), $(LEXER_SRC)) \
 					$(addprefix $(PARSER_DIR), $(PARSER_SRC))\
-					$(addprefix $(PROMPT_DIR), $(PROMPT_SRC))\
-					$(addprefix $(CMD_DIR), $(CMD_SRC))
+					# $(addprefix $(PROMPT_DIR), $(PROMPT_SRC))\
+					# $(addprefix $(CMD_DIR), $(CMD_SRC))
 OBJ				=	$(patsubst %.c, %.o, $(SRC))
 
 LIBFT_DIR = libft/
@@ -66,8 +66,8 @@ sources/lexer/%.o: sources/lexer/%.c $(HEADER) $(LIBFT_HEADER)
 sources/parser/%.o: sources/parser/%.c $(HEADER) $(LIBFT_HEADER)
 	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
 
-sources/prompt/%.o: sources/prompt/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
+# sources/prompt/%.o: sources/prompt/%.c $(HEADER) $(LIBFT_HEADER)
+# 	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)
