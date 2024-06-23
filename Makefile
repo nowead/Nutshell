@@ -32,7 +32,7 @@ LEXER_SRC		=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_op
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c		split_into_subtokens.c\
 					expand_subtokenlist.c	expand_parameter.c
 PROMPT_SRC		=	prompt.c	signal.c
-CMD_SRC			=	ctrl_cmd.c	io.c	error.c cmd_a.c
+CMD_SRC			=	execute_ast.c			io.c		err_ctrl.c
 LIBFT_SRC = $(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\
 ft_atol.c		ft_isascii.c    ft_isspace.c	ft_memcmp.c     ft_putendl_fd.c ft_strdup.c     ft_strlen.c\
@@ -66,8 +66,8 @@ sources/lexer/%.o: sources/lexer/%.c $(HEADER) $(LIBFT_HEADER)
 sources/parser/%.o: sources/parser/%.c $(HEADER) $(LIBFT_HEADER)
 	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
 
-# sources/prompt/%.o: sources/prompt/%.c $(HEADER) $(LIBFT_HEADER)
-# 	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
+sources/prompt/%.o: sources/prompt/%.c $(HEADER) $(LIBFT_HEADER)
+	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/14 14:25:51 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/23 22:50:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,4 @@
 
 void	err_ctrl(char *err, int sys, int exit_status);
 
-//io.c
-int     e_io_file(t_ast_node *node);
-int 	e_io_here(t_ast_node *node);
-
-//cmd_a.c
-int     e_and_or(t_ast_node *node);
-int     e_and_or_(t_ast_node *node, int ret_pipe_sequnece);
-int     e_pipe_sequence(t_ast_node *node);
-int     e_pipe_sequence_(t_ast_node *nodem, int depth);
-int     e_cmd(t_ast_node *node, int depth);
-int     e_simple_cmd(t_ast_node *node);
-
-void	ctrl_cmd(t_ast *ast);
 #endif

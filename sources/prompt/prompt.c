@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/21 17:20:09 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/23 22:23:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,12 @@ int	prompt(void)
 		}
 		else
 			set_signal(SIGINT_HANDLER);
-		ctrl_cmd(ast);
+		if (ast == NULL)
+		{
+			perror("parse");
+			continue;
+		}
+		exec_ast(ast);
 		clear_ast(ast);
 		add_history(line);
 		free(line);

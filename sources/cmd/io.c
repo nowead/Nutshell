@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 21:17:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/23 20:43:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	heredoc_parents(int fd[3])
 		err_ctrl("close error ", 1, EXIT_FAILURE);
 }
 
-int	e_io_here(t_ast_node *node)
+int	exec_io_here(t_ast_node *node)
 {
 	pid_t	pid;
 	int		fd[3];
@@ -114,7 +114,7 @@ int	e_io_here(t_ast_node *node)
 	return (0);
 }
 
-int	e_io_file(t_ast_node *node)
+int	exec_io_file(t_ast_node *node)
 {
 	int	fd;
 
