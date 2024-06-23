@@ -3,31 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 20:27:30 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/23 17:29:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	leak_check(void)
-// {
-// 	system("leaks parser");
-// }
+	void	leak_check(void)
+	{
+		system("leaks minishell");
+	}
 
 int main()
 {
-	// atexit(leak_check);
-	prompt();
-    return (0);
-	// t_tokenlist	*tokenlist;
+	t_ast		*ast;
+	int			incomplete_cmd;
 
-	// atexit(leak_check);
-	// tokenlist = tokenize("a b c");
-	// expand_parameter(tokenlist);
-	// print_tokenlist(tokenlist);
-	// tokenlist_clear(tokenlist);
-	// return (0);
+	atexit(leak_check);
+	ast = parse("a", &incomplete_cmd);
+	print_ast(ast->root, 0);
+	clear_ast(ast);
+	return (0);
 }
