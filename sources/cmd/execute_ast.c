@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 17:19:20 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 22:57:22 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int	last_command(t_ast_node *curr, int fd[3])
 	{
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
-		if (close(fd[0] == -1))
+		if (close(fd[0]) == -1)
 			err_ctrl("close", 1, EXIT_FAILURE);
 		exec_command(curr);
 	}
@@ -210,23 +210,21 @@ void	exec_subshell(t_ast_node *curr)
 
 int	option_num(t_ast_node *curr)
 {
-	int	n;
+	int	option_cnt;
 
+	printf("sym:%s\n\n", get_symbol_type_string(curr->sym));
 	if (curr->child_num == 2)
 		curr = curr->child[1];
 	else
 		curr = curr->child[2];
-	n = 0;
+	option_cnt = 0;
 	while (curr->child)
 	{
-		if (curr->token->type == WORD)
-			n++;
-		if (curr->child_num == 1)
-			curr = curr->child[0];
-		else
-			curr = curr->child[1];
+		if (curr->child[0]->sym == TERMINAL)
+			option_cnt++;
+		curr = curr->child[1];
 	}
-	return (n);
+	return (option_cnt);
 }
 
 void	exec_simple_command(t_ast_node *curr)
@@ -272,6 +270,7 @@ void	add_argument(char **argv, char *option)
 {
 	int	i;
 
+	i = 0;
 	while (argv[i])
 		i++;
 	argv[i] = option;
