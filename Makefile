@@ -16,8 +16,8 @@ HEADER			=	$(addprefix $(HEADER_DIR), $(HEADER_FILES))
 SRC				=	sources/parser_main.c \
 					$(addprefix $(LEXER_DIR), $(LEXER_SRC)) \
 					$(addprefix $(PARSER_DIR), $(PARSER_SRC))\
-					$(addprefix $(PROMPT_DIR), $(PROMPT_SRC))\
-					$(addprefix $(CMD_DIR), $(CMD_SRC))
+					# $(addprefix $(PROMPT_DIR), $(PROMPT_SRC))\
+					# $(addprefix $(CMD_DIR), $(CMD_SRC))
 OBJ				=	$(patsubst %.c, %.o, $(SRC))
 
 LIBFT_DIR = libft/

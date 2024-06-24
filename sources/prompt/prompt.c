@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 14:32:25 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 15:27:39 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,26 @@ int	prompt(void)
 			printf("Nutshell $ \033[s\b\b\b\b\b\b\b\b\b\b\b");
 		else
 			printf("> \033[s\b\b");
+		else
+			printf("> \033[s\b\b");
 		line = readline(get_prompt(incomplete_cmd));
 		if (sigint_flag == 1)
 		{
 			set_signal(SIGINT_HANDLER);
 			incomplete_cmd = 0;
 			sigint_flag = 0;
+		}
+		if (!line)
+		{
+			if (!incomplete_cmd)
+				exit_prompt(&old_term);
+			else
+			{
+				incomplete_cmd = 0;
+				ft_dprintf(2, "\033[u\033[1B\033[1A");
+				ft_dprintf(2, "nutshell: syntax error: unexpected end of file\n");
+				continue;
+			}
 		}
 		if (!line)
 		{
