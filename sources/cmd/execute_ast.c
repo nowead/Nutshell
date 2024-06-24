@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 15:47:51 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 17:19:20 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exec_pipe_sequence(t_ast_node *curr)
 int	single_command(t_ast_node *curr)
 {
 	pid_t	pid;
-	// pid_t	c_pid;
+	pid_t	c_pid;
 	int		status;
 
 	pid = fork();
@@ -65,10 +65,10 @@ int	single_command(t_ast_node *curr)
 		return (-1);
 	if (pid == 0)
 		exec_command(curr);
-	// c_pid = wait(&status);
-	// ft_printf("%d\n", c_pid);
-	if (wait(&status) != -1)
-		return (-1);
+	c_pid = wait(&status);
+	ft_printf("%d\n", WEXITSTATUS(status));
+	// if (wait(NULL) != -1)
+	// 	return (-1);
 	return (0);
 }
 
@@ -244,13 +244,15 @@ void	exec_simple_command(t_ast_node *curr)
 		argv[0] = curr->child[0]->token->str;
 		exec_cmd_suffix(curr->child[1], argv);
 	}
-	if(curr->child_num == 3)
+	else if(curr->child_num == 3)
 	{
 		argv[0] = curr->child[1]->token->str;
 		exec_cmd_suffix(curr->child[2], argv);
 	}
 	if (curr->child_num != 1)
 		execvp(argv[0], argv);
+	perror(argv[0]);
+	exit(EXIT_FAILURE);
 }
 
 void	exec_cmd_prefix(t_ast_node *curr)
