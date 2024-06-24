@@ -36,9 +36,9 @@ command          : simple_command
 subshell         : '(' and_or ')'
                  ;
 
-simple_command   : cmd_prefix cmd_word cmd_suffix
-                 | cmd_prefix
+simple_command   : cmd_prefix
                  | cmd_name cmd_suffix
+                 : cmd_prefix cmd_word cmd_suffix
                  ;
 
 cmd_name         : WORD          /* Apply rule 7a */

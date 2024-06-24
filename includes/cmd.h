@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/14 14:25:51 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 14:20:28 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,32 @@
 # include <readline/history.h>
 # endif
 
-void	err_ctrl(char *err, int sys, int exit_status);
 
 //io.c
-int     e_io_file(t_ast_node *node);
-int 	e_io_here(t_ast_node *node);
+int     exec_io_here(t_ast_node *node);
+int     exec_io_file(t_ast_node *node);
 
-//cmd_a.c
-int     e_and_or(t_ast_node *node);
-int     e_and_or_(t_ast_node *node, int ret_pipe_sequnece);
-int     e_pipe_sequence(t_ast_node *node);
-int     e_pipe_sequence_(t_ast_node *nodem, int depth);
-int     e_cmd(t_ast_node *node, int depth);
-int     e_simple_cmd(t_ast_node *node);
+//exec_cmd.c
+void	err_ctrl(char *err, int sys, int exit_status);
+void    exec_ast(t_ast *ast);
+int     exec_and_or(t_ast_node *root);
+int     exec_and_or_(t_ast_node *curr, int prev_result);
+int     exec_pipe_sequence(t_ast_node *curr);
+int     single_command(t_ast_node *curr);
+int     multiple_command(t_ast_node *curr);
+int     is_there_pipe(t_ast_node *curr);
+int     first_command(t_ast_node *curr, int fd[3]);
+int     middle_command(t_ast_node *curr, int fd[3]);
+int     last_command(t_ast_node *curr, int fd[3]);
+void    exec_command(t_ast_node *curr);
+void    exec_redirect_list(t_ast_node *curr);
+void    exec_subshell(t_ast_node *curr);
+int     option_num(t_ast_node *curr);
+void    exec_simple_command(t_ast_node *curr);
+void    exec_cmd_prefix(t_ast_node *curr);
+void    add_argument(char **argv, char *option);
+void    exec_cmd_suffix(t_ast_node *curr, char **argv);
+void    exec_io_redirect(t_ast_node *curr);
+void    exec_assignment_word(t_ast_node *curr);
 
-void	ctrl_cmd(t_ast *ast);
 #endif

@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/21 17:20:09 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 14:32:25 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ int	prompt(void)
 		}
 		else
 			set_signal(SIGINT_HANDLER);
-		ctrl_cmd(ast);
+		if (ast == NULL)
+			continue;
+		exec_ast(ast);
 		clear_ast(ast);
 		add_history(line);
 		free(line);
