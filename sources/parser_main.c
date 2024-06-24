@@ -6,16 +6,12 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/24 15:28:06 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 15:46:49 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	leak_check(void)
-{
-	system("leaks minishell");
-}
 void	leak_check(void)
 {
 	system("leaks minishell");

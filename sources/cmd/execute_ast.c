@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 15:26:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 15:47:51 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	exec_pipe_sequence(t_ast_node *curr)
 int	single_command(t_ast_node *curr)
 {
 	pid_t	pid;
+	// pid_t	c_pid;
 	int		status;
 
 	pid = fork();
@@ -64,7 +65,9 @@ int	single_command(t_ast_node *curr)
 		return (-1);
 	if (pid == 0)
 		exec_command(curr);
-	if (wait(NULL) != -1)
+	// c_pid = wait(&status);
+	// ft_printf("%d\n", c_pid);
+	if (wait(&status) != -1)
 		return (-1);
 	return (0);
 }

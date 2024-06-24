@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 15:27:39 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/24 15:46:21 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int	prompt(void)
 	{
 		if (!incomplete_cmd)
 			printf("Nutshell $ \033[s\b\b\b\b\b\b\b\b\b\b\b");
-		else
-			printf("> \033[s\b\b");
 		else
 			printf("> \033[s\b\b");
 		line = readline(get_prompt(incomplete_cmd));
