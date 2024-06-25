@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/23 20:43:24 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/25 14:33:19 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	exec_io_here(t_ast_node *node)
 	if (pid == 0)
 	{
 		set_signal(SIGINT_CHILD_HANDLER);
+		printf("in io_here\n");
 		if (dup2(fd[1], fd[2]) == -1)
 			err_ctrl("dup2 error ", 1, EXIT_FAILURE);
 		io_readline(fd, node->child[0]->token->str);

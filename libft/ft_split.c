@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:34:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/04/30 22:22:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/25 15:40:34 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	**ft_split(char const *s, char const c)
 	size_t	wordcount;
 	char	**strs_p;
 
+	if (s == NULL)
+		return (NULL);
 	wordcount = ft_wordcount((char *)s, c);
 	strs = (char **)ft_calloc(wordcount + 1, sizeof(char *));
 	if (strs == NULL)

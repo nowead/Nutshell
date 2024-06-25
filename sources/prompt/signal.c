@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/21 17:33:30 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/25 16:26:25 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	child_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
-	printf("\n");
+	ft_printf("child_handler\n");
 	exit(128 + SIGINT);
 }
 

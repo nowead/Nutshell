@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 22:57:22 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/25 16:29:56 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,14 @@ int	single_command(t_ast_node *curr)
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
+	{
+		//signal(SIGINT, child_handler);
 		exec_command(curr);
+	}
+	signal(SIGINT, SIG_IGN);
 	c_pid = wait(&status);
-	ft_printf("%d\n", WEXITSTATUS(status));
+	set_signal(SIGINT_HANDLER);
+	// ft_printf("%d\n", WEXITSTATUS(status));
 	// if (wait(NULL) != -1)
 	// 	return (-1);
 	return (0);
@@ -173,6 +178,7 @@ int	last_command(t_ast_node *curr, int fd[3])
 	}
 	if (pid == 0)
 	{
+		set_signal(SIGINT_CHILD_HANDLER);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1)
@@ -205,14 +211,19 @@ void	exec_redirect_list(t_ast_node *curr)
 
 void	exec_subshell(t_ast_node *curr)
 {
-	exec_and_or(curr);
+	if (exec_and_or(curr) == -1)
+	{
+		perror("subshell");
+		exit(EXIT_FAILURE);
+	}
+	else
+		exit(EXIT_SUCCESS);
 }
 
 int	option_num(t_ast_node *curr)
 {
 	int	option_cnt;
 
-	printf("sym:%s\n\n", get_symbol_type_string(curr->sym));
 	if (curr->child_num == 2)
 		curr = curr->child[1];
 	else
@@ -255,14 +266,13 @@ void	exec_simple_command(t_ast_node *curr)
 
 void	exec_cmd_prefix(t_ast_node *curr)
 {
-	while (curr->child && curr->child[1])
+	while (curr->child)
 	{
-		if (curr->child[0] && curr->child[0]->sym == IO_REDIRECT)
+		if (curr->child[0]->sym == IO_REDIRECT)
 			exec_io_redirect(curr->child[0]);
-		else if (curr->child[0] && curr->child[0]->sym == ASSIGNMENT_WORD)
+		else if (curr->child[0]->sym == ASSIGNMENT_WORD)
 			exec_assignment_word(curr->child[0]);
-		if (curr->child[1])
-			exec_cmd_prefix(curr->child[1]);
+		curr = curr->child[1];
 	}
 }
 
