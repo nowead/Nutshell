@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 15:46:21 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/25 17:24:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ const char *get_prompt(int incomplete_cmd)
 		return ("Nutshell $ ");
 }
 
-int	prompt(void)
+int	prompt(char *envp[])
 {
 	struct termios	old_term;
 	char			*line;

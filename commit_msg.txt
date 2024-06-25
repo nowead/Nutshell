@@ -1,0 +1,2 @@
+- refactor the function from recursive to loop
+exec_cmd_suffix, exec_redirect_list
