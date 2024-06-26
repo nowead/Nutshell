@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/23 22:58:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:23:47 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,10 @@ t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);
 
 // expand_subtokenlist.c
 int					expand_parameters_in_subtokens(t_tokenlist *subtokenlist);
+
+// ft_execvpe.c
+int					ft_execvpe(const char *file, char *const argv[], char *envp[]);
+// ft_getenv.c
+const char			*ft_getenv(const char *key, char *envp[]);
 
 #endif

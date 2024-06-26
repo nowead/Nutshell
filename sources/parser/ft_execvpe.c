@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/07 15:20:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:20:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 	}
 	if (ft_strchr(file, '/'))
 		return (execve(file, argv, envp));
-	dirs = ft_split(getenv("PATH"), ':');
+	dirs = ft_split(ft_getenv("PATH", envp), ':');
 	if (dirs == NULL)
 		return (-1);
 	path = ft_execvpe_search(file, dirs);

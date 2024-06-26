@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 21:18:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 15:41:02 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define SIGINT_CHILD_HANDLER 1
 # define SIGINT_INCOMPLETE_CMD_HANDLER 2
 
-int prompt(void);
+int prompt(char *envp[]);
 
 //signal.c
 void    handler(int signo);
