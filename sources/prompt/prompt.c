@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 21:07:49 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 21:16:05 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	prompt(void)
 		line = readline(get_prompt(incomplete_cmd));
 		if (sigint_flag == 1)
 		{
+			if (old_line)
+				free(old_line);
 			set_signal(SIGINT_HANDLER);
 			incomplete_cmd = 0;
 			sigint_flag = 0;

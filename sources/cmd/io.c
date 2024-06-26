@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 20:50:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 22:19:50 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,21 @@ int	exec_io_file(t_ast_node *node)
 	if (node->token->type == LESS)
 		fd = open(node->child[0]->token->str, O_RDONLY);
 	else if (node->token->type == GREAT)
-		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (node->token->type == DGREAT)
-		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_APPEND);
+		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		err_ctrl("file open error", 1, EXIT_FAILURE);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		err_ctrl("dup2 error", 1, EXIT_FAILURE);
+	if (node->token->type == LESS)
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			err_ctrl("dup2 error", 1, EXIT_FAILURE);
+	}
+	else
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			err_ctrl("dup2 error", 1, EXIT_FAILURE);
+	}
 	if (close(fd) == -1)
 		err_ctrl("file close error ", 1, EXIT_FAILURE);
 	return (0);
