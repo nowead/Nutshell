@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 20:31:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:07:49 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	prompt(void)
 			free(old_line);
 			free(line);
 			line = new_line;
+			incomplete_cmd = 0;
 		}
 		ast = parse(line, &incomplete_cmd);
 		if (incomplete_cmd)
