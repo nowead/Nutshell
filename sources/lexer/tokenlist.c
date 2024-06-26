@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:00:58 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ t_tokenlist	*new_tokenlist(void)
 {
 	t_tokenlist	*tokenlist;
 
-	tokenlist = (t_tokenlist *)malloc(sizeof(t_tokenlist)); // Allocate memory for a new token list
-	if (tokenlist == NULL)
-		return (NULL); // Return NULL if memory allocation fails
-	*tokenlist = (t_tokenlist){}; // Initialize the token list to empty
+	tokenlist = (t_tokenlist *)ft_calloc(1, sizeof(t_tokenlist)); // Allocate memory for a new token list
 	return (tokenlist);
 }
 
