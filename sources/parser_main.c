@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/25 19:38:38 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/24 15:46:49 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void	leak_check(void)
 	system("leaks minishell");
 }
 
-int main(int argc, char *argv[], char *envp[])
+int main()
 {
-	(void)argc;
-	(void)argv;
-	prompt(envp);
+	prompt();
 	// t_ast	*ast;
 	// int		incomplete_cmd;
 
