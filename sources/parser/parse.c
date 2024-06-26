@@ -6,13 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/23 22:54:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 16:08:08 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ast	*parse(const char* input, int *incomplete_cmd)
+t_ast	*parse(const char* input, int *incomplete_cmd, char *envp[])
 {
 	t_tokenlist			*tokenlist;
 	t_ast				*ast;
@@ -23,7 +23,7 @@ t_ast	*parse(const char* input, int *incomplete_cmd)
 		return (NULL);
 	if (tokenlist == NULL)
 		return (NULL);
-	if (expand_parameter(tokenlist))
+	if (expand_parameter(tokenlist, envp))
 		return (clear_tokenlist(tokenlist));
 	err = (t_ast_err){};
 	ast = program(tokenlist, &err);

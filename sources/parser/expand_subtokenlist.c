@@ -6,20 +6,20 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 22:36:11 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/18 10:28:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:02:35 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node);
-static int	expand_parameters_in_string(char **str);
-static int	expand_single_parameter(char **str, size_t *i);
+static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node, char *envp[]);
+static int	expand_parameters_in_string(char **str, char *envp[]);
+static int	expand_single_parameter(char **str, size_t *i, char *envp[]);
 static void	search_env_end(char *str, size_t *i);
-static char	*construct_expanded_str(char *str, size_t start, size_t *i);
-static char	*get_env_value(char *str, size_t start, size_t i);
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, char *envp[]);
+static char	*get_env_value(char *str, size_t start, size_t i, char *envp[]);
 
-int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist)
+int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist, char *envp[])
 {
 	t_tokenlist_node	*curr;
 
@@ -27,25 +27,25 @@ int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist)
 	while (curr)
 	{
 		if (curr->token->quote != SINGLE_QUOTE && \
-		expand_parameters_in_subtoken(curr))
+		expand_parameters_in_subtoken(curr, envp))
 			return (-1);
 		curr = curr->next;
 	}
 	return (0);
 }
 
-static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node)
+static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node, char *envp[])
 {
 	char		*str;
 
 	str = subtokenlist_node->token->str;
-	if (expand_parameters_in_string(&str) == -1)
+	if (expand_parameters_in_string(&str, envp) == -1)
 		return (-1);
 	subtokenlist_node->token->str = str;
 	return (0);
 }
 
-static int	expand_parameters_in_string(char **str)
+static int	expand_parameters_in_string(char **str, char *envp[])
 {
 	size_t		i;
 
@@ -54,7 +54,7 @@ static int	expand_parameters_in_string(char **str)
 	{
 		if ((*str)[i] == '$')
 		{
-			if (expand_single_parameter(str, &i) == -1)
+			if (expand_single_parameter(str, &i, envp) == -1)
 				return (-1);
 		}
 		else
@@ -63,7 +63,7 @@ static int	expand_parameters_in_string(char **str)
 	return (0);
 }
 
-static int	expand_single_parameter(char **str, size_t *i)
+static int	expand_single_parameter(char **str, size_t *i, char *envp[])
 {
 	size_t	start;
 	char	*exp_str;
@@ -72,7 +72,7 @@ static int	expand_single_parameter(char **str, size_t *i)
 	search_env_end(*str, i);
 	if (ft_isalnum((*str)[start + 1]))
 	{
-		exp_str = construct_expanded_str(*str, start, i);
+		exp_str = construct_expanded_str(*str, start, i, envp);
 		if (exp_str == NULL)
 			return (-1);
 		free(*str);
@@ -93,7 +93,7 @@ static void	search_env_end(char *str, size_t *i)
 		(*i)++;
 }
 
-static char	*construct_expanded_str(char *str, size_t start, size_t *i)
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, char *envp[])
 {
 	char	*env_value;
 	char	*exp_str;
@@ -101,7 +101,7 @@ static char	*construct_expanded_str(char *str, size_t start, size_t *i)
 	size_t	env_key_len;
 
 	env_key_len = *i - start;
-	env_value = get_env_value(str, start, *i);
+	env_value = get_env_value(str, start, *i, envp);
 	if (env_value == NULL)
 		return (NULL);
 	exp_len = ft_strlen(str) + ft_strlen(env_value) - env_key_len;
@@ -114,7 +114,7 @@ static char	*construct_expanded_str(char *str, size_t start, size_t *i)
 	return (exp_str);
 }
 
-static char	*get_env_value(char *str, size_t start, size_t i)
+static char	*get_env_value(char *str, size_t start, size_t i, char *envp[])
 {
 	char	*key;
 	char	*value;
@@ -122,7 +122,7 @@ static char	*get_env_value(char *str, size_t start, size_t i)
 	key = ft_substr(str, start + 1, i - start - 1);
 	if (key == NULL)
 		return (NULL);
-	value = getenv(key);
+	value = ft_getenv(key, envp);
 	free(key);
 	if (value == NULL)
 		return ("");

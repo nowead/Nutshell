@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 20:50:31 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:20:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define ECHOCTL_ON 1
 # define ECHOCTL_OFF 0
 
-int prompt(void);
+int prompt(char *envp[]);
 
 //signal.c
 void    handler(int signo);

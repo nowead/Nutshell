@@ -6,13 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 19:13:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	expand_parameter(t_tokenlist *tokenlist)
+int	expand_parameter(t_tokenlist *tokenlist, char *envp[])
 {
 	t_tokenlist_node	*curr;
 
@@ -21,7 +21,7 @@ int	expand_parameter(t_tokenlist *tokenlist)
 	{
 		if (curr->token->type == WORD)
 		{
-			curr = expand_parameters_in_a_token(curr, tokenlist);
+			curr = expand_parameters_in_a_token(curr, tokenlist, envp);
 			if (curr == NULL)
 				return (-1);
 		}
@@ -30,7 +30,7 @@ int	expand_parameter(t_tokenlist *tokenlist)
 	return (0);
 }
 
-t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist)
+t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[])
 {
 	t_tokenlist			*subtokenlist;
 	t_tokenlist			*fields;
@@ -39,7 +39,7 @@ t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node,
 	subtokenlist = split_into_subtokens(tokenlist_node);
 	if (subtokenlist == NULL)
 		return (NULL);
-	if (expand_parameters_in_subtokens(subtokenlist))
+	if (expand_parameters_in_subtokens(subtokenlist, envp))
 		return (clear_tokenlist(subtokenlist));
 	fields = split_subtokens_into_fields(subtokenlist);
 	clear_tokenlist(subtokenlist);

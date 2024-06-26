@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 21:16:05 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 22:24:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ const char *get_prompt(int incomplete_cmd)
 		return ("Nutshell $ ");
 }
 
-int	prompt(void)
+int	prompt(char *envp[])
 {
 	struct termios	old_term;
 	char			*line;
@@ -85,7 +85,7 @@ int	prompt(void)
 			line = new_line;
 			incomplete_cmd = 0;
 		}
-		ast = parse(line, &incomplete_cmd);
+		ast = parse(line, &incomplete_cmd, envp);
 		if (incomplete_cmd)
 		{
 			set_signal(SIGINT_INCOMPLETE_CMD_HANDLER);
@@ -96,7 +96,7 @@ int	prompt(void)
 			set_signal(SIGINT_HANDLER);
 		if (ast == NULL)
 			continue;
-		exec_ast(ast);
+		exec_ast(ast, &envp);
 		clear_ast(ast);
 		add_history(line);
 		free(line);

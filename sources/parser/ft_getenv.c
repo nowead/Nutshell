@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_main.c                                      :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 21:27:24 by seonseo          ###   ########.fr       */
+/*   Created: 2024/06/26 16:15:39 by seonseo           #+#    #+#             */
+/*   Updated: 2024/06/26 17:06:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	leak_check(void)
+char	*ft_getenv(const char *key, char *envp[])
 {
-	system("leaks minishell");
-}
+	size_t	i;
+	size_t	len;
 
-int main(int argc, char *argv[], char *envp[])
-{
-	(void)argc;
-	(void)argv;
-	prompt(envp);
-	// t_ast	*ast;
-	// int		incomplete_cmd;
-
-	// atexit(leak_check);
-	// ast = parse("$a", &incomplete_cmd, envp);
-	// if (ast != NULL && incomplete_cmd == 0)
-	// {
-	// 	print_ast(ast->root, 0);
-	// 	clear_ast(ast);
-	// }
-	// else
-	// 	printf("error!\n");
-	return (0);
+	if (key == NULL)
+		return (NULL);
+	len = ft_strlen(key);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], key, len) == 0 && envp[i][len] == '=')
+			return (&envp[i][len + 1]);
+		i++;
+	}
+	return (NULL);
 }
