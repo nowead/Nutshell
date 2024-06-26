@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/25 14:33:19 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 20:50:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	io_readline(int fd[3], const char *str)
 	line = "none";
 	while (line != 0)
 	{
-		// ft_printf("heredoc> ");
-		// line = get_next_line(STDIN_FILENO);
 		printf("heredoc> \033[s\b\b\b\b\b\b\b\b\b");
 		line = readline("heredoc> ");
 		if (!line)
@@ -91,8 +89,9 @@ void	heredoc_parents(int fd[3])
 
 int	exec_io_here(t_ast_node *node)
 {
-	pid_t	pid;
-	int		fd[3];
+	pid_t			pid;
+	int				fd[3];
+	struct termios	old_term;
 
 	pipe(fd);
 	fd[2] = valid_fd();
@@ -101,8 +100,8 @@ int	exec_io_here(t_ast_node *node)
 		return (-1);
 	if (pid == 0)
 	{
-		set_signal(SIGINT_CHILD_HANDLER);
-		printf("in io_here\n");
+		set_echoctl(&old_term, ECHOCTL_OFF);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[1], fd[2]) == -1)
 			err_ctrl("dup2 error ", 1, EXIT_FAILURE);
 		io_readline(fd, node->child[0]->token->str);

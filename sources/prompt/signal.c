@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 15:23:07 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 20:50:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ void	handler(int signo)
 	printf("\033[s");
 }
 
-void	child_handler(int signo)
-{
-	if (signo != SIGINT)
-		return ;
-	exit(128 + SIGINT);
-}
-
 void	incomplete_cmd_handler(int signo)
 {
 	if (signo != SIGINT)
@@ -48,8 +41,6 @@ void	set_signal(int handler_type)
 {
 	if (handler_type == SIGINT_HANDLER)
 		signal(SIGINT, handler);
-	else if (handler_type == SIGINT_CHILD_HANDLER)
-		signal(SIGINT, child_handler);
 	else if(handler_type == SIGINT_INCOMPLETE_CMD_HANDLER)
 		signal(SIGINT, incomplete_cmd_handler);
 	signal(SIGQUIT, SIG_IGN);

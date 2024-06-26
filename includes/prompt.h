@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 17:22:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:20:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # endif
 
 # define SIGINT_HANDLER 0
-# define SIGINT_CHILD_HANDLER 1
 # define SIGINT_INCOMPLETE_CMD_HANDLER 2
 # define ECHOCTL_ON 1
 # define ECHOCTL_OFF 0

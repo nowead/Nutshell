@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 19:02:38 by seonseo          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/06/26 21:21:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #define USE_SIGNAL
 #include "minishell.h"
@@ -55,14 +56,6 @@ int	exec_pipe_sequence(t_ast_node *curr, char ***envp)
 	return (0);
 }
 
-void	child_dhandler(int signo)
-{
-	if (signo != SIGINT)
-		return ;
-	ft_printf("child_handler\n");
-	exit(128 + SIGINT);
-}
-
 int	single_command(t_ast_node *curr, char ***envp)
 {
 	pid_t			pid;
@@ -75,19 +68,14 @@ int	single_command(t_ast_node *curr, char ***envp)
 	if (pid == 0)
 	{
 		set_echoctl(&old_term, ECHOCTL_ON);
-		signal(SIGINT, child_dhandler);
+		signal(SIGINT, SIG_DFL);
 		exec_command(curr, envp);
 	}
 	signal(SIGINT, SIG_IGN);
 	if (wait(&status) == -1)
 		return (-1);
 	if (WIFSIGNALED(status))
-	{
-		// printf("Child killed by signal %d\n", WTERMSIG(status));
-		// printf("Child exit status %d\n", 128 + WTERMSIG(status));
 		printf("\n");
-	}
-	// ft_printf("%d\n", WEXITSTATUS(status));
 	set_echoctl(&old_term, ECHOCTL_OFF);
 	set_signal(SIGINT_HANDLER);
 	return (0);
@@ -95,9 +83,12 @@ int	single_command(t_ast_node *curr, char ***envp)
 
 int	multiple_command(t_ast_node *curr, char ***envp)
 {
-	int		fd[3];
-	size_t	cmd_cnt;
+	int				fd[3];
+	size_t			cmd_cnt;
+	int				status;
+	struct termios	old_term;
 
+	signal(SIGINT, SIG_IGN);
 	if (first_command(curr->child[0], fd, envp) == -1)
 		return (-1);
 	cmd_cnt = 1;
@@ -114,10 +105,14 @@ int	multiple_command(t_ast_node *curr, char ***envp)
 	cmd_cnt++;
 	while (cmd_cnt)
 	{
-		if (wait(NULL) == -1)
+		if (wait(&status) == -1)
 			return (-1);
 		cmd_cnt--;
 	}
+	if (WIFSIGNALED(status))
+		printf("\n");
+	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_signal(SIGINT_HANDLER);
 	return (0);
 }
 
@@ -131,7 +126,8 @@ int	is_there_pipe(t_ast_node *curr)
 
 int	first_command(t_ast_node *curr, int fd[3], char ***envp)
 {
-	pid_t	pid;
+	pid_t			pid;
+	struct termios	old_term;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -140,6 +136,8 @@ int	first_command(t_ast_node *curr, int fd[3], char ***envp)
 		return (-1);
 	if (pid == 0)
 	{
+		set_echoctl(&old_term, ECHOCTL_ON);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1)
@@ -151,7 +149,8 @@ int	first_command(t_ast_node *curr, int fd[3], char ***envp)
 
 int	middle_command(t_ast_node *curr, int fd[3], char ***envp)
 {
-	pid_t	pid;
+	pid_t			pid;
+	struct termios	old_term;
 
 	if (close(fd[1]) == -1)
 		return (-1);
@@ -167,6 +166,7 @@ int	middle_command(t_ast_node *curr, int fd[3], char ***envp)
 	}
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[2], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -182,7 +182,8 @@ int	middle_command(t_ast_node *curr, int fd[3], char ***envp)
 
 int	last_command(t_ast_node *curr, int fd[3], char ***envp)
 {
-	pid_t	pid;
+	pid_t			pid;
+	struct termios	old_term;
 
 	if (close(fd[1]) == -1)
 		return (-1);
@@ -194,7 +195,7 @@ int	last_command(t_ast_node *curr, int fd[3], char ***envp)
 	}
 	if (pid == 0)
 	{
-		set_signal(SIGINT_CHILD_HANDLER);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1)

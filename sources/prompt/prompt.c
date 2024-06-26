@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 17:25:34 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:17:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,6 @@ int	prompt(char *envp[])
 				continue;
 			}
 		}
-		if (!line)
-		{
-			if (!incomplete_cmd)
-				exit_prompt(&old_term);
-			else
-			{
-				incomplete_cmd = 0;
-				ft_dprintf(2, "\033[u\033[1B\033[1A");
-				ft_dprintf(2, "nutshell: syntax error: unexpected end of file\n");
-				continue;
-			}
-		}
 		if (incomplete_cmd)
 		{
 			new_line = ft_strjoin(old_line, line);
@@ -93,6 +81,7 @@ int	prompt(char *envp[])
 			free(old_line);
 			free(line);
 			line = new_line;
+			incomplete_cmd = 0;
 		}
 		ast = parse(line, &incomplete_cmd, envp);
 		if (incomplete_cmd)
