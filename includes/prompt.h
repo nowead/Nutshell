@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/20 21:18:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 14:23:17 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@
 # define SIGINT_HANDLER 0
 # define SIGINT_CHILD_HANDLER 1
 # define SIGINT_INCOMPLETE_CMD_HANDLER 2
+# define ECHOCTL_ON 1
+# define ECHOCTL_OFF 0
 
 int prompt(void);
 
 //signal.c
 void    handler(int signo);
 void	set_signal(int handler_type);
-void	set_echoctl(struct termios *old_term);
+void	set_echoctl(struct termios *old_term, int echoctl_flag);
 void	restore_echoctl(struct termios *old_term);
 #endif

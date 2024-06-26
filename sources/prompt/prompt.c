@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/24 15:46:21 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 14:23:49 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	prompt(void)
 	t_ast			*ast;
 	int				incomplete_cmd;
 
-	set_echoctl(&old_term);
+	set_echoctl(&old_term, ECHOCTL_OFF);
 	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
     while(1)

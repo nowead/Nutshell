@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/06/25 16:26:25 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 15:23:07 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	child_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
-	ft_printf("child_handler\n");
 	exit(128 + SIGINT);
 }
 
@@ -56,13 +55,16 @@ void	set_signal(int handler_type)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	set_echoctl(struct termios *old_term)
+void	set_echoctl(struct termios *old_term, int echoctl_flag)
 {
 	struct termios	new_term;
 
 	tcgetattr(STDIN_FILENO, old_term);
     tcgetattr(STDIN_FILENO, &new_term);
-    new_term.c_lflag &= ~(ECHOCTL);
+	if (echoctl_flag == ECHOCTL_OFF)
+    	new_term.c_lflag &= ~(ECHOCTL);
+	else
+		new_term.c_lflag |= (ECHOCTL);
     //new_term->c_lflag &= ~(ICANON | ECHOCTL); //?CANONICAL mode on/off
     tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
 }

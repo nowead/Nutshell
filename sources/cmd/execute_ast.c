@@ -6,10 +6,11 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/25 16:29:56 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 16:24:33 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define USE_SIGNAL
 #include "minishell.h"
 
 void	exec_ast(t_ast *ast)
@@ -54,26 +55,41 @@ int	exec_pipe_sequence(t_ast_node *curr)
 	return (0);
 }
 
+void	child_dhandler(int signo)
+{
+	if (signo != SIGINT)
+		return ;
+	ft_printf("child_handler\n");
+	exit(128 + SIGINT);
+}
+
 int	single_command(t_ast_node *curr)
 {
-	pid_t	pid;
-	pid_t	c_pid;
-	int		status;
+	pid_t			pid;
+	int				status;
+	struct termios	old_term;
 
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
 	{
-		//signal(SIGINT, child_handler);
+		set_echoctl(&old_term, ECHOCTL_ON);
+		signal(SIGINT, child_dhandler);
 		exec_command(curr);
 	}
 	signal(SIGINT, SIG_IGN);
-	c_pid = wait(&status);
-	set_signal(SIGINT_HANDLER);
+	if (wait(&status) == -1)
+		return (-1);
+	if (WIFSIGNALED(status))
+	{
+		// printf("Child killed by signal %d\n", WTERMSIG(status));
+		// printf("Child exit status %d\n", 128 + WTERMSIG(status));
+		printf("\n");
+	}
 	// ft_printf("%d\n", WEXITSTATUS(status));
-	// if (wait(NULL) != -1)
-	// 	return (-1);
+	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_signal(SIGINT_HANDLER);
 	return (0);
 }
 
