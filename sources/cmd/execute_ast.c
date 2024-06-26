@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 16:24:33 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 19:59:02 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,7 @@ int	single_command(t_ast_node *curr)
 	if (wait(&status) == -1)
 		return (-1);
 	if (WIFSIGNALED(status))
-	{
-		// printf("Child killed by signal %d\n", WTERMSIG(status));
-		// printf("Child exit status %d\n", 128 + WTERMSIG(status));
 		printf("\n");
-	}
-	// ft_printf("%d\n", WEXITSTATUS(status));
 	set_echoctl(&old_term, ECHOCTL_OFF);
 	set_signal(SIGINT_HANDLER);
 	return (0);
@@ -95,8 +90,10 @@ int	single_command(t_ast_node *curr)
 
 int	multiple_command(t_ast_node *curr)
 {
-	int		fd[3];
-	size_t	cmd_cnt;
+	int				fd[3];
+	size_t			cmd_cnt;
+	int				status;
+	struct termios	old_term;
 
 	if (first_command(curr->child[0], fd) == -1)
 		return (-1);
@@ -114,10 +111,14 @@ int	multiple_command(t_ast_node *curr)
 	cmd_cnt++;
 	while (cmd_cnt)
 	{
-		if (wait(NULL) == -1)
+		if (wait(&status) == -1)
 			return (-1);
 		cmd_cnt--;
 	}
+	if (WIFSIGNALED(status))
+		printf("\n");
+	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_signal(SIGINT_HANDLER);
 	return (0);
 }
 
@@ -131,7 +132,8 @@ int	is_there_pipe(t_ast_node *curr)
 
 int	first_command(t_ast_node *curr, int fd[3])
 {
-	pid_t	pid;
+	pid_t			pid;
+	struct termios	old_term;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -140,18 +142,23 @@ int	first_command(t_ast_node *curr, int fd[3])
 		return (-1);
 	if (pid == 0)
 	{
+		set_echoctl(&old_term, ECHOCTL_ON);
+		set_signal(SIGINT_CHILD_HANDLER);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1)
 			err_ctrl("close", 1, EXIT_FAILURE);
 		exec_command(curr);
 	}
+	set_echoctl(&old_term, ECHOCTL_OFF);
+	signal(SIGINT, SIG_IGN);
 	return (0);
 }
 
 int	middle_command(t_ast_node *curr, int fd[3])
 {
-	pid_t	pid;
+	pid_t			pid;
+	struct termios	old_term;
 
 	if (close(fd[1]) == -1)
 		return (-1);
@@ -167,6 +174,8 @@ int	middle_command(t_ast_node *curr, int fd[3])
 	}
 	if (pid == 0)
 	{
+		set_echoctl(&old_term, ECHOCTL_ON);
+		set_signal(SIGINT_CHILD_HANDLER);
 		if (dup2(fd[2], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -177,12 +186,14 @@ int	middle_command(t_ast_node *curr, int fd[3])
 	}
 	if (close(fd[2]) == -1)
 		return (-1);
+	set_echoctl(&old_term, ECHOCTL_OFF);
 	return (0);
 }
 
 int	last_command(t_ast_node *curr, int fd[3])
 {
-	pid_t	pid;
+	pid_t			pid;
+	struct termios	old_term;
 
 	if (close(fd[1]) == -1)
 		return (-1);
@@ -194,6 +205,7 @@ int	last_command(t_ast_node *curr, int fd[3])
 	}
 	if (pid == 0)
 	{
+		set_echoctl(&old_term, ECHOCTL_ON);
 		set_signal(SIGINT_CHILD_HANDLER);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
