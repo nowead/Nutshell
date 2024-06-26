@@ -30,7 +30,7 @@ CMD_DIR = sources/cmd/
 HEADER_FILES	=	minishell.h tokenize.h	parse.h prompt.h cmd.h
 LEXER_SRC		=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c		split_into_subtokens.c\
-					expand_subtokenlist.c	expand_parameter.c
+					expand_subtokenlist.c	expand_parameter.c		ft_execvpe.c	ft_getenv.c
 PROMPT_SRC		=	prompt.c	signal.c
 CMD_SRC			=	execute_ast.c			io.c		err_ctrl.c
 LIBFT_SRC = $(addprefix $(LIBFT_DIR), \

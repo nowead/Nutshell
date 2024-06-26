@@ -6,15 +6,15 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:15:39 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 16:15:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:06:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-const char	*ft_getenv(const char *key, char *envp[])
+char	*ft_getenv(const char *key, char *envp[])
 {
-	int		i;
+	size_t	i;
 	size_t	len;
 
 	if (key == NULL)

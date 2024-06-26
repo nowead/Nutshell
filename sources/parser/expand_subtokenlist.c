@@ -6,18 +6,18 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 22:36:11 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 16:14:50 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:02:35 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node);
-static int	expand_parameters_in_string(char **str);
-static int	expand_single_parameter(char **str, size_t *i);
+static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node, char *envp[]);
+static int	expand_parameters_in_string(char **str, char *envp[]);
+static int	expand_single_parameter(char **str, size_t *i, char *envp[]);
 static void	search_env_end(char *str, size_t *i);
-static char	*construct_expanded_str(char *str, size_t start, size_t *i);
-static char	*get_env_value(char *str, size_t start, size_t i);
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, char *envp[]);
+static char	*get_env_value(char *str, size_t start, size_t i, char *envp[]);
 
 int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist, char *envp[])
 {

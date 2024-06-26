@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 16:23:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:10:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_ast_err
 }	t_ast_err;
 
 // parse.c
-t_ast				*parse(const char *input, int *incomplete_command);
+t_ast				*parse(const char *input, int *incomplete_command, char *envp[]);
 
 void				set_next_token(t_tokenlist_node **tokenlist_node);
 t_tokentype			curr_tokentype(t_tokenlist_node **tokenlist_node);
@@ -116,8 +116,8 @@ int					is_valid_name(const char *str, size_t len);
 t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);
 
 // expand_parameter.c
-int					expand_parameter(t_tokenlist *tokenlist);
-t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist);
+int					expand_parameter(t_tokenlist *tokenlist, char *envp[]);
+t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[]);
 t_tokenlist			*split_subtokens_into_fields(t_tokenlist *subtokenlist);
 int					handle_no_quote_token(t_tokenlist_node **curr_subtok, t_tokenlist *fields);
 int					handle_first_field(char *str, size_t *i, t_tokenlist *fields);
@@ -132,11 +132,11 @@ void				insert_fields_into_tokenlist(t_tokenlist *tokenlist, t_tokenlist_node *t
 t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);
 
 // expand_subtokenlist.c
-int					expand_parameters_in_subtokens(t_tokenlist *subtokenlist);
+int					expand_parameters_in_subtokens(t_tokenlist *subtokenlist, char *envp[]);
 
 // ft_execvpe.c
 int					ft_execvpe(const char *file, char *const argv[], char *envp[]);
 // ft_getenv.c
-const char			*ft_getenv(const char *key, char *envp[]);
+char				*ft_getenv(const char *key, char *envp[]);
 
 #endif

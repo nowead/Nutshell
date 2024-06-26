@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 16:07:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:11:08 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	prompt(char *envp[])
 			set_signal(SIGINT_HANDLER);
 		if (ast == NULL)
 			continue;
-		exec_ast(ast, envp);
+		exec_ast(ast, &envp);
 		clear_ast(ast);
 		add_history(line);
 		free(line);

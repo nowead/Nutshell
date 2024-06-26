@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 16:18:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:05:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void    add_argument(char **argv, char *option);
 void    exec_cmd_suffix(t_ast_node *curr, char **argv);
 void    exec_io_redirect(t_ast_node *curr);
 void    exec_assignment_word(t_ast_node *curr, char ***envp);
+size_t	ft_strslen(char **strs);
 
 #endif
