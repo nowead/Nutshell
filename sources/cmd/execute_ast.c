@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 20:25:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:51:12 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,6 @@ int	exec_pipe_sequence(t_ast_node *curr)
 		if (multiple_command(curr) == -1)
 			return (-1);	
 	return (0);
-}
-
-void	child_dhandler(int signo)
-{
-	if (signo != SIGINT)
-		return ;
-	ft_printf("child_handler\n");
-	exit(128 + SIGINT);
 }
 
 int	single_command(t_ast_node *curr)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 20:01:23 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 20:50:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	exec_io_here(t_ast_node *node)
 	if (pid == 0)
 	{
 		set_echoctl(&old_term, ECHOCTL_OFF);
-		set_signal(SIGINT_CHILD_HANDLER);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[1], fd[2]) == -1)
 			err_ctrl("dup2 error ", 1, EXIT_FAILURE);
 		io_readline(fd, node->child[0]->token->str);
