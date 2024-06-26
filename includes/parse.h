@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 17:10:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 22:22:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);
 
 // expand_parameter.c
 int					expand_parameter(t_tokenlist *tokenlist, char *envp[]);
-t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[]);
+int					expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[]);
 t_tokenlist			*split_subtokens_into_fields(t_tokenlist *subtokenlist);
 int					handle_no_quote_token(t_tokenlist_node **curr_subtok, t_tokenlist *fields);
 int					handle_first_field(char *str, size_t *i, t_tokenlist *fields);
