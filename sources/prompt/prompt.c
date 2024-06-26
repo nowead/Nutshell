@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 17:11:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:23:07 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ const char *get_prompt(int incomplete_cmd)
 		return ("Nutshell $ ");
 }
 
-int	prompt(char *envp[])
+int	prompt(void)
 {
 	struct termios	old_term;
 	char			*line;
@@ -41,7 +41,7 @@ int	prompt(char *envp[])
 	t_ast			*ast;
 	int				incomplete_cmd;
 
-	set_echoctl(&old_term);
+	set_echoctl(&old_term, ECHOCTL_OFF);
 	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
     while(1)

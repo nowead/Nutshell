@@ -6,10 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 17:05:19 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 17:22:50 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define USE_SIGNAL
 #include "minishell.h"
 
 void	exec_ast(t_ast *ast, char ***envp)
@@ -17,7 +18,7 @@ void	exec_ast(t_ast *ast, char ***envp)
 	// print_ast(ast->root, 0);
 	// print_tokenlist(ast->tokenlist);
 	// ft_printf("\n\n");
-	exec_and_or(ast->root, envp);
+	exec_and_or(ast->root);
 }
 
 int	exec_and_or(t_ast_node *root, char ***envp)
@@ -26,8 +27,8 @@ int	exec_and_or(t_ast_node *root, char ***envp)
 
 	if (root->child == NULL)
 		return (-1);
-	initial_result = exec_pipe_sequence(root->child[0], envp);
-	return (exec_and_or_(root->child[1], initial_result, envp));
+	initial_result = exec_pipe_sequence(root->child[0]);
+	return (exec_and_or_(root->child[1], initial_result));
 }
 
 int exec_and_or_(t_ast_node *curr, int prev_result, char ***envp)
@@ -38,8 +39,8 @@ int exec_and_or_(t_ast_node *curr, int prev_result, char ***envp)
 	((curr->token->type == AND_IF && prev_result == 0) ||\
 	 (curr->token->type == OR_IF && prev_result == -1)))
 	{
-		curr_result = exec_pipe_sequence(curr->child[0], envp);
-		return (exec_and_or_(curr->child[1], curr_result, envp));
+		curr_result = exec_pipe_sequence(curr->child[0]);
+		return (exec_and_or_(curr->child[1], curr_result));
 	}
 	return (prev_result);
 }
@@ -47,33 +48,49 @@ int exec_and_or_(t_ast_node *curr, int prev_result, char ***envp)
 int	exec_pipe_sequence(t_ast_node *curr, char ***envp)
 {
 	if (!is_there_pipe(curr))
-		return (single_command(curr->child[0], envp));
+		return (single_command(curr->child[0]));
 	else
-		if (multiple_command(curr, envp) == -1)
+		if (multiple_command(curr) == -1)
 			return (-1);	
 	return (0);
 }
 
 int	single_command(t_ast_node *curr, char ***envp)
+void	child_dhandler(int signo)
 {
-	pid_t	pid;
-	pid_t	c_pid;
-	int		status;
+	if (signo != SIGINT)
+		return ;
+	ft_printf("child_handler\n");
+	exit(128 + SIGINT);
+}
+
+int	single_command(t_ast_node *curr)
+{
+	pid_t			pid;
+	int				status;
+	struct termios	old_term;
 
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
 	{
-		//signal(SIGINT, child_handler);
-		exec_command(curr, envp);
+		set_echoctl(&old_term, ECHOCTL_ON);
+		signal(SIGINT, child_dhandler);
+		exec_command(curr);
 	}
 	signal(SIGINT, SIG_IGN);
-	c_pid = wait(&status);
-	set_signal(SIGINT_HANDLER);
+	if (wait(&status) == -1)
+		return (-1);
+	if (WIFSIGNALED(status))
+	{
+		// printf("Child killed by signal %d\n", WTERMSIG(status));
+		// printf("Child exit status %d\n", 128 + WTERMSIG(status));
+		printf("\n");
+	}
 	// ft_printf("%d\n", WEXITSTATUS(status));
-	// if (wait(NULL) != -1)
-	// 	return (-1);
+	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_signal(SIGINT_HANDLER);
 	return (0);
 }
 
@@ -82,18 +99,18 @@ int	multiple_command(t_ast_node *curr, char ***envp)
 	int		fd[3];
 	size_t	cmd_cnt;
 
-	if (first_command(curr->child[0], fd, envp) == -1)
+	if (first_command(curr->child[0], fd) == -1)
 		return (-1);
 	cmd_cnt = 1;
 	curr = curr->child[1];
 	while (is_there_pipe(curr))
 	{
-		if (middle_command(curr->child[0], fd, envp) == -1)
+		if (middle_command(curr->child[0], fd) == -1)
 			return (-1);
 		cmd_cnt++;
 		curr = curr->child[1];
 	}
-	if (last_command(curr->child[0], fd, envp) == -1)
+	if (last_command(curr->child[0], fd) == -1)
 		return (-1);
 	cmd_cnt++;
 	while (cmd_cnt)
@@ -128,7 +145,7 @@ int	first_command(t_ast_node *curr, int fd[3], char ***envp)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1)
 			err_ctrl("close", 1, EXIT_FAILURE);
-		exec_command(curr, envp);
+		exec_command(curr);
 	}
 	return (0);
 }
@@ -157,7 +174,7 @@ int	middle_command(t_ast_node *curr, int fd[3], char ***envp)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1 || close(fd[2]) == -1)
 			err_ctrl("close", 1, EXIT_FAILURE);
-		exec_command(curr, envp);
+		exec_command(curr);
 	}
 	if (close(fd[2]) == -1)
 		return (-1);
@@ -183,7 +200,7 @@ int	last_command(t_ast_node *curr, int fd[3], char ***envp)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1)
 			err_ctrl("close", 1, EXIT_FAILURE);
-		exec_command(curr, envp);
+		exec_command(curr);
 	}
 	if (close(fd[0]) == -1)
 		return (-1);
@@ -193,26 +210,25 @@ int	last_command(t_ast_node *curr, int fd[3], char ***envp)
 void	exec_command(t_ast_node *curr, char ***envp)
 {
 	if (curr->child[0]->sym == SIMPLE_COMMAND)
-		exec_simple_command(curr->child[0], envp);
+		exec_simple_command(curr->child[0]);
 	else
 	{
 		exec_redirect_list(curr->child[1]);
-		exec_subshell(curr->child[0], envp);
+		exec_subshell(curr->child[0]);
 	}
 }
 
 void	exec_redirect_list(t_ast_node *curr)
 {
-	while (curr->child)
-	{
-		exec_io_redirect(curr->child[0]);
-		curr = curr->child[1];
-	}
+	if (curr->child == NULL)
+		return;
+	exec_io_redirect(curr->child[0]);
+	exec_redirect_list(curr->child[1]);
 }
 
 void	exec_subshell(t_ast_node *curr, char ***envp)
 {
-	if (exec_and_or(curr, envp) == -1)
+	if (exec_and_or(curr) == -1)
 	{
 		perror("subshell");
 		exit(EXIT_FAILURE);
@@ -245,7 +261,7 @@ void	exec_simple_command(t_ast_node *curr, char ***envp)
 
 	argv = NULL;
 	if (curr->child_num == 1 || curr->child_num == 3)
-		exec_cmd_prefix(curr->child[0], envp);
+		exec_cmd_prefix(curr->child[0]);
 	argv = (char **)ft_calloc(option_num(curr) + 2, sizeof(char *));
 	if (argv == NULL)
 		err_ctrl("malloc failed", 1, EXIT_FAILURE);
@@ -253,10 +269,12 @@ void	exec_simple_command(t_ast_node *curr, char ***envp)
 	{
 		argv[0] = curr->child[0]->token->str;
 		exec_cmd_suffix(curr->child[1], argv);
+		exec_cmd_suffix(curr->child[1], argv);
 	}
 	else if(curr->child_num == 3)
 	{
 		argv[0] = curr->child[1]->token->str;
+		exec_cmd_suffix(curr->child[2], argv);
 		exec_cmd_suffix(curr->child[2], argv);
 	}
 	if (curr->child_num != 1)
@@ -271,8 +289,8 @@ void	exec_cmd_prefix(t_ast_node *curr, char ***envp)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
 			exec_io_redirect(curr->child[0]);
-		else if (curr->child[0]->sym == TERMINAL)
-			exec_assignment_word(curr->child[0], envp);
+		else if (curr->child[0]->sym == ASSIGNMENT_WORD)
+			exec_assignment_word(curr->child[0]);
 		curr = curr->child[1];
 	}
 }
@@ -288,14 +306,20 @@ void	add_argument(char **argv, char *option)
 }
 
 void	exec_cmd_suffix(t_ast_node *curr, char **argv)
+void	exec_cmd_suffix(t_ast_node *curr, char **argv)
 {
-	while (curr->child)
+	if (curr != NULL && curr->child)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
+		{
 			exec_io_redirect(curr->child[0]);
+			exec_cmd_suffix(curr->child[1], argv);
+		}
 		else if (curr->child[0]->token->type == WORD)
+		{
 			add_argument(argv, curr->child[0]->token->str);
-		curr = curr->child[1];
+			exec_cmd_suffix(curr->child[1], argv);
+		}
 	}
 }
 
