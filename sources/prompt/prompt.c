@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 14:23:49 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 20:31:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,6 @@ int	prompt(void)
 			set_signal(SIGINT_HANDLER);
 			incomplete_cmd = 0;
 			sigint_flag = 0;
-		}
-		if (!line)
-		{
-			if (!incomplete_cmd)
-				exit_prompt(&old_term);
-			else
-			{
-				incomplete_cmd = 0;
-				ft_dprintf(2, "\033[u\033[1B\033[1A");
-				ft_dprintf(2, "nutshell: syntax error: unexpected end of file\n");
-				continue;
-			}
 		}
 		if (!line)
 		{

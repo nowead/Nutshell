@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 19:59:02 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/26 20:25:59 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	single_command(t_ast_node *curr)
 	if (pid == 0)
 	{
 		set_echoctl(&old_term, ECHOCTL_ON);
-		signal(SIGINT, child_dhandler);
+		signal(SIGINT, SIG_DFL);
 		exec_command(curr);
 	}
 	signal(SIGINT, SIG_IGN);
@@ -95,6 +95,7 @@ int	multiple_command(t_ast_node *curr)
 	int				status;
 	struct termios	old_term;
 
+	signal(SIGINT, SIG_IGN);
 	if (first_command(curr->child[0], fd) == -1)
 		return (-1);
 	cmd_cnt = 1;
@@ -143,15 +144,13 @@ int	first_command(t_ast_node *curr, int fd[3])
 	if (pid == 0)
 	{
 		set_echoctl(&old_term, ECHOCTL_ON);
-		set_signal(SIGINT_CHILD_HANDLER);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1)
 			err_ctrl("close", 1, EXIT_FAILURE);
 		exec_command(curr);
 	}
-	set_echoctl(&old_term, ECHOCTL_OFF);
-	signal(SIGINT, SIG_IGN);
 	return (0);
 }
 
@@ -174,8 +173,7 @@ int	middle_command(t_ast_node *curr, int fd[3])
 	}
 	if (pid == 0)
 	{
-		set_echoctl(&old_term, ECHOCTL_ON);
-		set_signal(SIGINT_CHILD_HANDLER);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[2], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -186,7 +184,6 @@ int	middle_command(t_ast_node *curr, int fd[3])
 	}
 	if (close(fd[2]) == -1)
 		return (-1);
-	set_echoctl(&old_term, ECHOCTL_OFF);
 	return (0);
 }
 
@@ -205,8 +202,7 @@ int	last_command(t_ast_node *curr, int fd[3])
 	}
 	if (pid == 0)
 	{
-		set_echoctl(&old_term, ECHOCTL_ON);
-		set_signal(SIGINT_CHILD_HANDLER);
+		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			err_ctrl("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1)
