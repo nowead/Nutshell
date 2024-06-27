@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 22:25:07 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/27 22:22:52 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int	middle_command(t_ast_node *curr, int fd[3], char ***envp)
 	fd[2] = fd[0];
 	if (pipe(fd) == -1)
 		return (-1);
+	
 	pid = fork();
 	if (pid == -1)
 	{
@@ -255,6 +256,27 @@ int	option_num(t_ast_node *curr)
 	return (option_cnt);
 }
 
+void	execute(char *cmd_name, char **argv, char **envp)
+{
+	if (ft_strncmp(cmd_name, "echo", ft_strlen(cmd_name)) == 0)
+		exec_echo(argv, envp);
+	// else if (ft_strncmp(cmd_name, "cd", ft_strlen(cmd_name)) == 0)
+	// 	;
+	// else if (ft_strncmp(cmd_name, "pwd", ft_strlen(cmd_name)) == 0)
+	// 	;
+	// else if (ft_strncmp(cmd_name, "export", ft_strlen(cmd_name)) == 0)
+	// 	;
+	// else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)
+	// 	;
+	// else if (ft_strncmp(cmd_name, "env", ft_strlen(cmd_name)) == 0)
+	// 	;
+	// else if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)
+	// 	;
+	// else
+	else
+		ft_execvpe(argv[0], argv, envp);
+}
+
 void	exec_simple_command(t_ast_node *curr, char ***envp)
 {
 	char	**argv;
@@ -275,8 +297,14 @@ void	exec_simple_command(t_ast_node *curr, char ***envp)
 		argv[0] = curr->child[1]->token->str;
 		exec_cmd_suffix(curr->child[2], argv);
 	}
+	// int i = 0;
+	// while (argv[i])
+	// {
+	// 	printf("\nargv[%d]:[%s]\n", i, argv[i]);
+	// 	i++;
+	// }
 	if (curr->child_num != 1)
-		ft_execvpe(argv[0], argv, *envp);
+		execute(argv[0], argv, *envp);
 	perror(argv[0]);
 	exit(EXIT_FAILURE);
 }

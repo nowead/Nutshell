@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 17:05:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/27 16:57:18 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,6 @@ void    exec_io_redirect(t_ast_node *curr);
 void    exec_assignment_word(t_ast_node *curr, char ***envp);
 size_t	ft_strslen(char **strs);
 
+// built_in_cmd1.c
+void    exec_echo(char **argv, char **envp);
 #endif
