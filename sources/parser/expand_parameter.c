@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 19:13:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/26 22:20:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,45 @@
 int	expand_parameter(t_tokenlist *tokenlist, char *envp[])
 {
 	t_tokenlist_node	*curr;
+	t_tokenlist_node	*prev;
 
 	curr = tokenlist->head;
 	while (curr)
 	{
 		if (curr->token->type == WORD)
 		{
-			curr = expand_parameters_in_a_token(curr, tokenlist, envp);
-			if (curr == NULL)
+			prev = curr;
+			curr = curr->next;
+			if (expand_parameters_in_a_token(prev, tokenlist, envp))
 				return (-1);
 		}
-		curr = curr->next;
+		else
+			curr = curr->next;
 	}
 	return (0);
 }
 
-t_tokenlist_node	*expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[])
+int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[])
 {
 	t_tokenlist			*subtokenlist;
 	t_tokenlist			*fields;
-	t_tokenlist_node	*fields_back;
 
 	subtokenlist = split_into_subtokens(tokenlist_node);
 	if (subtokenlist == NULL)
-		return (NULL);
+		return (-1);
 	if (expand_parameters_in_subtokens(subtokenlist, envp))
-		return (clear_tokenlist(subtokenlist));
+		return ((int)clear_tokenlist(subtokenlist));
 	fields = split_subtokens_into_fields(subtokenlist);
 	clear_tokenlist(subtokenlist);
 	if (fields == NULL)
-		return (NULL);
-	insert_fields_into_tokenlist(tokenlist, tokenlist_node, fields);
+		return (-1);
+	if (fields->size != 0)
+		insert_fields_into_tokenlist(tokenlist, tokenlist_node, fields);
+	else
+		pop_tokenlist_node(tokenlist, tokenlist_node);
 	free_tokenlist_node(tokenlist_node);
-	fields_back = fields->back;
 	free(fields);
-	return (fields_back);
+	return (0);
 }
 
 t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist)
