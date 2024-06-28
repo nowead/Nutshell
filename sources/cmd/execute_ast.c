@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 19:29:28 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/28 21:16:52 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,20 +244,20 @@ void	exec_subshell(t_ast_node *curr, t_shell_context *shell_ctx)
 
 int	count_argument(t_ast_node *curr)
 {
-	int	option_cnt;
+	int	arg_cnt;
 
 	if (curr->child_num == 2)
 		curr = curr->child[1];
 	else
 		curr = curr->child[2];
-	option_cnt = 0;
+	arg_cnt = 0;
 	while (curr->child)
 	{
 		if (curr->child[0]->sym == TERMINAL)
-			option_cnt++;
+			arg_cnt++;
 		curr = curr->child[1];
 	}
-	return (option_cnt);
+	return (arg_cnt);
 }
 
 void	execute(char *cmd_name, char **argv, t_shell_context *shell_ctx)
@@ -272,11 +272,10 @@ void	execute(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 		exit(EXIT_SUCCESS);
 	else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)
 		exit(EXIT_SUCCESS);
-	// else if (ft_strncmp(cmd_name, "env", ft_strlen(cmd_name)) == 0)
-	// 	;
+	else if (ft_strncmp(cmd_name, "env", ft_strlen(cmd_name)) == 0)
+		exec_env(shell_ctx);
 	else if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)
 		exit(EXIT_SUCCESS);
-	// else
 	else
 		ft_execvpe(argv[0], argv, *(shell_ctx->envp));
 }
@@ -288,6 +287,8 @@ void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 	argv = NULL;
 	if (curr->child_num == 1 || curr->child_num == 3)
 		exec_cmd_prefix(curr->child[0], shell_ctx);
+	if (curr->child_num == 1)
+		exit(EXIT_SUCCESS);
 	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
 	if (argv == NULL)
 		err_ctrl("malloc failed", 1, EXIT_FAILURE);

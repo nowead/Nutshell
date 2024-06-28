@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 19:28:45 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/28 21:14:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,19 @@ void	exec_pwd()
 
 }
 
-void	exec_env()
+void	exec_env(t_shell_context *shell_ctx)
 {
-	
+	size_t	i;
+	char	**envp;
+
+	envp = *(shell_ctx->envp);
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	exit(EXIT_SUCCESS);
 }
 
 int	exec_export(t_ast_node *curr, char ***envp)

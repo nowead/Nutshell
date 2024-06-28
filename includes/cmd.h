@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 19:17:12 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/28 21:12:54 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ size_t	ft_strslen(char **strs);
 // built_in_cmd1.c
 void    exec_echo(char **argv);
 void    exec_exit(t_shell_context *shell_ctx);
+void	exec_env(t_shell_context *shell_ctx);
 
 // handle_built_in.c
 int     err_return(char *err_msg);
