@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 21:16:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/28 21:58:19 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,10 @@ void	execute(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 {
 	if (ft_strncmp(cmd_name, "echo", ft_strlen(cmd_name)) == 0)
 		exec_echo(argv);
-	// else if (ft_strncmp(cmd_name, "cd", ft_strlen(cmd_name)) == 0)
-	// 	;
-	// else if (ft_strncmp(cmd_name, "pwd", ft_strlen(cmd_name)) == 0)
-	// 	;
+	else if (ft_strncmp(cmd_name, "cd", ft_strlen(cmd_name)) == 0)
+		exec_cd(argv[1]);
+	else if (ft_strncmp(cmd_name, "pwd", ft_strlen(cmd_name)) == 0)
+		exec_pwd();
 	else if (ft_strncmp(cmd_name, "export", ft_strlen(cmd_name)) == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)

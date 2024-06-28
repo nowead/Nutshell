@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 19:24:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/28 21:34:22 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 int	execute_builtin_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 {
 	// if (ft_strncmp(cmd_name, "export", ft_strlen(cmd_name)) == 0)
-    //     return (exec_export(cmd_name, argv, shell_ctx));
+    //     return (exec_export(argv, shell_ctx->envp));
 	// else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)
 	// 	return (exec_unset(cmd_name, argv, shell_ctx));
 	if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)

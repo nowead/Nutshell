@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_assignment_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/05 21:36:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/28 22:05:31 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,18 @@ int	is_valid_name(const char *str, size_t len)
 		i++;
 	}
 	return (1);
+}
+
+int	is_assignment_argument(char *str)
+{
+	// const char	*equalsign_start;
+
+	// if (str[0] == '=')
+	// 	return (0);
+	// equalsign_start = ft_strchr(token->str, '=');
+	// if (equalsign_start == NULL)
+	// 	return (0);
+	// if (is_valid_name(token->str, equalsign_start - token->str))
+	// 	return (1);
+	return (0);
 }
