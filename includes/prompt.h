@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/26 21:20:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/28 19:10:16 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 # define SIGINT_INCOMPLETE_CMD_HANDLER 2
 # define ECHOCTL_ON 1
 # define ECHOCTL_OFF 0
+
+typedef struct s_shell_context
+{
+	char            ***envp;
+	struct termios  old_term;
+}	t_shell_context;
 
 int prompt(char *envp[]);
 

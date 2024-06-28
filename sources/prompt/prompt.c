@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/27 22:18:56 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/28 19:01:26 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,12 @@ int	prompt(char *envp[])
 	char			*new_line;
 	t_ast			*ast;
 	int				incomplete_cmd;
+	t_shell_context	shell_ctx;
 
 	set_echoctl(&old_term, ECHOCTL_OFF);
+	shell_ctx.envp = &envp;
+	shell_ctx.old_term = old_term;
+
 	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
     while(1)
@@ -96,7 +100,8 @@ int	prompt(char *envp[])
 			set_signal(SIGINT_HANDLER);
 		if (ast == NULL)
 			continue;
-		exec_ast(ast, &envp);
+		exec_ast(ast, &shell_ctx);
+
 		clear_ast(ast);
 		add_history(line);
 		free(line);
