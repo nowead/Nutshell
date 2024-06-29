@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 22:22:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/29 21:28:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef PARSE_H
-# define PARSE_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "libft.h"
 
@@ -94,9 +94,6 @@ int					filename(t_tokenlist_node **tokenlist_node, t_ast_node *curr);
 int					io_here(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *err);
 int					here_end(t_tokenlist_node **tokenlist_node, t_ast_node *curr);
 
-// is_assignment_word.c
-int					is_assignment_word(t_token *token);
-
 //print_ast.c
 void				print_ast(t_ast_node *node, int depth);
 const char			 *get_token_type_string(t_tokentype type);
@@ -109,8 +106,9 @@ void				free_ast_node(t_ast_node *node);
 void				clear_ast_tree(t_ast_node *node);
 void				clear_ast(t_ast	*ast);
 
-//is_assignment_word
-int					is_valid_name(const char *str, size_t len);
+//is_assignment_word.c
+int					is_assignment_word_token(t_token *token);
+int					is_assignment_word(char *str);
 
 //split_quotes.c
 t_tokenlist			*split_into_subtokens(t_tokenlist_node *tokenlist_node);

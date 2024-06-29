@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 19:10:16 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/29 22:03:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROMPT_H
-# define PROMPT_H
+#ifndef INTERFACE_H
+# define INTERFACE_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -34,15 +34,19 @@
 
 typedef struct s_shell_context
 {
-	char            ***envp;
+	char            **envp;
 	struct termios  old_term;
 }	t_shell_context;
 
-int prompt(char *envp[]);
+int			run_shell(char *envp[]);
+char		**init_envp(char *envp[]);
+void		clear_strs(char **strs);
+const char	*get_prompt(int incomplete_cmd);
+void		exit_prompt(struct termios *old_term);
 
 //signal.c
-void    handler(int signo);
-void	set_signal(int handler_type);
-void	set_echoctl(struct termios *old_term, int echoctl_flag);
-void	restore_echoctl(struct termios *old_term);
+void   		handler(int signo);
+void		set_signal(int handler_type);
+void		set_echoctl(struct termios *old_term, int echoctl_flag);
+void		restore_echoctl(struct termios *old_term);
 #endif

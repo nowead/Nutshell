@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 19:01:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/29 22:03:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,8 @@
 
 int	sigint_flag = 0;
 
-void	exit_prompt(struct termios *old_term)
+int	run_shell(char *envp[])
 {
-	printf("\033[u\033[1B\033[1A");
-	printf("exit\n");
-	restore_echoctl(old_term);
-	exit(-1);
-}
-
-const char *get_prompt(int incomplete_cmd)
-{
-	if (incomplete_cmd)
-		return ("> ");
-	else
-		return ("Nutshell $ ");
-}
-
-int	prompt(char *envp[])
-{
-	struct termios	old_term;
 	char			*line;
 	char			*old_line;
 	char			*new_line;
@@ -42,10 +25,8 @@ int	prompt(char *envp[])
 	int				incomplete_cmd;
 	t_shell_context	shell_ctx;
 
-	set_echoctl(&old_term, ECHOCTL_OFF);
-	shell_ctx.envp = &envp;
-	shell_ctx.old_term = old_term;
-
+	set_echoctl(&(shell_ctx.old_term), ECHOCTL_OFF);
+	shell_ctx.envp = init_envp(envp);
 	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
     while(1)
@@ -107,4 +88,55 @@ int	prompt(char *envp[])
 		free(line);
     }
 	return (0);
+}
+
+char	**init_envp(char *envp[])
+{
+	char	**new_envp;
+	size_t	envp_len;
+	size_t	i;
+
+	envp_len = ft_strslen(envp);
+	new_envp = (char **)ft_calloc(envp_len + 1, sizeof(char *));
+	i = 0;
+	while (envp[i])
+	{
+		new_envp[i] = ft_strdup(envp[i]);
+		if (new_envp[i] == NULL)
+		{
+			clear_strs(new_envp);
+			return (NULL);
+		}
+		i++;
+	}
+	return (new_envp);
+}
+
+void	clear_strs(char **strs)
+{
+	size_t	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
+}
+
+const char *get_prompt(int incomplete_cmd)
+{
+	if (incomplete_cmd)
+		return ("> ");
+	else
+		return ("Nutshell $ ");
+}
+
+void	exit_prompt(struct termios *old_term)
+{
+	printf("\033[u\033[1B\033[1A");
+	printf("exit\n");
+	restore_echoctl(old_term);
+	exit(-1);
 }

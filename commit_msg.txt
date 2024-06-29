@@ -1,8 +1,0 @@
-rename directories and headers
-- lexer -> tokenizer
-- prompt -> interface
-- cmd -> executor
-
-add new directory: builtins
-
-add ft_strslen() to libft

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.h                                         :+:      :+:    :+:   */
+/*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/23 22:58:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/29 21:28:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZE_H
-# define TOKENIZE_H
+#ifndef TOKENIZER_H
+# define TOKENIZER_H
 
 # include "libft.h"
 # include <stdio.h>

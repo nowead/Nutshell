@@ -6,12 +6,12 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/29 20:03:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/29 21:28:14 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_H
-# define CMD_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
 # include <stdio.h>
 # include <stdlib.h>

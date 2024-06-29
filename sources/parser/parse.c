@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 16:08:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/29 20:48:47 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ int	cmd_name(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 {
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{
-		if (is_assignment_word(curr_token(tokenlist_node)))
+		if (is_assignment_word_token(curr_token(tokenlist_node)))
 			curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
 		curr->token = curr_token(tokenlist_node);
 		set_next_token(tokenlist_node);
@@ -285,7 +285,7 @@ int	cmd_word(t_tokenlist_node **tokenlist_node, t_ast_node *curr)
 {
 	if (curr_tokentype(tokenlist_node) == WORD)
 	{
-		if (is_assignment_word(curr_token(tokenlist_node)))
+		if (is_assignment_word_token(curr_token(tokenlist_node)))
 			curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
 		curr->token = curr_token(tokenlist_node);
 		set_next_token(tokenlist_node);
@@ -307,7 +307,7 @@ int	cmd_prefix(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *e
 		err->token = curr_token(tokenlist_node);
 	}
 	else if (!is_ast_err(err) && \
-	is_assignment_word(curr_token(tokenlist_node)))
+	is_assignment_word_token(curr_token(tokenlist_node)))
 	{
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
 		clear_ast_tree(curr->child[0]);
@@ -337,7 +337,7 @@ int	cmd_prefix_(t_tokenlist_node **tokenlist_node, t_ast_node *curr, t_ast_err *
 		err->token = curr_token(tokenlist_node);
 	}
 	else if (!is_ast_err(err) && \
-	is_assignment_word(curr_token(tokenlist_node)))
+	is_assignment_word_token(curr_token(tokenlist_node)))
 	{
 		curr_token(tokenlist_node)->type = ASSIGNMENT_WORD;
 		clear_ast_tree(curr->child[0]);

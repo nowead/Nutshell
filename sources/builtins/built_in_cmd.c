@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/06/29 20:03:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/29 20:22:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,13 @@ void	exec_env(t_shell_context *shell_ctx)
 		printf("%s\n", envp[i]);
 		i++;
 	}
+	exit(EXIT_SUCCESS);
+}
+
+void	exec_exit(t_shell_context *shell_ctx)
+{
+	printf("\033[u\033[1B\033[1A");
+	printf("\nexit\n");
+	restore_echoctl(&(shell_ctx->old_term));
 	exit(EXIT_SUCCESS);
 }
