@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/29 20:47:38 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:47:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 	if (dirs == NULL)
 		return (-1);
 	path = ft_execvpe_search(file, dirs);
-	free_strs(dirs);
+	ft_free_strs(dirs);
 	if (path != NULL)
 		execve(path, argv, envp);
 	return (-1);
@@ -83,17 +83,4 @@ static char	*path_join(const char *dir, const char *file)
 		ft_strlcat(full_path, "/", full_path_len);
 	ft_strlcat(full_path, file, full_path_len);
 	return (full_path);
-}
-
-static void	free_strs(char *strs[])
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
 }

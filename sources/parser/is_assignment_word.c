@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/29 20:45:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 19:49:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	is_assignment_word(char *str)
 
 	if (str[0] == '=')
 		return (0);
-	equalsign_start = ft_strchr(token->str, '=');
+	equalsign_start = ft_strchr(str, '=');
 	if (equalsign_start == NULL)
 		return (0);
-	return (is_valid_name(token->str, equalsign_start - token->str));
+	return (is_valid_name(str, equalsign_start - str));
 }
 
 // This function checks if a given string (of specified length) is a valid name.

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_main.c                                      :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/27 13:28:45 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/30 19:48:31 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
-	prompt(envp);
+	run_shell(envp);
 	// t_ast	*ast;
 	// int		incomplete_cmd;
 

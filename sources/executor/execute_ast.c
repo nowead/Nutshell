@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/28 21:58:19 by damin            ###   ########.fr       */
+/*   Updated: 2024/06/30 19:49:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ void	execute(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 	else if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)
 		exit(EXIT_SUCCESS);
 	else
-		ft_execvpe(argv[0], argv, *(shell_ctx->envp));
+		ft_execvpe(argv[0], argv, shell_ctx->envp);
 }
 
 void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)

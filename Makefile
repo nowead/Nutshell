@@ -4,7 +4,7 @@ CC = cc
 CFLAGS = -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS	=	-Iincludes
-LIBFT_FLAGS		=	-Llibft -lft
+LIBFT_FLAGS		=	-Lsources/libft -lft
 RL_FLAG			=	-lreadline -L${HOME}/.brew/opt/readline/lib
 RL_INCLUDES		=	-I${HOME}/.brew/opt/readline/include
 # RL_FLAG		=	-lreadline -L/opt/homebrew/opt/readline/lib
@@ -32,9 +32,9 @@ BUILTINS_DIR	=	sources/builtins/
 HEADER_FILES	=	minishell.h	interface.h	tokenizer.h	parser.h	executor.h	builtins.h
 TOKENIZER_SRC	=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c		split_into_subtokens.c\
-					expand_subtokenlist.c	expand_parameter.c		ft_execvpe.c	ft_getenv.c
+					expand_subtokenlist.c	expand_parameter.c
 INTERFACE_SRC	=	interface.c	signal.c
-EXECUTOR_SRC	=	execute_ast.c			io.c		err_ctrl.c
+EXECUTOR_SRC	=	execute_ast.c			io.c		err_ctrl.c	ft_execvpe.c	ft_getenv.c
 BUILTINS_SRC	=	built_in_cmd.c			handle_built_in.c		export.c
 
 LIBFT_SRC		=	$(addprefix $(LIBFT_DIR), \
@@ -43,7 +43,7 @@ ft_atol.c		ft_isascii.c    ft_isspace.c	ft_memcmp.c     ft_putendl_fd.c ft_strdu
 ft_strtrim.c	ft_bzero.c      ft_isdigit.c    ft_memcpy.c     ft_putnbr_fd.c  ft_striteri.c   ft_strmapi.c\
 ft_substr.c		ft_calloc.c     ft_isprint.c    ft_memmove.c    ft_putstr_fd.c  ft_strjoin.c    ft_strncmp.c\
 ft_tolower.c	ft_isalnum.c    ft_itoa.c       ft_memset.c     ft_split.c      ft_strlcat.c    ft_strnstr.c\
-ft_toupper.c	ft_strlncpy.c	ft_strlncat.c	ft_strtol.c		ft_strslen.c\
+ft_toupper.c	ft_strlncpy.c	ft_strlncat.c	ft_strtol.c		ft_strslen.c	ft_free_strs.c\
 ft_printf.c						ft_printf_make_str_cs.c			ft_printf_make_str_pdux.c\
 ft_printf_make_str_spec1.c		ft_printf_make_str_spec2.c		ft_printf_print_format_string.c\
 ft_printf_read_spec.c\
@@ -62,16 +62,16 @@ $(LIBFT): $(LIBFT_SRC) $(LIBFT_HEADER)
 	@echo "\033[0;32mlibft\033[0m compiled."
 
 sources/%.o: sources/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Isources/libft -Iincludes -c $< -o $@
 
 sources/tokenizer/%.o: sources/tokenizer/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) -Isources/libft -Iincludes -c $< -o $@
 
 sources/parser/%.o: sources/parser/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) -Isources/libft -Iincludes -c $< -o $@
 
 sources/interface/%.o: sources/interface/%.c $(HEADER) $(LIBFT_HEADER)
-	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Ilibft -Iincludes -c $< -o $@
+	@$(CC) $(CFLAGS) $(RL_INCLUDES) -Isources/libft -Iincludes -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

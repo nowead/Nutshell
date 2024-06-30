@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/29 22:03:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:51:09 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	run_shell(char *envp[])
 		if (!line)
 		{
 			if (!incomplete_cmd)
-				exit_prompt(&old_term);
+				exit_shell(&(shell_ctx.old_term));
 			else
 			{
 				incomplete_cmd = 0;
@@ -104,25 +104,12 @@ char	**init_envp(char *envp[])
 		new_envp[i] = ft_strdup(envp[i]);
 		if (new_envp[i] == NULL)
 		{
-			clear_strs(new_envp);
+			ft_free_strs(new_envp);
 			return (NULL);
 		}
 		i++;
 	}
 	return (new_envp);
-}
-
-void	clear_strs(char **strs)
-{
-	size_t	i;
-
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
 }
 
 const char *get_prompt(int incomplete_cmd)
@@ -133,7 +120,7 @@ const char *get_prompt(int incomplete_cmd)
 		return ("Nutshell $ ");
 }
 
-void	exit_prompt(struct termios *old_term)
+void	exit_shell(struct termios *old_term)
 {
 	printf("\033[u\033[1B\033[1A");
 	printf("exit\n");
