@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/29 21:28:14 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 21:32:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ void    exec_redirect_list(t_ast_node *curr);
 void    exec_subshell(t_ast_node *curr, t_shell_context *shell_ctx);
 int     count_argument(t_ast_node *curr);
 void    exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx);
+void	execute_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx);
 void    exec_cmd_prefix(t_ast_node *curr, t_shell_context *shell_ctx);
 void    add_argument(char **argv, char *option);
 void    exec_cmd_suffix(t_ast_node *curr, char **argv);
 void    exec_io_redirect(t_ast_node *curr);
 size_t	ft_strslen(char **strs);
 
-// built_in_cmd1.c
+// built_in_cmd.c
 void    exec_echo(char **argv);
 void    exec_exit(t_shell_context *shell_ctx);
 int     exec_pwd(void);

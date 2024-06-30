@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/06/29 20:22:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 21:23:50 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	exec_env(t_shell_context *shell_ctx)
 	size_t	i;
 	char	**envp;
 
-	envp = *(shell_ctx->envp);
+	envp = shell_ctx->envp;
 	i = 0;
 	while (envp[i])
 	{

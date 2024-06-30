@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/30 17:51:09 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 22:28:47 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 #include "minishell.h"
 
 int	sigint_flag = 0;
+
+static void	print_strs(char **strs)
+{
+	size_t	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		printf("%s\n", strs[i]);
+		i++;
+	}
+}
 
 int	run_shell(char *envp[])
 {
@@ -27,6 +39,8 @@ int	run_shell(char *envp[])
 
 	set_echoctl(&(shell_ctx.old_term), ECHOCTL_OFF);
 	shell_ctx.envp = init_envp(envp);
+	if (shell_ctx.envp == NULL)
+		exit_shell(&(shell_ctx.old_term));
 	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
     while(1)

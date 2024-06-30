@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/30 19:51:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/06/30 22:16:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	get_key_len(char *env_var);
 char	**search_env_var(const char *key, size_t len, char *envp[]);
 int		export_new_env_var(char *new_env_var, char ***envp);
 
-int	export(char **argv, char ***envp)
+int	exec_export(char **argv, char ***envp)
 {
 	size_t	i;
 
@@ -79,18 +79,33 @@ char	**search_env_var(const char *key, size_t len, char *envp[])
 	return (NULL);
 }
 
+static void	print_strs(char **strs)
+{
+	size_t	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		printf("%s\n", strs[i]);
+		i++;
+	}
+}
+
 int	export_new_env_var(char *new_env_var, char ***envp)
 {
 	size_t	envp_len;
 	char	**new_envp;
 
 	envp_len = ft_strslen(*envp);
+	printf("envp_len: %zu\n", envp_len);
 	new_envp = (char **)ft_calloc(envp_len + 2, sizeof(char *));
 	if (new_envp == NULL)
 		return (err_return("malloc"));
-	ft_memcpy(new_envp, *envp, envp_len + 2);
+	ft_memcpy(new_envp, *envp, (envp_len + 1) * sizeof(char *));
 	new_envp[envp_len] = new_env_var;
 	ft_free_strs(*envp);
 	*envp = new_envp;
+	printf("\n\n===env_var added===\n");
+	print_strs(*envp);
 	return (0);
 }
