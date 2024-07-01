@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/06/30 22:28:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/01 20:14:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	run_shell(char *envp[])
 			line = new_line;
 			incomplete_cmd = 0;
 		}
-		ast = parse(line, &incomplete_cmd, envp);
+		ast = parse(line, &incomplete_cmd, shell_ctx.envp);
 		if (incomplete_cmd)
 		{
 			set_signal(SIGINT_INCOMPLETE_CMD_HANDLER);
@@ -108,21 +108,10 @@ char	**init_envp(char *envp[])
 {
 	char	**new_envp;
 	size_t	envp_len;
-	size_t	i;
 
 	envp_len = ft_strslen(envp);
 	new_envp = (char **)ft_calloc(envp_len + 1, sizeof(char *));
-	i = 0;
-	while (envp[i])
-	{
-		new_envp[i] = ft_strdup(envp[i]);
-		if (new_envp[i] == NULL)
-		{
-			ft_free_strs(new_envp);
-			return (NULL);
-		}
-		i++;
-	}
+	ft_memcpy(new_envp, envp, (envp_len + 1) * sizeof(char *));
 	return (new_envp);
 }
 

@@ -1,0 +1,7 @@
+revise 'init_envp()'
+- now it only duplicates outer pointer of (char **)envp.
+
+fix: export_new_env_var()
+- now it doesn't free entire envp, only outer pointer of (char **)envp.
+
+add 'ft_print_strs()' to libft for debugging purpose.

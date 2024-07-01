@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   ft_print_strs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/01 18:42:12 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/01 18:52:53 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/01 18:53:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "libft.h"
 
-// export.c
-int		exec_export(char **argv, char ***envp);
-int		export_single_env_var(char *env_var, char ***envp);
-size_t	get_key_len(char *env_var);
-char	**search_env_var(const char *key, size_t len, char *envp[]);
-int		export_new_env_var(char *new_env_var, char ***envp);
+int	ft_print_strs(char **strs)
+{
+	size_t	i;
 
-#endif
+	i = 0;
+	while (strs[i])
+	{
+		if (ft_printf("%s\n", strs[i]) == -1)
+			return (-1);
+		i++;
+	}
+	return (0);
+}

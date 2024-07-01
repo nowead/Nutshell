@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 18:14:21 by macbookair        #+#    #+#             */
-/*   Updated: 2024/04/20 22:50:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/01 18:55:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,8 @@ int		ft_snprintf_print_str(t_str *dst, t_format *spec);
 
 //ft_vsnprintf.c
 int		ft_vsnprintf(char *str, size_t size, const char *format, va_list args);
+
+//ft_print_strs.c
+int		ft_print_strs(char **strs);
 
 #endif
