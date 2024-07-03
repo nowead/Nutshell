@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/01 22:56:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/03 21:04:05 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ int     is_builtin_cmd(t_ast_node *curr)
 		cmd_name = curr->child[0]->token->str;
 	else if(curr->child_num == 3)
 		cmd_name = curr->child[1]->token->str;
-	if (ft_strncmp(cmd_name, "export", ft_strlen(cmd_name)) == 0)
+	if (ft_strncmp(cmd_name, "export", 7) == 0)
         return (1);
-	else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
 		return (1);
-	else if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
+		return (1);
+	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (1);
     return (0);
 }
@@ -66,12 +68,14 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 
 int	execute_builtin_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 {
-	if (ft_strncmp(cmd_name, "export", ft_strlen(cmd_name)) == 0)
+	if (ft_strncmp(cmd_name, "export", 7) == 0)
         return (exec_export(argv, &(shell_ctx->envp)));
-	else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
 		return (exec_unset(argv, &(shell_ctx->envp)));
-	else if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
 		exec_exit(shell_ctx);
+	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
+		return (exec_cd(argv, &(shell_ctx->envp)));
     return (-1);
 }
 

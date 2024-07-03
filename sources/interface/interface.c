@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/01 20:14:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/03 20:53:22 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ int	run_shell(char *envp[])
 		if (ast == NULL)
 			continue;
 		exec_ast(ast, &shell_ctx);
-
 		clear_ast(ast);
 		add_history(line);
 		free(line);
+		system("leaks minishell");
     }
 	return (0);
 }

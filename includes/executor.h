@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/06/30 21:32:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/03 18:49:20 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ int     count_argument(t_ast_node *curr);
 void    exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx);
 void	execute_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx);
 void    exec_cmd_prefix(t_ast_node *curr, t_shell_context *shell_ctx);
-void    add_argument(char **argv, char *option);
+void    add_argument(char **argv, char *arg);
 void    exec_cmd_suffix(t_ast_node *curr, char **argv);
 void    exec_io_redirect(t_ast_node *curr);
 size_t	ft_strslen(char **strs);
 
 // built_in_cmd.c
-void    exec_echo(char **argv);
-void    exec_exit(t_shell_context *shell_ctx);
-int     exec_pwd(void);
-int     exec_cd(char *path);
+void	exec_echo(char **argv);
+void	exec_exit(t_shell_context *shell_ctx);
+void	exec_pwd(void);
+int 	exec_cd(char **argv, char ***envp);
 void	exec_env(t_shell_context *shell_ctx);
 int		exec_export(char **argv, char ***envp);
 

@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/06/30 21:23:50 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/03 17:33:58 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
 #include "minishell.h"
+
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
 
 void    exec_echo(char **argv)
 {
@@ -20,16 +30,16 @@ void    exec_echo(char **argv)
 
 	i = 1;
 	n_flag_on = 0;
-	while (ft_strncmp(argv[i], "-n", ft_strlen(argv[i])) == 0)
+	while (argv[i] && ft_strcmp(argv[i], "-n") == 0)
 	{
 		n_flag_on = 1;
 		i++;
 	}
-	while (argv[i])
+	while (argv[i] || (argv[i] && argv[i][0] == '\0'))
 	{
 		printf("%s",argv[i]);
 		i++;
-		if (argv[i])
+		if (argv[i] || (argv[i] && argv[i][0] == '\0'))
 			printf(" ");
 	}
 	if (!n_flag_on)
@@ -37,42 +47,16 @@ void    exec_echo(char **argv)
 	exit(EXIT_SUCCESS);
 }
 
-int	exec_cd(char *path)
-{
-	char			*cwd;
-	DIR				*dir;
-	struct dirent	*entry;
-
-	if (chdir(path) == -1)
-        err_return("chdir");
-    dir = opendir(".");
-    if (dir == NULL)
-		err_return("opendir");
-    // 디렉토리 내용 출력
-    // printf("디렉토리 내용:\n");
-    // while ((entry = readdir(dir)) != NULL)
-	// {
-    //     // "." 과 ".." 는 출력하지 않음
-    //     if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
-    //         printf("  %s\n", entry->d_name);
-    //     }
-    // }
-    // 디렉토리 스트림 닫기
-    if (closedir(dir) == -1)
-		err_return("closedir");
-	return (0);
-}
-
-int	exec_pwd(void)
+void	exec_pwd(void)
 {
 	char *cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
-		err_return("getcwd");
+		err_ctrl("pwd", 1, EXIT_FAILURE);
     printf("%s\n", cwd);
 	free(cwd);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 void	exec_env(t_shell_context *shell_ctx)

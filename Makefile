@@ -35,7 +35,7 @@ PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c		split_into_
 					expand_subtokenlist.c	expand_parameter.c
 INTERFACE_SRC	=	interface.c	signal.c
 EXECUTOR_SRC	=	execute_ast.c			io.c		err_ctrl.c	ft_execvpe.c	ft_getenv.c
-BUILTINS_SRC	=	built_in_cmd.c			handle_built_in.c		export.c		unset.c
+BUILTINS_SRC	=	built_in_cmd.c			handle_built_in.c		export.c		unset.c		cd.c
 
 LIBFT_SRC		=	$(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\

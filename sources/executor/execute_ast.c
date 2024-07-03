@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/06/30 21:22:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/03 20:56:16 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,19 +290,19 @@ void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 
 void	execute_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 {
-	if (ft_strncmp(cmd_name, "echo", ft_strlen(cmd_name)) == 0)
+	if (ft_strncmp(cmd_name, "echo", 5) == 0)
 		exec_echo(argv);
-	else if (ft_strncmp(cmd_name, "cd", ft_strlen(cmd_name)) == 0)
-		exec_cd(argv[1]);
-	else if (ft_strncmp(cmd_name, "pwd", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
+		exit(EXIT_SUCCESS);
+	else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
 		exec_pwd();
-	else if (ft_strncmp(cmd_name, "export", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "export", 7) == 0)
 		exit(EXIT_SUCCESS);
-	else if (ft_strncmp(cmd_name, "unset", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
 		exit(EXIT_SUCCESS);
-	else if (ft_strncmp(cmd_name, "env", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "env", 4) == 0)
 		exec_env(shell_ctx);
-	else if (ft_strncmp(cmd_name, "exit", ft_strlen(cmd_name)) == 0)
+	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
 		exit(EXIT_SUCCESS);
 	else
 		ft_execvpe(argv[0], argv, shell_ctx->envp);
