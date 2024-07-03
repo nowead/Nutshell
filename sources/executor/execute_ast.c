@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 20:56:16 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/03 22:47:25 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ int	exec_pipe_sequence(t_ast_node *curr, t_shell_context *shell_ctx)
 int	single_command(t_ast_node *curr, t_shell_context *shell_ctx) // command
 {
 	if (is_builtin_cmd(curr->child[0]))
-	{
-		if (exec_builtin_simple_command(curr->child[0], shell_ctx) == -1)
-			return (-1);
-	}
+		return (exec_builtin_simple_command(curr->child[0], shell_ctx));
 	return (exec_external_cmd(curr, shell_ctx));
 }
 

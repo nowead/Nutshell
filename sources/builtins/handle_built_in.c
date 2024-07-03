@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 21:04:05 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/03 22:35:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,27 @@ int     is_builtin_cmd(t_ast_node *curr)
 int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 {
 	char	**argv;
+	int		ret;
 
 	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
 	if (argv == NULL)
-        return (err_return("malloc"));
+        ret = err_return("malloc");
 	if (curr->child_num == 2)
 	{
 		argv[0] = curr->child[0]->token->str;
-		if (exec_builtin_cmd_suffix(curr->child[1], argv) == -1)
-			return (-1);
+		ret = exec_builtin_cmd_suffix(curr->child[1], argv);
 	}
-	else if(curr->child_num == 3)
+	else
 	{
 		argv[0] = curr->child[1]->token->str;
-        if (exec_builtin_cmd_prefix(curr->child[0], shell_ctx) == -1)
-			return (-1);
-		if (exec_builtin_cmd_suffix(curr->child[2], argv) == -1)
-			return (-1);
+        ret = exec_builtin_cmd_prefix(curr->child[0], shell_ctx);
+		if (ret != -1)
+			ret = exec_builtin_cmd_suffix(curr->child[2], argv);
 	}
-	if (execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
-        return (err_return(argv[0]));
-	return (0);
+	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
+        ret = err_return(argv[0]);
+	free(argv);
+	return (ret);
 }
 
 int	execute_builtin_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx)

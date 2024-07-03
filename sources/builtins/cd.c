@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 20:53:10 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/03 22:53:36 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,83 +14,57 @@
 
 int	exec_cd(char **argv, char ***envp)
 {
-	int		oldpwd_index;
-	int		pwd_index;
-	int		i;
+	char	**oldpwd;
+	char	**pwd;
 
 	if (!argv[1])
 		return (0);
 	if (ft_strncmp(argv[1], "~", 1) == 0 && cd_home(argv, *envp) == -1)
 		return (-1);
-	i = -1;
-	oldpwd_index = -1;
-	pwd_index = -1;
-	while ((*envp)[++i])
-	{
-		if (ft_strncmp((*envp)[i], "OLDPWD", 6) == 0)
-			oldpwd_index = i;
-		if (ft_strncmp((*envp)[i], "PWD", 3) == 0)
-			pwd_index = i;
-	}
-	if (oldpwd_index != -1 && update_oldpwd(envp, oldpwd_index, pwd_index) == -1)
+	if (update_oldpwd(envp) == -1)
 		return (-1);
 	if (chdir(argv[1]) == -1)
         return (err_return("chdir"));
-	if (pwd_index != -1 && update_pwd(envp, pwd_index) == -1)
+	if (update_pwd(envp) == -1)
 		return (-1);
 	return (0);
 }
 
-int	update_oldpwd(char ***envp, int oldpwd_index, int pwd_index)
+int	update_oldpwd(char ***envp)
 {
-	char	*tmp;
+	char	**old_pwd;
 
-	tmp = (char *)ft_calloc(4, sizeof(char));
-	if (tmp == NULL)
-		return (err_return("malloc"));
-	ft_strlcpy(tmp, "OLD", 4);
-	(*envp)[oldpwd_index] = ft_strjoin(tmp, (*envp)[pwd_index]);
-	free (tmp);
+	old_pwd = search_env_var("OLDPWD", 6, *envp);
+	// free(*old_pwd);
+	*old_pwd = ft_strjoin("OLD", *(search_env_var("PWD", 3, *envp)));
+	if (*old_pwd == NULL)
+		return (err_return("ft_strjoin"));
 	return (0);
 }
 
-int	update_pwd(char ***envp, int pwd_index)
+int	update_pwd(char ***envp)
 {
 	char	*cwd;
-	char	*tmp;
+	char	**pwd;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 		return (err_return("getcwd"));
-	tmp = (char *)ft_calloc(4, sizeof(char));
-	if (tmp == NULL)
-		return (err_return("malloc"));
-	ft_strlcpy(tmp, "PWD=", 5);
-	(*envp)[pwd_index] = ft_strjoin(tmp, cwd);
-	free(tmp);
+	pwd = search_env_var("PWD", 3, *envp);
+	// free(*pwd);
+	*pwd = ft_strjoin("PWD=", cwd);
 	free(cwd);
-	if((*envp)[pwd_index] == NULL)
-		return (err_return("malloc"));
+	if (*pwd == NULL)
+		return (err_return("ft_strjoin"));
 	return (0);
 }
 
 int	cd_home(char **argv, char **envp)
 {
-	int		i;
-	char	*tmp;
+	char	*env_home;
 
-	i = -1;
-	while (envp[++i])
-	{
-		if (ft_strncmp(envp[i], "HOME=", 5) == 0)
-		{
-			tmp = (char *)ft_calloc(ft_strlen(&envp[i][5]) + 1, sizeof(char));
-			if (tmp == NULL)
-				return (err_return("malloc"));
-			ft_strlcpy(tmp, &envp[i][5], ft_strlen(&envp[i][5]) + 1);
-			argv[1] = tmp;
-			break ;
-		}
-	}
+	env_home = ft_getenv("HOME", envp);
+	free(argv[1]);
+	argv[1] = ft_strjoin(env_home, &argv[1][1]);
 	return (0);
 }
