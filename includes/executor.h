@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 18:49:20 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:48:23 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 // io.c
 int     exec_io_here(t_ast_node *node);
 int     exec_io_file(t_ast_node *node);
-int		get_valid_fd(void);
 void	io_readline(int fd, const char *str);
 
 // exec_cmd.c

@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 22:47:25 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 20:28:14 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ void	add_argument(char **argv, char *arg)
 	i = 0;
 	while (argv[i])
 		i++;
-	argv[i] = arg;
+	argv[i] = ft_strdup(arg);
 }
 
 void	exec_io_redirect(t_ast_node *curr)

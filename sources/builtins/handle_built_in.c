@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 22:35:35 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 20:34:24 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ int     is_builtin_cmd(t_ast_node *curr)
     return (0);
 }
 
+void	free_argv(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
+}
+
 int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 {
 	char	**argv;
@@ -50,19 +63,19 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
         ret = err_return("malloc");
 	if (curr->child_num == 2)
 	{
-		argv[0] = curr->child[0]->token->str;
+		argv[0] = ft_strdup(curr->child[0]->token->str);
 		ret = exec_builtin_cmd_suffix(curr->child[1], argv);
 	}
 	else
 	{
-		argv[0] = curr->child[1]->token->str;
+		argv[0] = ft_strdup(curr->child[1]->token->str);
         ret = exec_builtin_cmd_prefix(curr->child[0], shell_ctx);
 		if (ret != -1)
 			ret = exec_builtin_cmd_suffix(curr->child[2], argv);
 	}
 	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
         ret = err_return(argv[0]);
-	free(argv);
+	free_argv(argv);
 	return (ret);
 }
 
@@ -147,7 +160,7 @@ int	exec_builtin_io_here(t_ast_node *node)
 	int				fd;
 	struct termios	old_term;
 
-	fd = get_valid_fd();
+	// fd = find_unused_fd();
 	set_echoctl(&old_term, ECHOCTL_OFF);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (err_return("dup2"));
