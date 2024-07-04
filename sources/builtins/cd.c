@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 22:53:36 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:04:11 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	update_oldpwd(char ***envp)
 	char	**old_pwd;
 
 	old_pwd = search_env_var("OLDPWD", 6, *envp);
-	// free(*old_pwd);
+	free(*old_pwd);
 	*old_pwd = ft_strjoin("OLD", *(search_env_var("PWD", 3, *envp)));
 	if (*old_pwd == NULL)
 		return (err_return("ft_strjoin"));
@@ -51,7 +51,7 @@ int	update_pwd(char ***envp)
 	if (cwd == NULL)
 		return (err_return("getcwd"));
 	pwd = search_env_var("PWD", 3, *envp);
-	// free(*pwd);
+	free(*pwd);
 	*pwd = ft_strjoin("PWD=", cwd);
 	free(cwd);
 	if (*pwd == NULL)

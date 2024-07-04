@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/01 22:53:15 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/04 17:39:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	export_new_env_var(char *new_env_var, char ***envp)
 	char		**new_envp;
 
 	envp_len = ft_strslen(*envp);
+	printf("\n====envp_len:%zu====\n\n", envp_len + 1);
 	new_envp = (char **)ft_calloc(envp_len + 2, sizeof(char *));
 	if (new_envp == NULL)
 		return (err_return("malloc"));

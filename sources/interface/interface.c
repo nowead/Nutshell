@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 22:43:56 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:05:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	run_shell(char *envp[])
 		clear_ast(ast);
 		add_history(line);
 		free(line);
-		// system("leaks minishell");
+		system("leaks minishell");
     }
 	return (0);
 }
@@ -108,10 +108,21 @@ char	**init_envp(char *envp[])
 {
 	char	**new_envp;
 	size_t	envp_len;
+	size_t	i;
 
 	envp_len = ft_strslen(envp);
 	new_envp = (char **)ft_calloc(envp_len + 1, sizeof(char *));
-	ft_memcpy(new_envp, envp, (envp_len + 1) * sizeof(char *));
+	i = 0;
+	while (envp[i])
+	{
+		new_envp[i] = ft_strdup(envp[i]);
+		if (new_envp[i] == NULL)
+		{
+			ft_free_strs(new_envp);
+			return (NULL);
+		}
+		i++;
+	}
 	return (new_envp);
 }
 

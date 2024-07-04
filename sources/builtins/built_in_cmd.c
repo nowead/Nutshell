@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/07/03 17:33:58 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:41:33 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	exec_env(t_shell_context *shell_ctx)
 	char	**envp;
 
 	envp = shell_ctx->envp;
+	printf("\n====envp_len:%zu====\n\n", ft_strslen(envp));
 	i = 0;
 	while (envp[i])
 	{
