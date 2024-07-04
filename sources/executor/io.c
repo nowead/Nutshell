@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/04 17:48:07 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 21:47:26 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,49 @@ void	print_fd(int fd)
 	}
 }
 
+int	open_here_doc_tempfile(char **file_name)
+{
+	int			fd;
+	int			i;
+	char		*num;
+
+	i = 0;
+	num = ft_itoa(i);
+	*file_name = ft_strjoin("here_doc_", num);
+	while (1)
+	{
+		if (access(*file_name, F_OK) != -1)
+		{
+			i++;
+			free (num);
+			free (*file_name);
+			num = ft_itoa(i);
+			*file_name = ft_strjoin("here_doc_", num);
+		}
+		else
+		{
+			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				err_ctrl("open", 1, EXIT_FAILURE);
+			break ;
+		}
+	}
+	return (fd);
+}
+
 int	exec_io_here(t_ast_node *node)
 {
-	int				pipe_fds[2];
+	int				fd;
+	char			*file_name;
 	struct termios	old_term;
-
+	
 	set_echoctl(&old_term, ECHOCTL_OFF);
-	if (pipe(pipe_fds) == -1)
-    	err_ctrl("pipe", 1, EXIT_FAILURE);
-    io_readline(pipe_fds[1], node->child[0]->token->str);
-    if (close(pipe_fds[1]) == -1)
-		err_ctrl("close", 1, EXIT_FAILURE);
-    if (dup2(pipe_fds[0], STDIN_FILENO) == -1)
+	fd = open_here_doc_tempfile(&file_name);
+    io_readline(fd, node->child[0]->token->str);
+    if (dup2(fd, STDIN_FILENO) == -1)
         err_ctrl("dup2 error", 1, EXIT_FAILURE);
-	if (close(pipe_fds[0]) == -1)
+	
+	if (close(fd) == -1)
 		err_ctrl("close", 1, EXIT_FAILURE);
 	return (0);
 }
