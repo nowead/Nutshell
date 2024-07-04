@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:13:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/04 18:35:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 20:56:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	leak_check(void)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	atexit(leak_check);
+	// atexit(leak_check);
 	(void)argc;
 	(void)argv;
 	run_shell(envp);

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 22:20:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:15:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *
 		return (-1);
 	if (expand_parameters_in_subtokens(subtokenlist, envp))
 		return ((int)clear_tokenlist(subtokenlist));
+	printf("\n\n==subtokenlist==\n");
+	print_tokenlist(subtokenlist);
 	fields = split_subtokens_into_fields(subtokenlist);
 	clear_tokenlist(subtokenlist);
+	printf("\n\n==fields==\n");
+	print_tokenlist(fields);
 	if (fields == NULL)
 		return (-1);
 	if (fields->size != 0)
@@ -144,11 +148,21 @@ int	handle_last_field(t_tokenlist *fields, t_tokenlist_node **curr_subtok)
 void	handle_quote_token(t_tokenlist *subtokenlist, t_tokenlist_node **curr_subtok, t_tokenlist *fields)
 {
 	t_tokenlist_node	*prev_subtok;
+	t_token				*fields_back_token;
 
 	prev_subtok = *curr_subtok;
 	*curr_subtok = (*curr_subtok)->next;
-	pop_tokenlist_node(subtokenlist, prev_subtok);
-	tokenlist_add_node(fields, prev_subtok);
+	if (fields->back)
+	{
+		fields_back_token = fields->back->token;
+		fields->back->token = merge_two_tokens(fields->back->token, prev_subtok->token);
+		free(fields_back_token);
+	}
+	else
+	{
+		pop_tokenlist_node(subtokenlist, prev_subtok);
+		tokenlist_add_node(fields, prev_subtok);
+	}
 }
 
 t_token	*merge_two_tokens(t_token *token1, t_token *token2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/04 18:38:37 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/04 20:55:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	run_shell(char *envp[])
 		clear_ast(ast);
 		add_history(line);
 		free(line);
-		system("leaks minishell | grep process");
+		// system("leaks minishell | grep process");
     }
 	return (0);
 }
