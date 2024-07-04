@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/26 20:00:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:30:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ void	pop_tokenlist_node(t_tokenlist *tokenlist, t_tokenlist_node *tokenlist_node
 		next->prev = prev;
 	else
 		tokenlist->back = prev;
-	tokenlist_node->token->quote = NO_QUOTE;
 	(tokenlist->size)--;
 }
 

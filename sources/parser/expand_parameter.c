@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/04 22:15:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:32:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	handle_quote_token(t_tokenlist *subtokenlist, t_tokenlist_node **curr_subto
 
 	prev_subtok = *curr_subtok;
 	*curr_subtok = (*curr_subtok)->next;
-	if (fields->back)
+	if (fields->back && fields->back->token->quote != NO_QUOTE)
 	{
 		fields_back_token = fields->back->token;
 		fields->back->token = merge_two_tokens(fields->back->token, prev_subtok->token);
