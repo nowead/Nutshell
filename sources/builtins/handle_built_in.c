@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/05 21:42:28 by damin            ###   ########.fr       */
+=======
+/*   Updated: 2024/07/05 20:01:30 by seonseo          ###   ########.fr       */
+>>>>>>> ebd457939678b12d2584e94eaada0d00108340c9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +80,7 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
         ret = err_return(argv[0]);
 	free_argv(argv);
+	shell_ctx->exit_status = ret;
 	return (ret);
 }
 

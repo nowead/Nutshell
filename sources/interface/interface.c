@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 16:37:31 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/05 21:29:20 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	run_shell(char *envp[])
 	shell_ctx.envp = init_envp(envp);
 	if (shell_ctx.envp == NULL)
 		exit_shell(&(shell_ctx.old_term));
+	shell_ctx.exit_status = 0;
 	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
     while(1)
@@ -84,7 +85,7 @@ int	run_shell(char *envp[])
 			line = new_line;
 			incomplete_cmd = 0;
 		}
-		ast = parse(line, &incomplete_cmd, shell_ctx.envp);
+		ast = parse(line, &incomplete_cmd, &shell_ctx);
 		if (incomplete_cmd)
 		{
 			set_signal(SIGINT_INCOMPLETE_CMD_HANDLER);

@@ -6,13 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/05 16:13:26 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/05 20:39:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	expand_parameter(t_tokenlist *tokenlist, char *envp[])
+int	expand_parameter(t_tokenlist *tokenlist, t_shell_context *shell_ctx)
 {
 	t_tokenlist_node	*curr;
 	t_tokenlist_node	*prev;
@@ -24,7 +24,7 @@ int	expand_parameter(t_tokenlist *tokenlist, char *envp[])
 		{
 			prev = curr;
 			curr = curr->next;
-			if (expand_parameters_in_a_token(prev, tokenlist, envp))
+			if (expand_parameters_in_a_token(prev, tokenlist, shell_ctx))
 				return (-1);
 		}
 		else
@@ -33,7 +33,7 @@ int	expand_parameter(t_tokenlist *tokenlist, char *envp[])
 	return (0);
 }
 
-int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, char *envp[])
+int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, t_shell_context *shell_ctx)
 {
 	t_tokenlist			*subtokenlist;
 	t_tokenlist			*fields;
@@ -41,7 +41,7 @@ int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *
 	subtokenlist = split_into_subtokens(tokenlist_node);
 	if (subtokenlist == NULL)
 		return (-1);
-	if (expand_parameters_in_subtokens(subtokenlist, envp))
+	if (expand_parameters_in_subtokens(subtokenlist, shell_ctx))
 		return ((int)clear_tokenlist(subtokenlist));
 	fields = split_subtokens_into_fields(subtokenlist);
 	clear_tokenlist(subtokenlist);
