@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/04 22:32:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/05 16:13:26 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,8 @@ int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *
 		return (-1);
 	if (expand_parameters_in_subtokens(subtokenlist, envp))
 		return ((int)clear_tokenlist(subtokenlist));
-	printf("\n\n==subtokenlist==\n");
-	print_tokenlist(subtokenlist);
 	fields = split_subtokens_into_fields(subtokenlist);
 	clear_tokenlist(subtokenlist);
-	printf("\n\n==fields==\n");
-	print_tokenlist(fields);
 	if (fields == NULL)
 		return (-1);
 	if (fields->size != 0)
@@ -169,6 +165,7 @@ t_token	*merge_two_tokens(t_token *token1, t_token *token2)
 {
 	char	*merged_str;
 	size_t	merged_str_len;
+	t_token	*merged_token;
 
 	merged_str_len = ft_strlen(token1->str) + ft_strlen(token2->str);
 	merged_str = (char *)ft_calloc(merged_str_len + 1, sizeof(char));
@@ -176,7 +173,11 @@ t_token	*merge_two_tokens(t_token *token1, t_token *token2)
 		return (NULL);
 	ft_strlcat(merged_str, token1->str, merged_str_len + 1);
 	ft_strlcat(merged_str, token2->str, merged_str_len + 1);
-	return (new_word_token(merged_str));
+	merged_token = new_word_token(merged_str);
+	if (merged_token == NULL)
+		return (NULL);
+	merged_token->quote = MERGED_QUOTE;
+	return (merged_token);
 }
 
 t_token	*get_field(char *str, size_t *i)

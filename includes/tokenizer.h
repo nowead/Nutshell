@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/29 21:28:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/05 15:59:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum e_quotetype
 {
 	NO_QUOTE,
 	SINGLE_QUOTE,
-	DOUBLE_QUOTE
+	DOUBLE_QUOTE,
+	MERGED_QUOTE
 }	t_quotetype;
 
 typedef struct s_token
