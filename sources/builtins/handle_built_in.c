@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/04 20:34:24 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/05 15:51:33 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 	if (curr->child_num == 2)
 	{
 		argv[0] = ft_strdup(curr->child[0]->token->str);
-		ret = exec_builtin_cmd_suffix(curr->child[1], argv);
+		ret = exec_builtin_cmd_suffix(curr->child[1], argv, shell_ctx);
 	}
 	else
 	{
 		argv[0] = ft_strdup(curr->child[1]->token->str);
         ret = exec_builtin_cmd_prefix(curr->child[0], shell_ctx);
 		if (ret != -1)
-			ret = exec_builtin_cmd_suffix(curr->child[2], argv);
+			ret = exec_builtin_cmd_suffix(curr->child[2], argv, shell_ctx);
 	}
 	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
         ret = err_return(argv[0]);
@@ -97,20 +97,20 @@ int	exec_builtin_cmd_prefix(t_ast_node *curr, t_shell_context *shell_ctx)
 	while (curr->child)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
-			if (exec_builtin_io_redirect(curr->child[0]) == -1)
+			if (exec_builtin_io_redirect(curr->child[0], shell_ctx) == -1)
 				return (-1);
 		curr = curr->child[1];
 	}
 	return (0);
 }
 
-int	exec_builtin_cmd_suffix(t_ast_node *curr, char **argv)
+int	exec_builtin_cmd_suffix(t_ast_node *curr, char **argv, t_shell_context *shell_ctx)
 {
 	while (curr->child)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
 		{
-			if (exec_builtin_io_redirect(curr->child[0]) == -1)
+			if (exec_builtin_io_redirect(curr->child[0], shell_ctx) == -1)
 				return (-1);
 		}
 		else if (curr->child[0]->token->type == WORD)
@@ -120,12 +120,12 @@ int	exec_builtin_cmd_suffix(t_ast_node *curr, char **argv)
 	return (0);
 }
 
-int	exec_builtin_io_redirect(t_ast_node *curr)
+int	exec_builtin_io_redirect(t_ast_node *curr, t_shell_context *shell_ctx)
 {
 	if (curr->child[0]->sym == IO_FILE)
 		return (exec_builtin_io_file(curr->child[0]));
 	else
-		return (exec_builtin_io_here(curr->child[0]));
+		return (exec_builtin_io_here(curr->child[0], shell_ctx));
 }
 
 int	exec_builtin_io_file(t_ast_node *node)
@@ -155,7 +155,7 @@ int	exec_builtin_io_file(t_ast_node *node)
 	return (0);
 }
 
-int	exec_builtin_io_here(t_ast_node *node)
+int	exec_builtin_io_here(t_ast_node *node, t_shell_context *shell_ctx)
 {
 	int				fd;
 	struct termios	old_term;
