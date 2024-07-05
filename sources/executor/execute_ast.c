@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/07/05 15:50:25 by damin            ###   ########.fr       */
+=======
+/*   Updated: 2024/07/05 16:48:06 by seonseo          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +79,7 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_context *shell_ctx)
 	signal(SIGINT, SIG_IGN);
 	if (wait(&status) == -1)
 		return (-1);
+	shell_ctx->exit_status = status;
 	if (WIFSIGNALED(status))
 		printf("\n");
 	set_echoctl(NULL, ECHOCTL_OFF);
@@ -110,6 +115,7 @@ int	multiple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 			return (-1);
 		cmd_cnt--;
 	}
+	shell_ctx->exit_status = status;
 	if (WIFSIGNALED(status))
 		printf("\n");
 	set_echoctl(&old_term, ECHOCTL_OFF);
