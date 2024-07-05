@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/05 15:04:56 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/05 21:34:10 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		exec_builtin_cmd_suffix(t_ast_node *curr, char **argv, t_shell_context *she
 int		exec_builtin_io_redirect(t_ast_node *curr, t_shell_context *shell_ctx);
 int		exec_builtin_assignment_word(t_ast_node *curr, t_shell_context *shell_ctx);
 int 	exec_builtin_io_file(t_ast_node *node);
+int	    builtin_open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx);
 int	    exec_builtin_io_here(t_ast_node *node, t_shell_context *shell_ctx);
 
 // export.c

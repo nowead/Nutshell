@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 15:51:33 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/05 21:42:28 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,19 +155,76 @@ int	exec_builtin_io_file(t_ast_node *node)
 	return (0);
 }
 
+int	builtin_open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
+{
+	int			fd;
+	int			i;
+	char		*num;
+	char		*home_path;
+
+	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
+	if (home_path == NULL)
+		return (err_return("ft_strjoin"));
+	i = 0;
+	num = ft_itoa(i);
+	*file_name = ft_strjoin(home_path, num);
+	if (*file_name == NULL)
+		return (err_return("ft_strjoin"));
+	while (1)
+	{
+		if (access(*file_name, F_OK) != -1)
+		{
+			i++;
+			free (num);
+			free (*file_name);
+			num = ft_itoa(i);
+			*file_name = ft_strjoin(home_path, num);
+			if (*file_name == NULL)
+				return (err_return("ft_strjoin"));
+		}
+		else
+		{
+			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				free(*file_name);
+				free(home_path);
+				return (err_return("open"));
+			}
+			break ;
+		}
+	}
+	free (home_path);
+	return (fd);
+}
+
 int	exec_builtin_io_here(t_ast_node *node, t_shell_context *shell_ctx)
 {
 	int				fd;
+	char			*file_name;
 	struct termios	old_term;
-
-	// fd = find_unused_fd();
+	int				stdin_fd;
+	
 	set_echoctl(&old_term, ECHOCTL_OFF);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (err_return("dup2"));
+	fd = builtin_open_here_doc_tempfile(&file_name, shell_ctx);
+	if (fd == -1)
+		return (err_return("builtin open tempfile"));
 	io_readline(fd, node->child[0]->token->str);
-	//print_fd(fd);
-	// if (close(fd) == -1)
-	// 	err_ctrl("close error", 1, EXIT_FAILURE);
-	//heredoc_parents(fd);
+	if (close(fd) == -1)
+		return (err_return("close"));
+	fd = open(file_name, O_RDONLY, 0644);
+	if(fd == -1)
+		return (err_return("open"));
+	if (dup2(STDIN_FILENO, stdin_fd) == -1)
+        return (err_return("dup2 error"));
+    if (dup2(fd, STDIN_FILENO) == -1)
+        return (err_return("dup2 error"));
+	if (unlink(file_name) == -1)
+		return (err_return("unlink"));
+	if (close(fd) == -1 || close(STDIN_FILENO) == -1)
+		return (err_return("close"));
+	if (dup2(stdin_fd, STDIN_FILENO) == -1)
+        return (err_return("dup2 error"));
+	free(file_name);
 	return (0);
 }

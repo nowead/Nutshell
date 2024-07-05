@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 19:56:02 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/05 21:38:19 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,13 @@ int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
 	char		*home_path;
 
 	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
+	if (home_path == NULL)
+		err_ctrl("ft_strjoin", 1, EXIT_FAILURE);
 	i = 0;
 	num = ft_itoa(i);
 	*file_name = ft_strjoin(home_path, num);
+	if (*file_name == NULL)
+		err_ctrl("ft_strjoin", 1, EXIT_FAILURE);
 	while (1)
 	{
 		if (access(*file_name, F_OK) != -1)
@@ -70,12 +74,17 @@ int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
 			free (*file_name);
 			num = ft_itoa(i);
 			*file_name = ft_strjoin(home_path, num);
+			if (*file_name == NULL)
+				err_ctrl("ft_strjoin", 1, EXIT_FAILURE);
 		}
 		else
 		{
 			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
+			{
+				free(home_path);
 				err_ctrl("open", 1, EXIT_FAILURE);
+			}
 			break ;
 		}
 	}
@@ -95,7 +104,8 @@ int	exec_io_here(t_ast_node *node, t_shell_context *shell_ctx)
 	if (close(fd) == -1)
 		err_ctrl("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);
-	// print_fd(fd);
+	if(fd == -1)
+		err_ctrl("open", 1, EXIT_FAILURE);
     if (dup2(fd, STDIN_FILENO) == -1)
         err_ctrl("dup2 error", 1, EXIT_FAILURE);
 	if (unlink(file_name) == -1)
