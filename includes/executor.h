@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 17:28:07 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/06 20:16:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	io_readline(int fd, const char *str);
 void	print_fd(int fd);
 
 // exec_cmd.c
-void	err_ctrl(char *err, int sys, int exit_status);
 void    exec_ast(t_ast *ast, t_shell_context *shell_ctx);
 int     exec_and_or(t_ast_node *root, t_shell_context *shell_ctx);
 int     exec_and_or_(t_ast_node *curr, int prev_result, t_shell_context *shell_ctx);
@@ -58,7 +57,6 @@ void    exec_cmd_prefix(t_ast_node *curr, t_shell_context *shell_ctx);
 void    add_argument(char **argv, char *arg);
 void    exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_context *shell_ctx);
 void    exec_io_redirect(t_ast_node *curr, t_shell_context *shell_ctx);
-size_t	ft_strslen(char **strs);
 
 // built_in_cmd.c
 void	exec_echo(char **argv);

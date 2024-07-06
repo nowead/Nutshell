@@ -6,11 +6,34 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:18:05 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/01 19:43:34 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:24:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static const char	*ft_strtol_determine_base(const char *str, int *base);
+static long			ft_strtol_convert_to_number(const char *str, int base, \
+int sign, char **endptr);
+static int			char_to_digit(char c, int base);
+static int			check_overflow(long *result, int base, int *sign, \
+int digit);
+
+long	ft_strtol(const char *str, char **endptr, int base)
+{
+	const char	*str_start;
+	int			sign;
+	long		result;
+
+	str_start = str;
+	str = ft_strtol_skip_whitespace(str);
+	str = ft_strtol_handle_sign(str, &sign);
+	str = ft_strtol_determine_base(str, &base);
+	result = ft_strtol_convert_to_number(str, base, sign, endptr);
+	if (errno == EINVAL)
+		*endptr = (char *)str_start;
+	return (result);
+}
 
 static const char	*ft_strtol_determine_base(const char *str, int *base)
 {
@@ -36,6 +59,31 @@ static const char	*ft_strtol_determine_base(const char *str, int *base)
 			str += 2;
 	}
 	return (str);
+}
+
+static long	ft_strtol_convert_to_number(const char *str, int base, int sign, \
+char **endptr)
+{
+	long		result;
+	int			digit;
+	const char	*str_start;
+
+	str_start = str;
+	result = 0;
+	while (*str)
+	{
+		digit = char_to_digit(*str, base);
+		if (digit == -1)
+			break ;
+		if (check_overflow(&result, base, &sign, digit))
+			result = result * base + digit;
+		str++;
+	}
+	if (endptr)
+		*endptr = (char *)str;
+	if (str == str_start)
+		errno = EINVAL;
+	return (result * sign);
 }
 
 static int	char_to_digit(char c, int base)
@@ -78,45 +126,4 @@ static int	check_overflow(long *result, int base, int *sign, int digit)
 		return (0);
 	}
 	return (1);
-}
-
-static long	ft_strtol_convert_to_number(const char *str, int base, int sign, \
-char **endptr)
-{
-	long		result;
-	int			digit;
-	const char	*str_start;
-
-	str_start = str;
-	result = 0;
-	while (*str)
-	{
-		digit = char_to_digit(*str, base);
-		if (digit == -1)
-			break ;
-		if (check_overflow(&result, base, &sign, digit))
-			result = result * base + digit;
-		str++;
-	}
-	if (endptr)
-		*endptr = (char *)str;
-	if (str == str_start)
-		errno = EINVAL;
-	return (result * sign);
-}
-
-long	ft_strtol(const char *str, char **endptr, int base)
-{
-	const char	*str_start;
-	int			sign;
-	long		result;
-
-	str_start = str;
-	str = ft_strtol_skip_whitespace(str);
-	str = ft_strtol_handle_sign(str, &sign);
-	str = ft_strtol_determine_base(str, &base);
-	result = ft_strtol_convert_to_number(str, base, sign, endptr);
-	if (errno == EINVAL)
-		*endptr = (char *)str_start;
-	return (result);
 }

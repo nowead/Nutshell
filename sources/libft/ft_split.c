@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:34:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/25 15:40:34 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/06 20:21:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,3 @@ char	**ft_split(char const *s, char const c)
 	}
 	return (strs);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	**strs;
-
-// 	strs = ft_split(" by by sayonara ", ' ');
-// 	while (*strs)
-// 	{
-// 		printf("%s\n", *strs);
-// 		strs++;
-// 	}
-// }

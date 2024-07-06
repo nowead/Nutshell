@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvpe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/03 16:28:04 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/06 18:14:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*ft_execvpe_search(const char *file, char *dirs[]);
 static char	*path_join(const char *dir, const char *file);
-static void	free_strs(char *strs[]);
 
 int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 {

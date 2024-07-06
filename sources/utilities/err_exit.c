@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   err_ctrl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 16:54:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:20:46 by seonseo          ###   ########.fr       */
+/*   Created: 2024/06/07 19:01:34 by damin             #+#    #+#             */
+/*   Updated: 2024/07/06 20:35:45 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	err_exit(char *err, int sys, int exit_status)
 {
-	size_t	i;
-
-	if (dst == NULL && src == NULL)
-		return (dst);
-	i = 0;
-	while (i < n)
-	{
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
-	}
-	return (dst);
+	if (!sys)
+		ft_putendl_fd(err, 2);
+	else
+		perror(err);
+	exit(exit_status);
 }
-

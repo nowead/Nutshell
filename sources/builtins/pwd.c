@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 16:54:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:20:46 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/06 20:31:41 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/06 20:58:31 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	exec_pwd(void)
 {
-	size_t	i;
+	char *cwd;
 
-	if (dst == NULL && src == NULL)
-		return (dst);
-	i = 0;
-	while (i < n)
-	{
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
-	}
-	return (dst);
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+		err_exit("pwd", 1, EXIT_FAILURE);
+    printf("%s\n", cwd);
+	free(cwd);
+	exit(EXIT_SUCCESS);
 }
-

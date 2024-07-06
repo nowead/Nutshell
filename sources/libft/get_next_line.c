@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 22:03:24 by macbookair        #+#    #+#             */
-/*   Updated: 2024/02/27 14:29:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:20:12 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,28 +146,3 @@ int	ft_bufjoin(t_fdlist *fdnode, char *buf)
 	fdnode->save_len = joinlen;
 	return (0);
 }
-
-// #include <stdio.h>
-// #include <string.h>
-
-// int main(void)
-// {
-// 	int fd[2];
-
-// 	fd[0] = open("text1", O_RDWR);
-// 	printf("%s", get_next_line(fd[0]));
-// 	fd[1] = open("text2", O_RDWR);
-// 	printf("%s", get_next_line(fd[1]));
-// 	printf("%s", get_next_line(fd[0]));
-// 	printf("%s", get_next_line(fd[1]));
-// 	printf("%s", get_next_line(fd[0]));
-// 	printf("%s", get_next_line(fd[0]));
-// 	printf("%s", get_next_line(fd[0]));
-// 	close(fd[0]);
-// 	printf("%s", get_next_line(fd[1]));
-// 	printf("%s", get_next_line(fd[1]));
-// 	printf("%s", get_next_line(fd[1]));
-
-// 	close(fd[1]);
-// 	return (0);
-// }

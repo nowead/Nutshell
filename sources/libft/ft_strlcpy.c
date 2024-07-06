@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:31:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/04/18 19:13:07 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:19:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	}
 	return (ft_strlen(src));
 }
-
-/*
-#include <stdio.h>
-#include <string.h>
-
-int	main(void)
-{
-	char	dst[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-	char	str[] = "0123456789abcdef";
-	size_t	dst_len = 10;
-
-	strlcpy(dst, str, 3);
-	printf("%s\n", dst);
-
-	for (size_t i = 0; i < dst_len; i++)
-	{
-		printf("%d", dst[i]);
-		if (i + 1 < dst_len)
-			printf(", ");
-	}
-}
-*/

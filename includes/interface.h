@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 16:46:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 18:35:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_shell_context
 }	t_shell_context;
 
 int			run_shell(char *envp[]);
+void		init_shell_context(t_shell_context *shell_ctx, char **envp);
 char		**init_envp(char *envp[]);
 const char	*get_prompt(int incomplete_cmd);
 void		exit_shell(struct termios *old_term);

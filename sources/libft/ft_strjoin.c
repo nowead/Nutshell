@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 08:42:23 by seonseo           #+#    #+#             */
-/*   Updated: 2024/04/18 18:52:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:19:19 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(str, s2, size);
 	return (str);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	// char	s1[] = "happy happy";
-// 	// char	s2[] = "";
-// 	char	*str;
-
-// 	str = ft_strjoin(NULL, NULL);
-// 	if (str == NULL)
-// 		return (1);
-// 	printf("%s\n", str);
-// 	printf("%zu\n", ft_strlen(str));
-// }

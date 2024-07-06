@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 16:17:51 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/07/06 18:35:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,9 @@ int	run_shell(char *envp[])
 	t_shell_context	shell_ctx;
 
 	set_echoctl(&(shell_ctx.old_term), ECHOCTL_OFF);
-	shell_ctx.envp = init_envp(envp);
-	if (shell_ctx.envp == NULL)
-		exit_shell(&(shell_ctx.old_term));
-	shell_ctx.exit_status = 0;
-	incomplete_cmd = 0;
 	set_signal(SIGINT_HANDLER);
+	init_shell_context(&shell_ctx, envp);
+	incomplete_cmd = 0;
     while(1)
 	{
 		if (!incomplete_cmd)
@@ -107,6 +104,14 @@ int	run_shell(char *envp[])
 		// system("leaks minishell | grep process");
     }
 	return (0);
+}
+
+void	init_shell_context(t_shell_context *shell_ctx, char **envp)
+{
+	shell_ctx->envp = init_envp(envp);
+	if (shell_ctx->envp == NULL)
+		exit_shell(&(shell_ctx->old_term));
+	shell_ctx->exit_status = 0;
 }
 
 char	**init_envp(char *envp[])

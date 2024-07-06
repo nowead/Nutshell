@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 18:13:00 by macbookair        #+#    #+#             */
-/*   Updated: 2024/04/18 18:52:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:21:08 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,3 @@ size_t	ft_printf_strlen(const char *s)
 		len++;
 	return (len);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	a;
-// 	int	printbyte;
-
-// 	a = 'a';
-// 	printbyte = ft_printf("%X%%\n", a);
-// 	printf("\npb:%d\n", printbyte);
-// 	printbyte = printf("%X%%\n", a);
-// 	printf("\npb:%d\n", printbyte);
-// 	return (0);
-// }

@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 16:54:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:20:46 by seonseo          ###   ########.fr       */
+/*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
+/*   Updated: 2024/07/06 21:00:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	exec_exit(t_shell_context *shell_ctx)
 {
-	size_t	i;
-
-	if (dst == NULL && src == NULL)
-		return (dst);
-	i = 0;
-	while (i < n)
-	{
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
-	}
-	return (dst);
+	printf("\033[u\033[1B\033[1A");
+	printf("\nexit\n");
+	restore_echoctl(&(shell_ctx->old_term));
+	exit(EXIT_SUCCESS);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 12:52:08 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/07/06 20:35:45 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
 
 	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
 	if (home_path == NULL)
-		err_ctrl("ft_strjoin", 1, EXIT_FAILURE);
+		err_exit("ft_strjoin", 1, EXIT_FAILURE);
 	i = 0;
 	num = ft_itoa(i);
 	*file_name = ft_strjoin(home_path, num);
 	if (*file_name == NULL)
-		err_ctrl("ft_strjoin", 1, EXIT_FAILURE);
+		err_exit("ft_strjoin", 1, EXIT_FAILURE);
 	while (1)
 	{
 		if (access(*file_name, F_OK) != -1)
@@ -75,7 +75,7 @@ int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
 			num = ft_itoa(i);
 			*file_name = ft_strjoin(home_path, num);
 			if (*file_name == NULL)
-				err_ctrl("ft_strjoin", 1, EXIT_FAILURE);
+				err_exit("ft_strjoin", 1, EXIT_FAILURE);
 		}
 		else
 		{
@@ -83,7 +83,7 @@ int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
 			if (fd == -1)
 			{
 				free(home_path);
-				err_ctrl("open", 1, EXIT_FAILURE);
+				err_exit("open", 1, EXIT_FAILURE);
 			}
 			break ;
 		}
@@ -102,16 +102,16 @@ int	exec_io_here(t_ast_node *node, t_shell_context *shell_ctx)
 	fd = open_here_doc_tempfile(&file_name, shell_ctx);
     io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
-		err_ctrl("close", 1, EXIT_FAILURE);
+		err_exit("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);
 	if(fd == -1)
-		err_ctrl("open", 1, EXIT_FAILURE);
+		err_exit("open", 1, EXIT_FAILURE);
     if (dup2(fd, STDIN_FILENO) == -1)
-        err_ctrl("dup2 error", 1, EXIT_FAILURE);
+        err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (unlink(file_name) == -1)
-		err_ctrl("unlink", 1, EXIT_FAILURE);
+		err_exit("unlink", 1, EXIT_FAILURE);
 	if (close(fd) == -1)
-		err_ctrl("close", 1, EXIT_FAILURE);
+		err_exit("close", 1, EXIT_FAILURE);
 	free(file_name);
 	return (0);
 }
@@ -127,18 +127,18 @@ int	exec_io_file(t_ast_node *node)
 	else if (node->token->type == DGREAT)
 		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		err_ctrl("file open error", 1, EXIT_FAILURE);
+		err_exit("file open error", 1, EXIT_FAILURE);
 	if (node->token->type == LESS)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
-			err_ctrl("dup2 error", 1, EXIT_FAILURE);
+			err_exit("dup2 error", 1, EXIT_FAILURE);
 	}
 	else
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
-			err_ctrl("dup2 error", 1, EXIT_FAILURE);
+			err_exit("dup2 error", 1, EXIT_FAILURE);
 	}
 	if (close(fd) == -1)
-		err_ctrl("file close error ", 1, EXIT_FAILURE);
+		err_exit("file close error ", 1, EXIT_FAILURE);
 	return (0);
 }

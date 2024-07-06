@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 08:04:17 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/07/06 20:39:07 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int     err_return(char *err_msg)
-{
-    perror(err_msg);
-    return (-1);
-}
 
 int     is_builtin_cmd(t_ast_node *curr)
 {
@@ -38,19 +32,6 @@ int     is_builtin_cmd(t_ast_node *curr)
 	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (1);
     return (0);
-}
-
-void	free_argv(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		free(argv[i]);
-		i++;
-	}
-	free(argv);
 }
 
 int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
@@ -75,7 +56,7 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 	}
 	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
         ret = err_return(argv[0]);
-	free_argv(argv);
+	ft_free_strs(argv);
 	shell_ctx->exit_status = ret;
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:33:39 by seonseo           #+#    #+#             */
-/*   Updated: 2023/11/02 18:44:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:20:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,3 @@ char	*ft_itoa(int n)
 	ft_fillnbr(nbr_str, nbrlen, n);
 	return (nbr_str);
 }
-// #include <stdio.h>
-// #include <limits.h>
-
-// int	main(void)
-// {
-// 	printf("\"%s\"\n", ft_itoa(-2147483648LL));
-// }

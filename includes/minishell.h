@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 19:45:48 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/29 20:03:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:48:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "executor.h"
 # include "interface.h"
 # include "builtins.h"
+# include "utilities.h"
 
 extern int  sigint_flag;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookair <macbookair@student.42.fr>      +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:12:14 by seonseo           #+#    #+#             */
-/*   Updated: 2023/12/27 10:52:58 by macbookair       ###   ########.fr       */
+/*   Updated: 2024/07/06 20:20:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ft_strlcpy(substr, &s[start], size);
 	return (substr);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	*substr;
-
-// 	substr = ft_substr("", 1, 1);
-// 	printf("\"%s\"\n", substr);
-// }

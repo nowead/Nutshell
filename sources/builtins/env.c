@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 16:54:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:20:46 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/06 20:32:09 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/06 20:32:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	exec_env(t_shell_context *shell_ctx)
 {
 	size_t	i;
+	char	**envp;
 
-	if (dst == NULL && src == NULL)
-		return (dst);
+	envp = shell_ctx->envp;
 	i = 0;
-	while (i < n)
+	while (envp[i])
 	{
-		((char *)dst)[i] = ((char *)src)[i];
+		printf("%s\n", envp[i]);
 		i++;
 	}
-	return (dst);
+	exit(EXIT_SUCCESS);
 }
-

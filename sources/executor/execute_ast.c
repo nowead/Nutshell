@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 09:13:57 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/07/06 20:48:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #define USE_SIGNAL
 #include "minishell.h"
@@ -142,9 +141,9 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 		set_echoctl(&old_term, ECHOCTL_ON);
 		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			err_ctrl("dup2", 1, EXIT_FAILURE);
+			err_exit("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1)
-			err_ctrl("close", 1, EXIT_FAILURE);
+			err_exit("close", 1, EXIT_FAILURE);
 		exec_command(curr, shell_ctx);
 	}
 	return (0);
@@ -172,11 +171,11 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[2], STDIN_FILENO) == -1)
-			err_ctrl("dup2", 1, EXIT_FAILURE);
+			err_exit("dup2", 1, EXIT_FAILURE);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			err_ctrl("dup2", 1, EXIT_FAILURE);
+			err_exit("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1 || close(fd[1]) == -1 || close(fd[2]) == -1)
-			err_ctrl("close", 1, EXIT_FAILURE);
+			err_exit("close", 1, EXIT_FAILURE);
 		exec_command(curr, shell_ctx);
 	}
 	if (close(fd[2]) == -1)
@@ -201,9 +200,9 @@ int	last_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
-			err_ctrl("dup2", 1, EXIT_FAILURE);
+			err_exit("dup2", 1, EXIT_FAILURE);
 		if (close(fd[0]) == -1)
-			err_ctrl("close", 1, EXIT_FAILURE);
+			err_exit("close", 1, EXIT_FAILURE);
 		exec_command(curr, shell_ctx);
 	}
 	if (close(fd[0]) == -1)
@@ -270,7 +269,7 @@ void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 		exit(EXIT_SUCCESS);
 	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
 	if (argv == NULL)
-		err_ctrl("malloc failed", 1, EXIT_FAILURE);
+		err_exit("malloc failed", 1, EXIT_FAILURE);
 	if (curr->child_num == 2)
 	{
 		argv[0] = curr->child[0]->token->str;
@@ -337,6 +336,8 @@ void	add_argument(char **argv, char *arg)
 	while (argv[i])
 		i++;
 	argv[i] = ft_strdup(arg);
+	if (argv[i] == NULL)
+		err_exit("add_argument", 1, EXIT_FAILURE);
 }
 
 void	exec_io_redirect(t_ast_node *curr, t_shell_context *shell_ctx)

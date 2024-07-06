@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:28:43 by seonseo           #+#    #+#             */
-/*   Updated: 2023/11/04 18:22:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:19:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ft_strlcpy(branch, &s1[i], branch_size);
 	return (branch);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	// char	str[] = "234ad23sf223232323232";
-// 	// char	set[] = "32";
-// 	// char	*branch;
-
-// 	// branch = ft_strtrim(str, set);
-// 	printf("%d\n", ft_is_set(NULL, 0));
-// }

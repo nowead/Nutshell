@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 11:23:38 by seonseo           #+#    #+#             */
-/*   Updated: 2023/10/12 20:39:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:20:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,3 @@ int	ft_isalpha(int c)
 		return (1);
 	return (0);
 }
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char	c;
-
-	c = 0;
-	while (scanf("%c", &c))
-	{
-		printf("%d\n", ft_isalpha(c));
-		getchar();
-	}
-}
-*/

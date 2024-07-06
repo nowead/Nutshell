@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printlst.c                                      :+:      :+:    :+:   */
+/*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 15:41:25 by seonseo           #+#    #+#             */
-/*   Updated: 2023/11/09 11:04:47 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/06 20:15:41 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/06 20:42:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef UTILITIES_H
+# define UTILITIES_H
 
-size_t	ft_printlst(t_list *lst)
-{
-	size_t	size;
+void	err_exit(char *err, int sys, int exit_status);
+int     err_return(char *err_msg);
+void	ft_free_strs(char *strs[]);
+int		ft_print_strs(char **strs);
+int     ft_strcmp(const char *s1, const char *s2);
+size_t	ft_strslen(char **strs);
 
-	if (lst == NULL)
-		return (0);
-	size = 0;
-	while (lst->content)
-	{
-		ft_putstr_fd(lst->content, 1);
-		(lst->content)++;
-		size++;
-	}
-	return (size);
-}
+#endif

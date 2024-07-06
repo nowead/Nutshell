@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:18:05 by seonseo           #+#    #+#             */
-/*   Updated: 2024/04/30 19:51:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:20:20 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,3 @@ int	ft_atoi(const char *str)
 	}
 	return ((int)(number * sign));
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	str[] = "9223372036854775807";
-
-// 	printf("%d\n", atoi(str));
-// 	printf("%d\n", ft_atoi(str));
-// }

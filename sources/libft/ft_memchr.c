@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 19:24:37 by seonseo           #+#    #+#             */
-/*   Updated: 2023/11/07 15:53:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:20:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
-
-	// #include <stdio.h>
-	// #include <string.h>
-
-	// int	main(void)
-	// {
-	// 	int tab[7] = {-49, 49, 1, -1, 0, -2, 2};
-
-	// 	printf("%s\n", (char *)ft_memchr(tab, -1, 7));
-	// 	printf("%s\n", (char *)memchr(tab, -1, 7));
-	// }

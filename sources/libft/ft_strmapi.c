@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:12:17 by seonseo           #+#    #+#             */
-/*   Updated: 2023/11/04 18:01:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:19:40 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	return (s1);
 }
 
-// #include <stdio.h>
-
-// char	f(unsigned int i, char c)
-// {
-// 	if (i > 5 && 'a' <= c && c <= 'z')
-// 		return (c - 'a' + 'A');
-// 	return (c);
-// }
-
-// int	main(void)
-// {
-// 	char	s[] = "mama mia! gaous";
-
-// 	printf("%s\n", ft_strmapi(s, f));
-// }

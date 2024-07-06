@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:03:15 by seonseo           #+#    #+#             */
-/*   Updated: 2023/11/07 19:36:23 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:21:40 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,3 @@ void	ft_putnbr_fd(int n, int fd)
 	ft_putnbr_fd(n / 10, fd);
 	write(fd, &"0123456789"[n % 10], 1);
 }
-
-// int	main()
-// {
-// 	ft_putnbr_fd(456, 1);
-// }
