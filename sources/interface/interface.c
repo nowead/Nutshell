@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 21:29:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/06 16:17:51 by mindaewon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,14 @@ int	run_shell(char *envp[])
 		line = readline(get_prompt(incomplete_cmd));
 		if (sigint_flag == 1)
 		{
-			if (old_line)
-				free(old_line);
-			set_signal(SIGINT_HANDLER);
-			incomplete_cmd = 0;
+			if (incomplete_cmd == 1)
+			{
+				if (old_line)
+					free(old_line);
+				set_signal(SIGINT_HANDLER);
+				incomplete_cmd = 0;
+			}
+			shell_ctx.exit_status = 1;
 			sigint_flag = 0;
 		}
 		if (!line)
