@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/05 21:38:19 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/06 12:52:08 by mindaewon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	io_readline(int fd, const char *str)
 		line = readline("> ");
 		if (!line)
 		{
-			printf("\033[u\033[1B\033[1A");
+			ft_printf("\033[u\033[1B\033[1A");
 			break ;
 		}
 		if (ft_strlen(line) == ft_strlen(str) && \
