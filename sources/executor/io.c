@@ -6,11 +6,10 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 20:35:45 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:18:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define	 USE_READLINE
 #include "minishell.h"
 
 void	io_readline(int fd, const char *str)
@@ -50,7 +49,7 @@ void	print_fd(int fd)
 	}
 }
 
-int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
+int	open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
 {
 	int			fd;
 	int			i;
@@ -92,22 +91,22 @@ int	open_here_doc_tempfile(char **file_name, t_shell_context *shell_ctx)
 	return (fd);
 }
 
-int	exec_io_here(t_ast_node *node, t_shell_context *shell_ctx)
+int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int				fd;
 	char			*file_name;
 	struct termios	old_term;
-	
+
 	set_echoctl(&old_term, ECHOCTL_OFF);
 	fd = open_here_doc_tempfile(&file_name, shell_ctx);
-    io_readline(fd, node->child[0]->token->str);
+	io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);
-	if(fd == -1)
+	if (fd == -1)
 		err_exit("open", 1, EXIT_FAILURE);
-    if (dup2(fd, STDIN_FILENO) == -1)
-        err_exit("dup2 error", 1, EXIT_FAILURE);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (unlink(file_name) == -1)
 		err_exit("unlink", 1, EXIT_FAILURE);
 	if (close(fd) == -1)
@@ -123,9 +122,11 @@ int	exec_io_file(t_ast_node *node)
 	if (node->token->type == LESS)
 		fd = open(node->child[0]->token->str, O_RDONLY);
 	else if (node->token->type == GREAT)
-		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(node->child[0]->token->str, \
+		O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (node->token->type == DGREAT)
-		fd = open(node->child[0]->token->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(node->child[0]->token->str, \
+		O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		err_exit("file open error", 1, EXIT_FAILURE);
 	if (node->token->type == LESS)

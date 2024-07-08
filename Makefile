@@ -33,8 +33,8 @@ UTILITIES_DIR	=	sources/utilities/
 
 HEADER_FILES	=	minishell.h	interface.h	tokenizer.h	parser.h	executor.h	builtins.h	utilities.h
 TOKENIZER_SRC	=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
-PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	print_ast.c		split_into_subtokens.c\
-					expand_subtokenlist.c	expand_parameter.c
+PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	split_into_subtokens.c\
+					expand_subtokenlist.c	expand_parameter.c		get_token_type_string.c
 INTERFACE_SRC	=	interface.c	signal.c
 EXECUTOR_SRC	=	execute_ast.c			io.c		ft_execvpe.c	ft_getenv.c
 BUILTINS_SRC	=	handle_built_in.c		cd.c		echo.c			env.c		exit.c\

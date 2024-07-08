@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   print_tokenlist.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 20:32:09 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 15:56:27 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/08 17:13:55 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/08 17:14:07 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_env(t_shell_ctx *shell_ctx)
+int	print_tokenlist(t_tokenlist *tokenlist)
 {
-	size_t	i;
-	char	**envp;
+	t_toknode	*curr;
+	const char	*tokentype_str;
 
-	envp = shell_ctx->envp;
-	i = 0;
-	while (envp[i])
+	curr = tokenlist->head;
+	while (curr)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		tokentype_str = get_token_type_string(curr->token->type);
+		if (ft_printf("%s:", tokentype_str) == -1)
+			return (-1);
+		ft_printf("quote:%d:", curr->token->quote);
+		if (ft_printf("%s\n", curr->token->str) == -1)
+			return (-1);
+		curr = curr->next;
 	}
-	exit(EXIT_SUCCESS);
+	return (0);
 }

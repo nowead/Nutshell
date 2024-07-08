@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 19:57:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:28:04 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,31 @@ int	exec_cd(char **argv, char ***envp)
 	if (update_oldpwd(envp) == -1)
 		return (-1);
 	if (chdir(argv[1]) == -1)
-        return (err_return("chdir"));
+		return (err_return("chdir"));
 	if (update_pwd(envp) == -1)
 		return (-1);
 	return (0);
 }
 
-int update_oldpwd(char ***envp)
+int	update_oldpwd(char ***envp)
 {
-    char **old_pwd;
-    char *new_old_pwd;
-    char *pwd;
+	char	**old_pwd;
+	char	*new_old_pwd;
+	char	*pwd;
 
 	pwd = *(search_env_var("PWD", 3, *envp));
 	if (pwd == NULL)
 		return (-1);
-    new_old_pwd = ft_strjoin("OLD", pwd);
-    if (new_old_pwd == NULL)
-        return (err_return("ft_strjoin"));
+	new_old_pwd = ft_strjoin("OLD", pwd);
+	if (new_old_pwd == NULL)
+		return (err_return("ft_strjoin"));
 	if (export_single_env_var(new_old_pwd, envp) == -1)
 	{
 		free(new_old_pwd);
 		return (err_return("export_single_env_var"));
 	}
 	free(new_old_pwd);
-    return (0);
+	return (0);
 }
 
 int	update_pwd(char ***envp)

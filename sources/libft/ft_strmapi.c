@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:12:17 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:19:40 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:05:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	s1[i] = '\0';
 	return (s1);
 }
-

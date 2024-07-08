@@ -6,15 +6,15 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:31:10 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:31:26 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:28:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    exec_echo(char **argv)
+void	exec_echo(char **argv)
 {
-	int i;
+	int	i;
 	int	n_flag_on;
 
 	i = 1;

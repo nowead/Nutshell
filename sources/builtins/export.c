@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/05 16:18:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:28:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int	export_single_env_var(char *env_var, char ***envp)
 		*old_env_var = new_env_var;
 	}
 	else
+	{
 		if (export_new_env_var(new_env_var, envp))
 		{
 			free(new_env_var);
 			return (-1);
 		}
+	}
 	return (0);
 }
 

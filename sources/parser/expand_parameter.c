@@ -6,16 +6,16 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/05 20:39:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:03:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	expand_parameter(t_tokenlist *tokenlist, t_shell_context *shell_ctx)
+int	expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx)
 {
-	t_tokenlist_node	*curr;
-	t_tokenlist_node	*prev;
+	t_toknode	*curr;
+	t_toknode	*prev;
 
 	curr = tokenlist->head;
 	while (curr)
@@ -33,12 +33,13 @@ int	expand_parameter(t_tokenlist *tokenlist, t_shell_context *shell_ctx)
 	return (0);
 }
 
-int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *tokenlist, t_shell_context *shell_ctx)
+int	expand_parameters_in_a_token(t_toknode *toknode, t_tokenlist *tokenlist, \
+t_shell_ctx *shell_ctx)
 {
 	t_tokenlist			*subtokenlist;
 	t_tokenlist			*fields;
 
-	subtokenlist = split_into_subtokens(tokenlist_node);
+	subtokenlist = split_into_subtokens(toknode);
 	if (subtokenlist == NULL)
 		return (-1);
 	if (expand_parameters_in_subtokens(subtokenlist, shell_ctx))
@@ -48,18 +49,18 @@ int	expand_parameters_in_a_token(t_tokenlist_node *tokenlist_node, t_tokenlist *
 	if (fields == NULL)
 		return (-1);
 	if (fields->size != 0)
-		insert_fields_into_tokenlist(tokenlist, tokenlist_node, fields);
+		insert_fields_into_tokenlist(tokenlist, toknode, fields);
 	else
-		pop_tokenlist_node(tokenlist, tokenlist_node);
-	free_tokenlist_node(tokenlist_node);
+		pop_toknode(tokenlist, toknode);
+	free_toknode(toknode);
 	free(fields);
 	return (0);
 }
 
 t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist)
 {
-	t_tokenlist_node	*curr_subtok;
-	t_tokenlist			*fields;
+	t_toknode	*curr_subtok;
+	t_tokenlist	*fields;
 
 	fields = (t_tokenlist *)ft_calloc(1, sizeof(t_tokenlist));
 	if (fields == NULL)
@@ -78,7 +79,7 @@ t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist)
 	return (fields);
 }
 
-int	handle_no_quote_token(t_tokenlist_node **curr_subtok, t_tokenlist *fields)
+int	handle_no_quote_token(t_toknode **curr_subtok, t_tokenlist *fields)
 {
 	size_t	i;
 	char	*str;
@@ -114,7 +115,8 @@ int	handle_first_field(char *str, size_t *i, t_tokenlist *fields)
 	return (0);
 }
 
-int	handle_middle_field(char *str, size_t *i, t_tokenlist *fields, int *is_space)
+int	handle_middle_field(char *str, size_t *i, t_tokenlist *fields, \
+int *is_space)
 {
 	*is_space = 1;
 	if (!ft_isspace(str[*i]))
@@ -128,12 +130,13 @@ int	handle_middle_field(char *str, size_t *i, t_tokenlist *fields, int *is_space
 	return (0);
 }
 
-int	handle_last_field(t_tokenlist *fields, t_tokenlist_node **curr_subtok)
+int	handle_last_field(t_tokenlist *fields, t_toknode **curr_subtok)
 {
 	t_token	*fields_back_token;
 
 	fields_back_token = fields->back->token;
-	fields->back->token = merge_two_tokens(fields->back->token, (*curr_subtok)->next->token);
+	fields->back->token = \
+	merge_two_tokens(fields->back->token, (*curr_subtok)->next->token);
 	free_token(fields_back_token);
 	if (fields->back->token == NULL)
 		return (-1);
@@ -141,22 +144,24 @@ int	handle_last_field(t_tokenlist *fields, t_tokenlist_node **curr_subtok)
 	return (0);
 }
 
-void	handle_quote_token(t_tokenlist *subtokenlist, t_tokenlist_node **curr_subtok, t_tokenlist *fields)
+void	handle_quote_token(t_tokenlist *subtokenlist, t_toknode **curr_subtok, \
+t_tokenlist *fields)
 {
-	t_tokenlist_node	*prev_subtok;
-	t_token				*fields_back_token;
+	t_toknode	*prev_subtok;
+	t_token		*fields_back_token;
 
 	prev_subtok = *curr_subtok;
 	*curr_subtok = (*curr_subtok)->next;
 	if (fields->back && fields->back->token->quote != NO_QUOTE)
 	{
 		fields_back_token = fields->back->token;
-		fields->back->token = merge_two_tokens(fields->back->token, prev_subtok->token);
+		fields->back->token = \
+		merge_two_tokens(fields->back->token, prev_subtok->token);
 		free(fields_back_token);
 	}
 	else
 	{
-		pop_tokenlist_node(subtokenlist, prev_subtok);
+		pop_toknode(subtokenlist, prev_subtok);
 		tokenlist_add_node(fields, prev_subtok);
 	}
 }
@@ -190,13 +195,14 @@ t_token	*get_field(char *str, size_t *i)
 	return (new_word_token(ft_substr(str, start, *i - start)));
 }
 
-void	insert_fields_into_tokenlist(t_tokenlist *tokenlist, t_tokenlist_node *tokenlist_node, t_tokenlist *fields)
+void	insert_fields_into_tokenlist(t_tokenlist *tokenlist, \
+t_toknode *toknode, t_tokenlist *fields)
 {
-	t_tokenlist_node	*prev;
-	t_tokenlist_node	*next;
+	t_toknode	*prev;
+	t_toknode	*next;
 
-	prev = tokenlist_node->prev;
-	next = tokenlist_node->next;
+	prev = toknode->prev;
+	next = toknode->next;
 	if (prev != NULL)
 	{
 		prev->next = fields->head;

@@ -6,19 +6,18 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/07/06 20:48:34 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:26:08 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define USE_SIGNAL
 #include "minishell.h"
 
-void	exec_ast(t_ast *ast, t_shell_context *shell_ctx)
+void	exec_ast(t_ast *ast, t_shell_ctx *shell_ctx)
 {
 	exec_and_or(ast->root, shell_ctx);
 }
 
-int	exec_and_or(t_ast_node *root, t_shell_context *shell_ctx)
+int	exec_and_or(t_ast_node *root, t_shell_ctx *shell_ctx)
 {
 	int	initial_result;
 
@@ -28,13 +27,13 @@ int	exec_and_or(t_ast_node *root, t_shell_context *shell_ctx)
 	return (exec_and_or_(root->child[1], initial_result, shell_ctx));
 }
 
-int exec_and_or_(t_ast_node *curr, int prev_result, t_shell_context *shell_ctx)
+int	exec_and_or_(t_ast_node *curr, int prev_result, t_shell_ctx *shell_ctx)
 {
 	int	curr_result;
 
 	if (curr->token && \
-	((curr->token->type == AND_IF && prev_result == 0) ||\
-	 (curr->token->type == OR_IF && prev_result == -1)))
+	((curr->token->type == AND_IF && prev_result == 0) || \
+	(curr->token->type == OR_IF && prev_result == -1)))
 	{
 		curr_result = exec_pipe_sequence(curr->child[0], shell_ctx);
 		return (exec_and_or_(curr->child[1], curr_result, shell_ctx));
@@ -42,7 +41,7 @@ int exec_and_or_(t_ast_node *curr, int prev_result, t_shell_context *shell_ctx)
 	return (prev_result);
 }
 
-int	exec_pipe_sequence(t_ast_node *curr, t_shell_context *shell_ctx)
+int	exec_pipe_sequence(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (!is_there_pipe(curr))
 		return (single_command(curr->child[0], shell_ctx));
@@ -50,14 +49,14 @@ int	exec_pipe_sequence(t_ast_node *curr, t_shell_context *shell_ctx)
 		return (multiple_command(curr, shell_ctx));
 }
 
-int	single_command(t_ast_node *curr, t_shell_context *shell_ctx) // command
+int	single_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (is_builtin_cmd(curr->child[0]))
 		return (exec_builtin_simple_command(curr->child[0], shell_ctx));
 	return (exec_external_cmd(curr, shell_ctx));
 }
 
-int	exec_external_cmd(t_ast_node *curr, t_shell_context *shell_ctx)
+int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	pid_t	pid;
 	int		status;
@@ -82,7 +81,7 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_context *shell_ctx)
 	return (0);
 }
 
-int	multiple_command(t_ast_node *curr, t_shell_context *shell_ctx)
+int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	int				fd[3];
 	size_t			cmd_cnt;
@@ -126,7 +125,7 @@ int	is_there_pipe(t_ast_node *curr)
 		return (0);
 }
 
-int	first_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
+int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 	struct termios	old_term;
@@ -149,7 +148,7 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 	return (0);
 }
 
-int	middle_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
+int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 	struct termios	old_term;
@@ -159,7 +158,6 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 	fd[2] = fd[0];
 	if (pipe(fd) == -1)
 		return (-1);
-	
 	pid = fork();
 	if (pid == -1)
 	{
@@ -183,7 +181,7 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 	return (0);
 }
 
-int	last_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
+int	last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 	struct termios	old_term;
@@ -210,7 +208,7 @@ int	last_command(t_ast_node *curr, int fd[3], t_shell_context *shell_ctx)
 	return (0);
 }
 
-void	exec_command(t_ast_node *curr, t_shell_context *shell_ctx)
+void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (curr->child[0]->sym == SIMPLE_COMMAND)
 		exec_simple_command(curr->child[0], shell_ctx);
@@ -221,15 +219,15 @@ void	exec_command(t_ast_node *curr, t_shell_context *shell_ctx)
 	}
 }
 
-void	exec_redirect_list(t_ast_node *curr, t_shell_context *shell_ctx)
+void	exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (curr->child == NULL)
-		return;
+		return ;
 	exec_io_redirect(curr->child[0], shell_ctx);
 	exec_redirect_list(curr->child[1], shell_ctx);
 }
 
-void	exec_subshell(t_ast_node *curr, t_shell_context *shell_ctx)
+void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (exec_and_or(curr, shell_ctx) == -1)
 	{
@@ -258,7 +256,7 @@ int	count_argument(t_ast_node *curr)
 	return (arg_cnt);
 }
 
-void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
+void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	char	**argv;
 
@@ -275,7 +273,7 @@ void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 		argv[0] = curr->child[0]->token->str;
 		exec_cmd_suffix(curr->child[1], argv, shell_ctx);
 	}
-	else if(curr->child_num == 3)
+	else if (curr->child_num == 3)
 	{
 		argv[0] = curr->child[1]->token->str;
 		exec_cmd_suffix(curr->child[2], argv, shell_ctx);
@@ -286,7 +284,7 @@ void	exec_simple_command(t_ast_node *curr, t_shell_context *shell_ctx)
 	exit(EXIT_FAILURE);
 }
 
-void	execute_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx)
+void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 {
 	if (ft_strncmp(cmd_name, "echo", 5) == 0)
 		exec_echo(argv);
@@ -306,7 +304,7 @@ void	execute_argv(char *cmd_name, char **argv, t_shell_context *shell_ctx)
 		ft_execvpe(argv[0], argv, shell_ctx->envp);
 }
 
-void	exec_cmd_prefix(t_ast_node *curr, t_shell_context *shell_ctx)
+void	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{
@@ -316,7 +314,7 @@ void	exec_cmd_prefix(t_ast_node *curr, t_shell_context *shell_ctx)
 	}
 }
 
-void	exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_context *shell_ctx)
+void	exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{
@@ -340,7 +338,7 @@ void	add_argument(char **argv, char *arg)
 		err_exit("add_argument", 1, EXIT_FAILURE);
 }
 
-void	exec_io_redirect(t_ast_node *curr, t_shell_context *shell_ctx)
+void	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (curr->child[0]->sym == IO_FILE)
 		exec_io_file(curr->child[0]);

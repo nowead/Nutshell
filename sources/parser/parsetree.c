@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsetree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/24 15:26:33 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/08 15:58:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_ast_node	*new_ast_node(int sibling_index, t_symbol sym, t_token *token)
 	return (node);
 }
 
-int	add_ast_child(t_ast_node *node, t_ast_node *child, t_ast_err *err, size_t max_child_num)
+int	add_ast_child(t_ast_node *node, t_ast_node *child, \
+t_ast_err *err, size_t max_child_num)
 {
 	if (child == NULL)
 	{

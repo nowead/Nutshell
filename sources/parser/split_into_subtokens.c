@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:21:29 by seonseo           #+#    #+#             */
-/*   Updated: 2024/06/20 19:50:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 15:48:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_token	*split_quoted_token(char *str, size_t *i);
 static t_token	*split_unquoted_token(char *str, size_t *i);
 
-t_tokenlist	*split_into_subtokens(t_tokenlist_node *tokenlist_node)
+t_tokenlist	*split_into_subtokens(t_toknode *toknode)
 {
 	size_t		i;
 	char		*str;
@@ -24,7 +24,7 @@ t_tokenlist	*split_into_subtokens(t_tokenlist_node *tokenlist_node)
 	subtokenlist = (t_tokenlist *)ft_calloc(1, sizeof(t_tokenlist));
 	if (subtokenlist == NULL)
 		return (NULL);
-	str = tokenlist_node->token->str;
+	str = toknode->token->str;
 	i = 0;
 	while (str[i])
 	{

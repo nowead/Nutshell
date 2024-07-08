@@ -6,14 +6,14 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:33:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:33:26 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 15:03:23 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     err_return(char *err_msg)
+int	err_return(char *err_msg)
 {
-    perror(err_msg);
-    return (-1);
+	perror(err_msg);
+	return (-1);
 }

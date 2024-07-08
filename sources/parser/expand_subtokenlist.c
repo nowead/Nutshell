@@ -6,22 +6,27 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 22:36:11 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/05 21:27:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:00:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node, t_shell_context *shell_ctx);
-static int	expand_parameters_in_string(char **str, t_shell_context *shell_ctx);
-static int	expand_single_parameter(char **str, size_t *i, t_shell_context *shell_ctx);
+static int	expand_parameters_in_subtoken(t_toknode *subtoknode, \
+t_shell_ctx *shell_ctx);
+static int	expand_parameters_in_string(char **str, \
+t_shell_ctx *shell_ctx);
+static int	expand_single_parameter(char **str, size_t *i, \
+t_shell_ctx *shell_ctx);
 static void	search_env_end(char *str, size_t *i);
-static char	*construct_expanded_str(char *str, size_t start, size_t *i, t_shell_context *shell_ctx);
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, \
+t_shell_ctx *shell_ctx);
 static char	*get_env_value(char *str, size_t start, size_t i, char *envp[]);
 
-int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist, t_shell_context *shell_ctx)
+int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist, \
+t_shell_ctx *shell_ctx)
 {
-	t_tokenlist_node	*curr;
+	t_toknode	*curr;
 
 	curr = subtokenlist->head;
 	while (curr)
@@ -34,18 +39,19 @@ int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist, t_shell_context *s
 	return (0);
 }
 
-static int	expand_parameters_in_subtoken(t_tokenlist_node *subtokenlist_node, t_shell_context *shell_ctx)
+static int	expand_parameters_in_subtoken(t_toknode *subtoknode, \
+t_shell_ctx *shell_ctx)
 {
 	char		*str;
 
-	str = subtokenlist_node->token->str;
+	str = subtoknode->token->str;
 	if (expand_parameters_in_string(&str, shell_ctx) == -1)
 		return (-1);
-	subtokenlist_node->token->str = str;
+	subtoknode->token->str = str;
 	return (0);
 }
 
-static int	expand_parameters_in_string(char **str, t_shell_context *shell_ctx)
+static int	expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx)
 {
 	size_t		i;
 
@@ -63,7 +69,8 @@ static int	expand_parameters_in_string(char **str, t_shell_context *shell_ctx)
 	return (0);
 }
 
-static int	expand_single_parameter(char **str, size_t *i, t_shell_context *shell_ctx)
+static int	expand_single_parameter(char **str, size_t *i, \
+t_shell_ctx *shell_ctx)
 {
 	size_t	start;
 	char	*exp_str;
@@ -87,18 +94,19 @@ static void	search_env_end(char *str, size_t *i)
 	if (str[*i] == '?')
 	{
 		(*i)++;
-		return;
+		return ;
 	}
 	if (ft_isdigit(str[*i]))
 	{
 		(*i)++;
-		return;
+		return ;
 	}
 	while (ft_isalnum(str[*i]))
 		(*i)++;
 }
 
-static char	*construct_expanded_str(char *str, size_t start, size_t *i, t_shell_context *shell_ctx)
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, \
+t_shell_ctx *shell_ctx)
 {
 	char	*env_value;
 	char	*exp_str;
