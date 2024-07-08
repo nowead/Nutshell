@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 16:26:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:15:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	exec_and_or_(t_ast_node *curr, int prev_result, t_shell_ctx *shell_ctx)
 	int	curr_result;
 
 	if (curr->token && \
-	((curr->token->type == AND_IF && prev_result == 0) || \
-	(curr->token->type == OR_IF && prev_result == -1)))
+	((curr->token->type == TOK_AND_IF && prev_result == 0) || \
+	(curr->token->type == TOK_OR_IF && prev_result == -1)))
 	{
 		curr_result = exec_pipe_sequence(curr->child[0], shell_ctx);
 		return (exec_and_or_(curr->child[1], curr_result, shell_ctx));
@@ -320,7 +320,7 @@ void	exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
 			exec_io_redirect(curr->child[0], shell_ctx);
-		else if (curr->child[0]->token->type == WORD)
+		else if (curr->child[0]->token->type == TOK_WORD)
 			add_argument(argv, curr->child[0]->token->str);
 		curr = curr->child[1];
 	}

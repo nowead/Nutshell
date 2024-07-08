@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 15:48:04 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:21:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ int	is_part_of_operator(const char *input, size_t tok_start, size_t i)
 t_tokentype	classify_single_operator(char c)
 {
 	if (c == '<')
-		return (LESS);
+		return (TOK_LESS);
 	else if (c == '>')
-		return (GREAT);
+		return (TOK_GREAT);
 	else if (c == '|')
-		return (PIPE);
+		return (TOK_PIPE);
 	else if (c == '(')
-		return (LPAREN);
+		return (TOK_LPAREN);
 	else if (c == ')')
-		return (RPAREN);
-	return (UNKNOWN);
+		return (TOK_RPAREN);
+	return (TOK_UNKNOWN);
 }
 
 // Classifies a compound operator
@@ -61,12 +61,12 @@ size_t tok_start, size_t i)
 
 	len = i - tok_start + 1;
 	if (ft_strncmp("&&", &input[tok_start], len) == 0)
-		return (AND_IF);
+		return (TOK_AND_IF);
 	else if (ft_strncmp("||", &input[tok_start], len) == 0)
-		return (OR_IF);
+		return (TOK_OR_IF);
 	else if (ft_strncmp("<<", &input[tok_start], len) == 0)
-		return (DLESS);
+		return (TOK_DLESS);
 	else if (ft_strncmp(">>", &input[tok_start], len) == 0)
-		return (DGREAT);
-	return (UNKNOWN);
+		return (TOK_DGREAT);
+	return (TOK_UNKNOWN);
 }

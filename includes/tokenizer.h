@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 17:30:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:21:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 
 typedef enum e_toktype
 {
-	UNKNOWN,
-	WORD,
-	ASSIGNMENT_WORD,
-	LPAREN,
-	RPAREN,
-	AND_IF,
-	OR_IF,
-	PIPE,
-	LESS,
-	GREAT,
-	DLESS,
-	DGREAT,
-	NEWLINE
+	TOK_UNKNOWN,
+	TOK_WORD,
+	TOK_ASSIGNMENT_WORD,
+	TOK_LPAREN,
+	TOK_RPAREN,
+	TOK_AND_IF,
+	TOK_OR_IF,
+	TOK_PIPE,
+	TOK_LESS,
+	TOK_GREAT,
+	TOK_DLESS,
+	TOK_DGREAT,
+	TOK_NEWLINE
 }	t_tokentype;
 
 typedef enum e_quotetype

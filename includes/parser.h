@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 17:28:04 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:13:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_symbol
 	SUBSHELL,
 	SIMPLE_COMMAND,
 	CMD_NAME,
-	CMD_WORD,
+	CMD_TOK_WORD,
 	CMD_PREFIX,
 	CMD_PREFIX_,
 	CMD_SUFFIX,

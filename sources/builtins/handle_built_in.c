@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 16:34:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:21:09 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_shell_ctx *shell_ctx)
 			if (exec_builtin_io_redirect(curr->child[0], shell_ctx) == -1)
 				return (-1);
 		}
-		else if (curr->child[0]->token->type == WORD)
+		else if (curr->child[0]->token->type == TOK_WORD)
 			add_argument(argv, curr->child[0]->token->str);
 		curr = curr->child[1];
 	}
@@ -114,17 +114,17 @@ int	exec_builtin_io_file(t_ast_node *node)
 {
 	int	fd;
 
-	if (node->token->type == LESS)
+	if (node->token->type == TOK_LESS)
 		fd = open(node->child[0]->token->str, O_RDONLY);
-	else if (node->token->type == GREAT)
+	else if (node->token->type == TOK_GREAT)
 		fd = open(node->child[0]->token->str, \
 		O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (node->token->type == DGREAT)
+	else if (node->token->type == TOK_DGREAT)
 		fd = open(node->child[0]->token->str, \
 		O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (err_return("open"));
-	if (node->token->type == LESS)
+	if (node->token->type == TOK_LESS)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
 			return (err_return("dup2"));

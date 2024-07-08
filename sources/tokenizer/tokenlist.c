@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:59:38 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 15:48:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:13:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*new_word_token(char *str)
 		free(str);
 		return (NULL);
 	}
-	new_token->type = WORD;
+	new_token->type = TOK_WORD;
 	new_token->str = str;
 	return (new_token);
 }

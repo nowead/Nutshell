@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 17:13:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:15:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	process_toks(const char *input, t_tokenlist *tokenlist, int *incomplete_cmd)
 	t_token_handler_args	args;
 
 	quotetype = NO_QUOTE;
-	tokentype = UNKNOWN;
+	tokentype = TOK_UNKNOWN;
 	args = (t_token_handler_args){input, &tok_start, \
 			&tokentype, &quotetype, tokenlist};
 	i = 0;
@@ -62,7 +62,7 @@ int	process_toks(const char *input, t_tokenlist *tokenlist, int *incomplete_cmd)
 
 int	add_final_token(t_token_handler_args *args, size_t i)
 {
-	if (*(args->tokentype) == WORD)
+	if (*(args->tokentype) == TOK_WORD)
 	{
 		if (tokenlist_add(args->tokenlist, \
 		new_word_token(ft_substr(args->input, *(args->tok_start), \
@@ -72,7 +72,7 @@ int	add_final_token(t_token_handler_args *args, size_t i)
 			return (-1);
 		}
 	}
-	else if (*(args->tokentype) >= LPAREN)
+	else if (*(args->tokentype) >= TOK_LPAREN)
 	{
 		if (tokenlist_add(args->tokenlist, \
 		new_operator_token(*(args->tokentype))) == -1)
@@ -81,7 +81,7 @@ int	add_final_token(t_token_handler_args *args, size_t i)
 			return (-1);
 		}
 	}
-	if (tokenlist_add(args->tokenlist, new_operator_token(NEWLINE)) == -1)
+	if (tokenlist_add(args->tokenlist, new_operator_token(TOK_NEWLINE)) == -1)
 	{
 		perror("token allocation fail");
 		return (-1);

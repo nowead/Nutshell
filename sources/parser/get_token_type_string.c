@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 17:29:14 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:21:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,38 @@
 // Function to print the token type as a string
 const char *get_token_type_string(t_tokentype type)
 {
-	if (type == UNKNOWN)
-		return "UNKNOWN";
-	else if (type == WORD)
-		return "WORD";
-	else if (type == ASSIGNMENT_WORD)
-		return "ASSIGNMENT_WORD";
+	if (type == TOK_UNKNOWN)
+		return "TOK_UNKNOWN";
+	else if (type == TOK_WORD)
+		return "TOK_WORD";
+	else if (type == TOK_ASSIGNMENT_WORD)
+		return "TOK_ASSIGNMENT_WORD";
 	else
 		return (get_token_operator_type_string(type));
 }
 
 const char *get_token_operator_type_string(t_tokentype type)
 {
-	if (type == LPAREN)
-		return "LPAREN";
-	else if (type == RPAREN)
-		return "RPAREN";
-	else if (type == AND_IF)
-		return "AND_IF";
-	else if (type == OR_IF)
-		return "OR_IF";
-	else if (type == PIPE)
-		return "PIPE";
-	else if (type == LESS)
-		return "LESS";
-	else if (type == GREAT)
-		return "GREAT";
-	else if (type == DLESS)
-		return "DLESS";
-	else if (type == DGREAT)
-		return "DGREAT";
+	if (type == TOK_LPAREN)
+		return "TOK_LPAREN";
+	else if (type == TOK_RPAREN)
+		return "TOK_RPAREN";
+	else if (type == TOK_AND_IF)
+		return "TOK_AND_IF";
+	else if (type == TOK_OR_IF)
+		return "TOK_OR_IF";
+	else if (type == TOK_PIPE)
+		return "TOK_PIPE";
+	else if (type == TOK_LESS)
+		return "TOK_LESS";
+	else if (type == TOK_GREAT)
+		return "TOK_GREAT";
+	else if (type == TOK_DLESS)
+		return "TOK_DLESS";
+	else if (type == TOK_DGREAT)
+		return "TOK_DGREAT";
 	else
-		return "NEWLINE";
+		return "TOK_NEWLINE";
 }
 
 // // Function to print the symbol type as a string
@@ -61,7 +61,7 @@ const char *get_token_operator_type_string(t_tokentype type)
 //         case SUBSHELL: return "SUBSHELL";
 //         case SIMPLE_COMMAND: return "SIMPLE_COMMAND";
 //         case CMD_NAME: return "CMD_NAME";
-//         case CMD_WORD: return "CMD_WORD";
+//         case CMD_TOK_WORD: return "CMD_TOK_WORD";
 //         case CMD_PREFIX: return "CMD_PREFIX";
 //         case CMD_PREFIX_: return "CMD_PREFIX_";
 //         case CMD_SUFFIX: return "CMD_SUFFIX";
@@ -71,7 +71,7 @@ const char *get_token_operator_type_string(t_tokentype type)
 //         case FILENAME: return "FILENAME";
 //         case IO_HERE: return "IO_HERE";
 //         case HERE_END: return "HERE_END";
-//         default: return "UNKNOWN";
+//         default: return "TOK_UNKNOWN";
 //     }
 // }
 

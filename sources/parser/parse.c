@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 15:57:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:21:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	set_next_token(t_toknode **toknode)
 t_tokentype	curr_tokentype(t_toknode **toknode)
 {
 	if (*toknode == NULL || (*toknode)->token == NULL)
-		return (UNKNOWN);
+		return (TOK_UNKNOWN);
 	return ((*toknode)->token->type);
 }
 
@@ -79,7 +79,7 @@ t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 	if (root == NULL)
 		return (NULL);
 	if (and_or(&toknode, root, err) && \
-	curr_tokentype(&toknode) == NEWLINE)
+	curr_tokentype(&toknode) == TOK_NEWLINE)
 	{
 		ast = (t_ast *)malloc(sizeof(t_ast));
 		if (ast == NULL)
@@ -89,7 +89,7 @@ t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
 		return (ast);
 	}
 	if (!is_ast_err(err) && \
-	curr_tokentype(&toknode) != NEWLINE)
+	curr_tokentype(&toknode) != TOK_NEWLINE)
 		err->token = curr_token(&toknode);
 	clear_ast_tree(root);
 	return (NULL);
@@ -112,12 +112,12 @@ int	and_or(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	and_or_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (curr_tokentype(toknode) == AND_IF || \
-	curr_tokentype(toknode) == OR_IF)
+	if (curr_tokentype(toknode) == TOK_AND_IF || \
+	curr_tokentype(toknode) == TOK_OR_IF)
 	{
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);
-		if (curr_tokentype(toknode) == NEWLINE)
+		if (curr_tokentype(toknode) == TOK_NEWLINE)
 		{
 			err->errnum = INCOMPLETE_CMD;
 			return (0);
@@ -154,7 +154,7 @@ int	pipe_sequence(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	pipe_sequence_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (curr_tokentype(toknode) == PIPE)
+	if (curr_tokentype(toknode) == TOK_PIPE)
 	{
 		set_next_token(toknode);
 		if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL), err, 2))
@@ -167,7 +167,7 @@ int	pipe_sequence_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 			if (pipe_sequence_(toknode, curr->child[1], err))
 				return (1);
 		}
-		if (curr_tokentype(toknode) == NEWLINE)
+		if (curr_tokentype(toknode) == TOK_NEWLINE)
 			err->errnum = INCOMPLETE_CMD;
 		else
 			err->token = curr_token(toknode);
@@ -201,10 +201,10 @@ int	command(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	subshell(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (curr_tokentype(toknode) == LPAREN)
+	if (curr_tokentype(toknode) == TOK_LPAREN)
 	{
 		set_next_token(toknode);
-		if (curr_tokentype(toknode) == NEWLINE)
+		if (curr_tokentype(toknode) == TOK_NEWLINE)
 		{
 			err->errnum = INCOMPLETE_CMD;
 			return (0);
@@ -213,7 +213,7 @@ int	subshell(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 			return (0);
 		if (and_or(toknode, curr->child[0], err))
 		{
-			if (curr_tokentype(toknode) == RPAREN)
+			if (curr_tokentype(toknode) == TOK_RPAREN)
 			{
 				set_next_token(toknode);
 				return (1);
@@ -230,7 +230,7 @@ int	simple_command(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 		return (0);
 	if (cmd_prefix(toknode, curr->child[0], err))
 	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_WORD, NULL), err, 3))
+		if (add_ast_child(curr, new_ast_node(1, CMD_TOK_WORD, NULL), err, 3))
 			return (0);
 		if (cmd_word(toknode, curr->child[1]))
 		{
@@ -268,10 +268,10 @@ int	simple_command_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	cmd_name(t_toknode **toknode, t_ast_node *curr)
 {
-	if (curr_tokentype(toknode) == WORD)
+	if (curr_tokentype(toknode) == TOK_WORD)
 	{
 		if (is_assignment_word_token(curr_token(toknode)))
-			curr_token(toknode)->type = ASSIGNMENT_WORD;
+			curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);
 		return (1);
@@ -281,10 +281,10 @@ int	cmd_name(t_toknode **toknode, t_ast_node *curr)
 
 int	cmd_word(t_toknode **toknode, t_ast_node *curr)
 {
-	if (curr_tokentype(toknode) == WORD)
+	if (curr_tokentype(toknode) == TOK_WORD)
 	{
 		if (is_assignment_word_token(curr_token(toknode)))
-			curr_token(toknode)->type = ASSIGNMENT_WORD;
+			curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);
 		return (1);
@@ -306,7 +306,7 @@ int	cmd_prefix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 	}
 	else if (!is_ast_err(err) && is_assignment_word_token(curr_token(toknode)))
 	{
-		curr_token(toknode)->type = ASSIGNMENT_WORD;
+		curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
 		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, \
 		new_ast_node(0, TERMINAL, curr_token(toknode)), err, 2))
@@ -336,7 +336,7 @@ int	cmd_prefix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 	else if (!is_ast_err(err) && \
 	is_assignment_word_token(curr_token(toknode)))
 	{
-		curr_token(toknode)->type = ASSIGNMENT_WORD;
+		curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
 		clear_ast_tree(curr->child[0]);
 		if (add_ast_child(curr, \
 		new_ast_node(0, TERMINAL, curr_token(toknode)), err, 2))
@@ -356,7 +356,7 @@ int	cmd_prefix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	cmd_suffix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (curr_tokentype(toknode) == WORD)
+	if (curr_tokentype(toknode) == TOK_WORD)
 	{
 		if (add_ast_child(curr, \
 		new_ast_node(0, TERMINAL, curr_token(toknode)), err, 2))
@@ -428,9 +428,9 @@ int	io_redirect(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	io_file(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (curr_tokentype(toknode) == LESS || \
-	curr_tokentype(toknode) == GREAT || \
-	curr_tokentype(toknode) == DGREAT)
+	if (curr_tokentype(toknode) == TOK_LESS || \
+	curr_tokentype(toknode) == TOK_GREAT || \
+	curr_tokentype(toknode) == TOK_DGREAT)
 	{
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);
@@ -445,7 +445,7 @@ int	io_file(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	filename(t_toknode **toknode, t_ast_node *curr)
 {
-	if (curr_tokentype(toknode) == WORD)
+	if (curr_tokentype(toknode) == TOK_WORD)
 	{
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);
@@ -456,7 +456,7 @@ int	filename(t_toknode **toknode, t_ast_node *curr)
 
 int	io_here(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (curr_tokentype(toknode) == DLESS)
+	if (curr_tokentype(toknode) == TOK_DLESS)
 	{
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);
@@ -471,7 +471,7 @@ int	io_here(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	here_end(t_toknode **toknode, t_ast_node *curr)
 {
-	if (curr_tokentype(toknode) == WORD)
+	if (curr_tokentype(toknode) == TOK_WORD)
 	{
 		curr->token = curr_token(toknode);
 		set_next_token(toknode);

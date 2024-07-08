@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 16:03:43 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:13:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx)
 	curr = tokenlist->head;
 	while (curr)
 	{
-		if (curr->token->type == WORD)
+		if (curr->token->type == TOK_WORD)
 		{
 			prev = curr;
 			curr = curr->next;

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 16:18:39 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:21:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,17 +119,17 @@ int	exec_io_file(t_ast_node *node)
 {
 	int	fd;
 
-	if (node->token->type == LESS)
+	if (node->token->type == TOK_LESS)
 		fd = open(node->child[0]->token->str, O_RDONLY);
-	else if (node->token->type == GREAT)
+	else if (node->token->type == TOK_GREAT)
 		fd = open(node->child[0]->token->str, \
 		O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (node->token->type == DGREAT)
+	else if (node->token->type == TOK_DGREAT)
 		fd = open(node->child[0]->token->str, \
 		O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		err_exit("file open error", 1, EXIT_FAILURE);
-	if (node->token->type == LESS)
+	if (node->token->type == TOK_LESS)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
 			err_exit("dup2 error", 1, EXIT_FAILURE);
