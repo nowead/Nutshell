@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:13:39 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:31:11 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ t_tokenlist *fields)
 	else
 	{
 		pop_toknode(subtokenlist, prev_subtok);
-		tokenlist_add_node(fields, prev_subtok);
+		add_toknode(fields, prev_subtok);
 	}
 }
 

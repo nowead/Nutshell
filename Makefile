@@ -32,7 +32,9 @@ BUILTINS_DIR	=	sources/builtins/
 UTILITIES_DIR	=	sources/utilities/
 
 HEADER_FILES	=	minishell.h	interface.h	tokenizer.h	parser.h	executor.h	builtins.h	utilities.h
-TOKENIZER_SRC	=	tokenize.c	tokenlist.c	tokenize_handle_token.c	tokenize_classify_operator.c
+TOKENIZER_SRC	=	tokenize.c				token_creation_handler.c			operator_token_creation_handler.c\
+					operator_token_classification.c		token_creation.c		token_addition.c\
+					token_free.c	token_removal.c
 PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	split_into_subtokens.c\
 					expand_subtokenlist.c	expand_parameter.c		get_token_type_string.c
 INTERFACE_SRC	=	interface.c	signal.c

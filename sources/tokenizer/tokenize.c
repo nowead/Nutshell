@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:15:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 21:47:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_tokenlist	*tokenize(const char *input, int *incomplete_cmd)
 		perror("tokenlist allocation fail");
 		return (NULL);
 	}
-	if (process_toks(input, tokenlist, incomplete_cmd) == -1)
+	if (process_tokens(input, tokenlist, incomplete_cmd) == -1)
 	{
 		clear_tokenlist(tokenlist);
 		return (NULL);
@@ -32,7 +32,8 @@ t_tokenlist	*tokenize(const char *input, int *incomplete_cmd)
 	return (tokenlist);
 }
 
-int	process_toks(const char *input, t_tokenlist *tokenlist, int *incomplete_cmd)
+int	process_tokens(const char *input, t_tokenlist *tokenlist, \
+int *incomplete_cmd)
 {
 	t_tokentype				tokentype;
 	t_quotetype				quotetype;

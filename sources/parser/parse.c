@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:21:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:45:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,31 +323,8 @@ int	cmd_prefix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 
 int	cmd_prefix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
-		return (0);
-	if (io_redirect(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
-			return (0);
-		if (cmd_prefix_(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	else if (!is_ast_err(err) && \
-	is_assignment_word_token(curr_token(toknode)))
-	{
-		curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
-		clear_ast_tree(curr->child[0]);
-		if (add_ast_child(curr, \
-		new_ast_node(0, TERMINAL, curr_token(toknode)), err, 2))
-			return (0);
-		set_next_token(toknode);
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
-			return (0);
-		if (cmd_prefix_(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
+	if (cmd_prefix(toknode, curr, err))
+		return (1);
 	if (is_ast_err(err))
 		return (0);
 	clear_ast_tree(curr->child[0]);

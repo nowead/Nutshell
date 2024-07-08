@@ -6,47 +6,47 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:21:21 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:15:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Function to print the token type as a string
-const char *get_token_type_string(t_tokentype type)
+const char	*get_token_type_string(t_tokentype type)
 {
 	if (type == TOK_UNKNOWN)
-		return "TOK_UNKNOWN";
+		return ("TOK_UNKNOWN");
 	else if (type == TOK_WORD)
-		return "TOK_WORD";
+		return ("TOK_WORD");
 	else if (type == TOK_ASSIGNMENT_WORD)
-		return "TOK_ASSIGNMENT_WORD";
+		return ("TOK_ASSIGNMENT_WORD");
 	else
 		return (get_token_operator_type_string(type));
 }
 
-const char *get_token_operator_type_string(t_tokentype type)
+const char	*get_token_operator_type_string(t_tokentype type)
 {
 	if (type == TOK_LPAREN)
-		return "TOK_LPAREN";
+		return ("TOK_LPAREN");
 	else if (type == TOK_RPAREN)
-		return "TOK_RPAREN";
+		return ("TOK_RPAREN");
 	else if (type == TOK_AND_IF)
-		return "TOK_AND_IF";
+		return ("TOK_AND_IF");
 	else if (type == TOK_OR_IF)
-		return "TOK_OR_IF";
+		return ("TOK_OR_IF");
 	else if (type == TOK_PIPE)
-		return "TOK_PIPE";
+		return ("TOK_PIPE");
 	else if (type == TOK_LESS)
-		return "TOK_LESS";
+		return ("TOK_LESS");
 	else if (type == TOK_GREAT)
-		return "TOK_GREAT";
+		return ("TOK_GREAT");
 	else if (type == TOK_DLESS)
-		return "TOK_DLESS";
+		return ("TOK_DLESS");
 	else if (type == TOK_DGREAT)
-		return "TOK_DGREAT";
+		return ("TOK_DGREAT");
 	else
-		return "TOK_NEWLINE";
+		return ("TOK_NEWLINE");
 }
 
 // // Function to print the symbol type as a string
@@ -75,7 +75,7 @@ const char *get_token_operator_type_string(t_tokentype type)
 //     }
 // }
 
-// // Recursive function to print the AST
+// Recursive function to print the AST
 // void print_ast(t_ast_node *node, int depth)
 // {
 //     if (node == NULL)
@@ -94,7 +94,8 @@ const char *get_token_operator_type_string(t_tokentype type)
 // 	{
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
-//         printf("  Token Type: %s\n", get_token_type_string(node->token->type));
+//         printf("  Token Type: %s\n",\ 
+// 		get_token_type_string(node->token->type));
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
 //         printf("  Token String: %s\n", node->token->str);

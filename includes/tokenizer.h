@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:21:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:08:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <errno.h>
 
-typedef enum e_toktype
+typedef enum e_tokentype
 {
 	TOK_UNKNOWN,
 	TOK_WORD,
@@ -73,40 +73,46 @@ typedef struct s_tok_handler_args
 }	t_token_handler_args;
 
 // tokenize.c
-t_tokenlist			*tokenize(const char *input, int *incomplete_cmd);
-int					process_toks(const char *input, t_tokenlist *tokenlist, \
+t_tokenlist	*tokenize(const char *input, int *incomplete_cmd);
+int			process_tokens(const char *input, t_tokenlist *tokenlist, \
 int *incomplete_cmd);
-int					add_final_token(t_token_handler_args *args, size_t i);
+int			add_final_token(t_token_handler_args *args, size_t i);
 
-// tokenlist.c
-t_tokenlist			*new_tokenlist(void);
-t_token				*new_word_token(char *str);
-t_token				*new_operator_token(t_tokentype type);
-t_toknode			*new_toknode(t_token *token);
-void				tokenlist_add_node(t_tokenlist *tokenlist, \
-t_toknode *toknode);
-int					tokenlist_add(t_tokenlist *tokenlist, t_token *token);
-void				free_token(t_token *token);
-void				free_toknode(t_toknode *toknode);
-void				*clear_tokenlist(t_tokenlist *tokenlist);
-void				pop_toknode(t_tokenlist *tokenlist, t_toknode *toknode);
-void				delete_toknode(t_tokenlist *tokenlist, t_toknode *toknode);
+// token_creation_handler.c
+int			handle_token_creation(t_token_handler_args *args, size_t *i);
+int			handle_space(t_token_handler_args *args, size_t i);
+int			handle_word(t_token_handler_args *args, size_t i);
+void		handle_quote(t_token_handler_args *args, size_t i);
 
-// tokenize_handle_token.c
-int					handle_token_creation(t_token_handler_args *args, \
-size_t *i);
-int					handle_operator(t_token_handler_args *args, size_t i);
-int					handle_and_if_operator(t_token_handler_args *args, \
-size_t *i);
-int					handle_space(t_token_handler_args *args, size_t i);
-int					handle_word(t_token_handler_args *args, size_t i);
+// operator_token_creation_handler.c
+int			handle_operator(t_token_handler_args *args, size_t i);
+int			handle_word_to_operator(t_token_handler_args *args, size_t i);
+int			handle_and_if_operator(t_token_handler_args *args, size_t *i);
 
-// tokenize_classify_operator.c
-int					is_operator(char c);
-int					is_part_of_operator(const char *input, \
+// operator_token_classification.c
+int			is_operator(char c);
+int			is_part_of_operator(const char *input, size_t tok_start, size_t i);
+t_tokentype	classify_single_operator(char c);
+t_tokentype	classify_compound_operator(const char *input, \
 size_t tok_start, size_t i);
-t_tokentype			classify_single_operator(char c);
-t_tokentype			classify_compound_operator(const char *input, \
-size_t tok_start, size_t i);
+
+// token_creation.c
+t_tokenlist	*new_tokenlist(void);
+t_token		*new_word_token(char *str);
+t_token		*new_operator_token(t_tokentype type);
+t_toknode	*new_toknode(t_token *token);
+
+// token_addition.c
+void		add_toknode(t_tokenlist *tokenlist, t_toknode *toknode);
+int			tokenlist_add(t_tokenlist *tokenlist, t_token *token);
+
+// token_free.c
+void		free_token(t_token *token);
+void		free_toknode(t_toknode *toknode);
+void		*clear_tokenlist(t_tokenlist *tokenlist);
+
+// token_removal.c
+void		pop_toknode(t_tokenlist *tokenlist, t_toknode *toknode);
+void		delete_toknode(t_tokenlist *tokenlist, t_toknode *toknode);
 
 #endif

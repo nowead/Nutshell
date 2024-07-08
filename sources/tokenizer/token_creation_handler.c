@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_handle_token.c                            :+:      :+:    :+:   */
+/*   token_creation_handler.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:57:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:15:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:02:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,75 +37,6 @@ int	handle_token_creation(t_token_handler_args *args, size_t *i)
 	}
 	else if (handle_word(args, *i) == -1)
 		return (-1);
-	(*i)++;
-	return (0);
-}
-
-// Handles operator tokens
-// Takes token handler arguments and the current index as input
-// Classifies and sets the token type to the appropriate single operator
-// Adds the token to the token list if necessary
-int	handle_operator(t_token_handler_args *args, size_t i)
-{
-	if (*(args->tokentype) < TOK_LPAREN)
-	{
-		if (*(args->tokentype) == TOK_WORD)
-		{
-			if (tokenlist_add(args->tokenlist, \
-			new_word_token(ft_substr(args->input, \
-			*(args->tok_start), i - *(args->tok_start)))) == -1)
-			{
-				perror("token allocation fail");
-				return (-1);
-			}
-		}
-		*(args->tokentype) = classify_single_operator((args->input)[i]);
-		*(args->tok_start) = i;
-	}
-	else if (!is_part_of_operator(args->input, *(args->tok_start), i))
-	{
-		if (tokenlist_add(args->tokenlist, \
-		new_operator_token(*(args->tokentype))) == -1)
-		{
-			perror("token allocation fail");
-			return (-1);
-		}
-		*(args->tokentype) = classify_single_operator((args->input)[i]);
-		*(args->tok_start) = i;
-	}
-	else
-		*(args->tokentype) = \
-		classify_compound_operator(args->input, *(args->tok_start), i);
-	return (0);
-}
-
-// Handles '&&' and_if operator tokens specifically
-// Takes token handler arguments and the current index as input
-// Checks if the current token type is 'TOK_WORD' and adds it to the token list
-// Sets the token type to 'TOK_AND_IF' and updates the token start index
-int	handle_and_if_operator(t_token_handler_args *args, size_t *i)
-{
-	if (*(args->tokentype) == TOK_WORD)
-	{
-		if (tokenlist_add(args->tokenlist, \
-		new_word_token(ft_substr(args->input, \
-		*(args->tok_start), *i - *(args->tok_start)))) == -1)
-		{
-			perror("token allocation fail");
-			return (-1);
-		}
-	}
-	else if (*(args->tokentype) >= TOK_LPAREN)
-	{
-		if (tokenlist_add(args->tokenlist, \
-		new_operator_token(*(args->tokentype))) == -1)
-		{
-			perror("token allocation fail");
-			return (-1);
-		}
-	}
-	*(args->tokentype) = TOK_AND_IF;
-	*(args->tok_start) = *i;
 	(*i)++;
 	return (0);
 }
@@ -159,6 +90,12 @@ int	handle_word(t_token_handler_args *args, size_t i)
 	else if (*(args->tokentype) == TOK_UNKNOWN)
 		*(args->tok_start) = i;
 	*(args->tokentype) = TOK_WORD;
+	handle_quote(args, i);
+	return (0);
+}
+
+void	handle_quote(t_token_handler_args *args, size_t i)
+{
 	if ((args->input)[i] == '\'' && *(args->quotetype) != DOUBLE_QUOTE)
 	{
 		if (*(args->quotetype) == NO_QUOTE)
@@ -173,5 +110,4 @@ int	handle_word(t_token_handler_args *args, size_t i)
 		else
 			*(args->quotetype) = NO_QUOTE;
 	}
-	return (0);
 }
