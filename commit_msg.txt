@@ -1,5 +1,7 @@
-add 'utilities' directory and header and relocate functions
-- err_exit.c, err_return.c, ft_free_strs.c, ft_print_strs.c, ft_strcmp.c, ft_strslen.c
-change function name from 'err_ctrl' to 'err_exit'
-refactor 'exec_cd()' function
-divide functions in built_in_cmd.c into indivisual files
+divide and organize parser source files
+create subdirectory of parser
+- ast_construction, parameter_expansion
+
+add error handling in handle_quote_token() function
+
+add memory clearing in split_subtokens_into_fields() function

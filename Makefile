@@ -15,36 +15,44 @@ LIBFT_HEADER	=	$(addprefix $(LIBFT_DIR), libft.h ft_printf.h get_next_line.h)
 HEADER			=	$(addprefix $(HEADER_DIR), $(HEADER_FILES))
 SRC				=	sources/main.c\
 					$(addprefix $(INTERFACE_DIR), $(INTERFACE_SRC))\
-					$(addprefix $(TOKENIZER_DIR), $(TOKENIZER_SRC)) \
-					$(addprefix $(PARSER_DIR), $(PARSER_SRC))\
+					$(addprefix $(TOKENIZER_DIR), $(TOKENIZER_SRC))\
+					sources/parser/parse.c\
+					$(addprefix $(AST_CONSTRUCTION_DIR), $(AST_CONSTRUCTION_SRC))\
+					$(addprefix $(PARAMETER_EXPANSION_DIR), $(PARAMETER_EXPANSION_SRC))\
 					$(addprefix $(EXECUTOR_DIR), $(EXECUTOR_SRC))\
 					$(addprefix $(BUILTINS_DIR), $(BUILTINS_SRC))\
 					$(addprefix $(UTILITIES_DIR), $(UTILITIES_SRC))
-OBJ				=	$(patsubst %.c, %.o, $(SRC))
+OBJ				=	$(patsubst %.c, %.o, $(SRC))	
 
-LIBFT_DIR		=	sources/libft/
-HEADER_DIR		=	includes/
-INTERFACE_DIR	=	sources/interface/
-TOKENIZER_DIR	=	sources/tokenizer/
-PARSER_DIR		=	sources/parser/
-EXECUTOR_DIR	=	sources/executor/
-BUILTINS_DIR	=	sources/builtins/
-UTILITIES_DIR	=	sources/utilities/
+LIBFT_DIR				=	sources/libft/
+HEADER_DIR				=	includes/
+INTERFACE_DIR			=	sources/interface/
+TOKENIZER_DIR			=	sources/tokenizer/
+AST_CONSTRUCTION_DIR	=	sources/parser/ast_construction/
+PARAMETER_EXPANSION_DIR	=	sources/parser/parameter_expansion/
+EXECUTOR_DIR			=	sources/executor/
+BUILTINS_DIR			=	sources/builtins/
+UTILITIES_DIR			=	sources/utilities/
 
-HEADER_FILES	=	minishell.h	interface.h	tokenizer.h	parser.h	executor.h	builtins.h	utilities.h
-TOKENIZER_SRC	=	tokenize.c				token_creation_handler.c			operator_token_creation_handler.c\
-					operator_token_classification.c		token_creation.c		token_addition.c\
-					token_free.c	token_removal.c
-PARSER_SRC		=	parse.c		parsetree.c	is_assignment_word.c	split_into_subtokens.c\
-					expand_subtokenlist.c	expand_parameter.c		get_token_type_string.c
-INTERFACE_SRC	=	interface.c	signal.c
-EXECUTOR_SRC	=	execute_ast.c			io.c		ft_execvpe.c	ft_getenv.c
-BUILTINS_SRC	=	handle_built_in.c		cd.c		echo.c			env.c		exit.c\
-					export.c		pwd.c	unset.c
-UTILITIES_SRC	=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\
-					ft_strcmp.c				ft_strslen.c
+HEADER_FILES			=	minishell.h	interface.h	tokenizer.h	parser.h	executor.h	builtins.h	utilities.h
+TOKENIZER_SRC			=	tokenize.c				token_creation_handler.c			operator_token_creation_handler.c\
+							operator_token_classification.c		token_creation.c		token_addition.c\
+							token_free.c	token_removal.c
+AST_CONSTRUCTION_SRC	=	and_or.c                manage_ast.c			ast_construction.c      pipe_sequence.c\
+							ast_error_handling.c    prefix_and_suffix.c		command.c               redirection_handling.c\
+							command_name.c          subshell.c				file_redirections.c     token_management.c\
+							here_doc_redirections.c
+PARAMETER_EXPANSION_SRC	=	expand_parameter.c		expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
+							insert_fields_into_tokenlist.c	is_assignment_word.c	split_into_subtokens.c\
+							split_no_quote_subtoken.c		split_subtokens_into_fields.c
+INTERFACE_SRC			=	interface.c	signal.c
+EXECUTOR_SRC			=	execute_ast.c			io.c		ft_execvpe.c	ft_getenv.c
+BUILTINS_SRC			=	handle_built_in.c		cd.c		echo.c			env.c		exit.c\
+							export.c		pwd.c	unset.c
+UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\
+							ft_strcmp.c				ft_strslen.c
 
-LIBFT_SRC		=	$(addprefix $(LIBFT_DIR), \
+LIBFT_SRC				=	$(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\
 ft_atol.c		ft_isascii.c    ft_isspace.c	ft_memcmp.c     ft_putendl_fd.c ft_strdup.c     ft_strlen.c\
 ft_strtrim.c	ft_bzero.c      ft_isdigit.c    ft_memcpy.c     ft_putnbr_fd.c  ft_striteri.c   ft_strmapi.c\

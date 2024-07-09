@@ -1,57 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_subtokenlist.c                              :+:      :+:    :+:   */
+/*   expand_parameters_in_string.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 22:36:11 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 16:00:44 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/09 21:59:50 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/09 22:56:52 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	expand_parameters_in_subtoken(t_toknode *subtoknode, \
-t_shell_ctx *shell_ctx);
-static int	expand_parameters_in_string(char **str, \
-t_shell_ctx *shell_ctx);
-static int	expand_single_parameter(char **str, size_t *i, \
-t_shell_ctx *shell_ctx);
-static void	search_env_end(char *str, size_t *i);
-static char	*construct_expanded_str(char *str, size_t start, size_t *i, \
-t_shell_ctx *shell_ctx);
-static char	*get_env_value(char *str, size_t start, size_t i, char *envp[]);
-
-int	expand_parameters_in_subtokens(t_tokenlist *subtokenlist, \
-t_shell_ctx *shell_ctx)
-{
-	t_toknode	*curr;
-
-	curr = subtokenlist->head;
-	while (curr)
-	{
-		if (curr->token->quote != SINGLE_QUOTE && \
-		expand_parameters_in_subtoken(curr, shell_ctx))
-			return (-1);
-		curr = curr->next;
-	}
-	return (0);
-}
-
-static int	expand_parameters_in_subtoken(t_toknode *subtoknode, \
-t_shell_ctx *shell_ctx)
-{
-	char		*str;
-
-	str = subtoknode->token->str;
-	if (expand_parameters_in_string(&str, shell_ctx) == -1)
-		return (-1);
-	subtoknode->token->str = str;
-	return (0);
-}
-
-static int	expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx)
+int	expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx)
 {
 	size_t		i;
 
@@ -69,7 +30,7 @@ static int	expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-static int	expand_single_parameter(char **str, size_t *i, \
+int	expand_single_parameter(char **str, size_t *i, \
 t_shell_ctx *shell_ctx)
 {
 	size_t	start;
@@ -88,7 +49,7 @@ t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-static void	search_env_end(char *str, size_t *i)
+void	search_env_end(char *str, size_t *i)
 {
 	(*i)++;
 	if (str[*i] == '?')
@@ -105,7 +66,7 @@ static void	search_env_end(char *str, size_t *i)
 		(*i)++;
 }
 
-static char	*construct_expanded_str(char *str, size_t start, size_t *i, \
+char	*construct_expanded_str(char *str, size_t start, size_t *i, \
 t_shell_ctx *shell_ctx)
 {
 	char	*env_value;
@@ -134,7 +95,7 @@ t_shell_ctx *shell_ctx)
 	return (exp_str);
 }
 
-static char	*get_env_value(char *str, size_t start, size_t i, char *envp[])
+char	*get_env_value(char *str, size_t start, size_t i, char *envp[])
 {
 	char	*key;
 	char	*value;

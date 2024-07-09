@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 22:45:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/09 20:58:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,419 +40,94 @@ t_ast	*parse(const char	*input, int *incomplete_cmd, t_shell_ctx *shell_ctx)
 	return (ast);
 }
 
-void	set_next_token(t_toknode **toknode)
+// Function to print the token type as a string
+const char	*get_token_type_string(t_tokentype type)
 {
-	(*toknode) = (*toknode)->next;
-}
-
-t_tokentype	curr_tokentype(t_toknode **toknode)
-{
-	if (*toknode == NULL || (*toknode)->token == NULL)
-		return (TOK_UNKNOWN);
-	return ((*toknode)->token->type);
-}
-
-t_token	*curr_token(t_toknode **toknode)
-{
-	if (*toknode == NULL)
-		return (NULL);
-	return ((*toknode)->token);
-}
-
-int	is_ast_err(t_ast_err *err)
-{
-	if (err->token == NULL && err->errnum == 0)
-		return (0);
-	return (1);
-}
-
-t_ast	*program(t_tokenlist *tokenlist, t_ast_err *err)
-{
-	t_toknode	*toknode;
-	t_ast		*ast;
-	t_ast_node	*root;
-
-	if (tokenlist == NULL)
-		return (NULL);
-	toknode = tokenlist->head;
-	root = new_ast_node(0, AND_OR, NULL);
-	if (root == NULL)
-		return (NULL);
-	if (and_or(&toknode, root, err) && \
-	curr_tokentype(&toknode) == TOK_NEWLINE)
-	{
-		ast = (t_ast *)malloc(sizeof(t_ast));
-		if (ast == NULL)
-			return (NULL);
-		ast->root = root;
-		ast->tokenlist = tokenlist;
-		return (ast);
-	}
-	if (!is_ast_err(err) && \
-	curr_tokentype(&toknode) != TOK_NEWLINE)
-		err->token = curr_token(&toknode);
-	clear_ast_tree(root);
-	return (NULL);
-}
-
-int	and_or(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL), err, 2))
-		return (0);
-	if (pipe_sequence(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, AND_OR_, NULL), err, 2))
-			return (0);
-		if (and_or_(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	return (0);
-}
-
-int	and_or_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (curr_tokentype(toknode) == TOK_AND_IF || \
-	curr_tokentype(toknode) == TOK_OR_IF)
-	{
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		if (curr_tokentype(toknode) == TOK_NEWLINE)
-		{
-			err->errnum = INCOMPLETE_CMD;
-			return (0);
-		}
-		if (add_ast_child(curr, new_ast_node(0, PIPE_SEQUENCE, NULL), err, 2))
-			return (0);
-		if (pipe_sequence(toknode, curr->child[0], err))
-		{
-			if (add_ast_child(curr, new_ast_node(1, AND_OR_, NULL), err, 2))
-				return (0);
-			if (and_or_(toknode, curr->child[1], err))
-				return (1);
-		}
-		err->token = curr_token(toknode);
-		return (0);
-	}
-	return (1);
-}
-
-int	pipe_sequence(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL), err, 2))
-		return (0);
-	if (command(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, PIPE_SEQUENCE_, NULL), err, 2))
-			return (0);
-		if (pipe_sequence_(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	return (0);
-}
-
-int	pipe_sequence_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (curr_tokentype(toknode) == TOK_PIPE)
-	{
-		set_next_token(toknode);
-		if (add_ast_child(curr, new_ast_node(0, COMMAND, NULL), err, 2))
-			return (0);
-		if (command(toknode, curr->child[0], err))
-		{
-			if (add_ast_child(curr, \
-			new_ast_node(1, PIPE_SEQUENCE_, NULL), err, 2))
-				return (0);
-			if (pipe_sequence_(toknode, curr->child[1], err))
-				return (1);
-		}
-		if (curr_tokentype(toknode) == TOK_NEWLINE)
-			err->errnum = INCOMPLETE_CMD;
-		else
-			err->token = curr_token(toknode);
-		return (0);
-	}
-	return (1);
-}
-
-int	command(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, SIMPLE_COMMAND, NULL), err, 2))
-		return (0);
-	if (simple_command(toknode, curr->child[0], err))
-		return (1);
-	else if (!is_ast_err(err))
-	{
-		clear_ast_tree(curr->child[0]);
-		if (add_ast_child(curr, new_ast_node(0, SUBSHELL, NULL), err, 2))
-			return (0);
-		if (subshell(toknode, curr->child[0], err))
-		{
-			if (add_ast_child(curr, \
-			new_ast_node(1, REDIRECT_LIST, NULL), err, 2))
-				return (0);
-			if (redirect_list(toknode, curr->child[1], err))
-				return (1);
-		}
-	}
-	return (0);
-}
-
-int	subshell(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (curr_tokentype(toknode) == TOK_LPAREN)
-	{
-		set_next_token(toknode);
-		if (curr_tokentype(toknode) == TOK_NEWLINE)
-		{
-			err->errnum = INCOMPLETE_CMD;
-			return (0);
-		}
-		if (add_ast_child(curr, new_ast_node(0, AND_OR, NULL), err, 1))
-			return (0);
-		if (and_or(toknode, curr->child[0], err))
-		{
-			if (curr_tokentype(toknode) == TOK_RPAREN)
-			{
-				set_next_token(toknode);
-				return (1);
-			}
-		}
-		err->token = curr_token(toknode);
-	}
-	return (0);
-}
-
-int	simple_command(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, CMD_PREFIX, NULL), err, 3))
-		return (0);
-	if (cmd_prefix(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_TOK_WORD, NULL), err, 3))
-			return (0);
-		if (cmd_word(toknode, curr->child[1]))
-		{
-			if (add_ast_child(curr, new_ast_node(2, CMD_SUFFIX, NULL), err, 3))
-				return (0);
-			if (cmd_suffix(toknode, curr->child[2], err))
-				return (1);
-			err->token = curr_token(toknode);
-			return (0);
-		}
-		clear_ast_tree(curr->child[1]);
-		return (1);
-	}
-	else if (!is_ast_err(err))
-		return (simple_command_(toknode, curr, err));
-	return (0);
-}
-
-int	simple_command_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	clear_ast_tree(curr->child[0]);
-	if (add_ast_child(curr, new_ast_node(0, CMD_NAME, NULL), err, 3))
-		return (0);
-	if (cmd_name(toknode, curr->child[0]))
-	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL), err, 3))
-			return (0);
-		if (cmd_suffix(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	clear_ast_tree(curr->child[0]);
-	return (0);
-}
-
-int	cmd_name(t_toknode **toknode, t_ast_node *curr)
-{
-	if (curr_tokentype(toknode) == TOK_WORD)
-	{
-		if (is_assignment_word_token(curr_token(toknode)))
-			curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		return (1);
-	}
-	return (0);
-}
-
-int	cmd_word(t_toknode **toknode, t_ast_node *curr)
-{
-	if (curr_tokentype(toknode) == TOK_WORD)
-	{
-		if (is_assignment_word_token(curr_token(toknode)))
-			curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		return (1);
-	}
-	return (0);
-}
-
-int	cmd_prefix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
-		return (0);
-	if (io_redirect(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
-			return (0);
-		if (cmd_prefix_(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	else if (!is_ast_err(err) && is_assignment_word_token(curr_token(toknode)))
-	{
-		curr_token(toknode)->type = TOK_ASSIGNMENT_WORD;
-		clear_ast_tree(curr->child[0]);
-		if (add_ast_child(curr, \
-		new_ast_node(0, TERMINAL, curr_token(toknode)), err, 2))
-			return (0);
-		set_next_token(toknode);
-		if (add_ast_child(curr, new_ast_node(1, CMD_PREFIX_, NULL), err, 2))
-			return (0);
-		if (cmd_prefix_(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	return (0);
-}
-
-int	cmd_prefix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (cmd_prefix(toknode, curr, err))
-		return (1);
-	if (is_ast_err(err))
-		return (0);
-	clear_ast_tree(curr->child[0]);
-	return (1);
-}
-
-int	cmd_suffix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (curr_tokentype(toknode) == TOK_WORD)
-	{
-		if (add_ast_child(curr, \
-		new_ast_node(0, TERMINAL, curr_token(toknode)), err, 2))
-			return (0);
-		set_next_token(toknode);
-		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL), err, 2))
-			return (0);
-		if (cmd_suffix(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
+	if (type == TOK_UNKNOWN)
+		return ("TOK_UNKNOWN");
+	else if (type == TOK_WORD)
+		return ("TOK_WORD");
+	else if (type == TOK_ASSIGNMENT_WORD)
+		return ("TOK_ASSIGNMENT_WORD");
 	else
-		return (cmd_suffix_(toknode, curr, err));
-	if (is_ast_err(err))
-		return (0);
-	return (1);
+		return (get_token_operator_type_string(type));
 }
 
-int	cmd_suffix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
+const char	*get_token_operator_type_string(t_tokentype type)
 {
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
-		return (0);
-	if (io_redirect(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, CMD_SUFFIX, NULL), err, 2))
-			return (0);
-		if (cmd_suffix(toknode, curr->child[1], err))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	clear_ast_tree(curr->child[0]);
-	if (is_ast_err(err))
-		return (0);
-	return (1);
+	if (type == TOK_LPAREN)
+		return ("TOK_LPAREN");
+	else if (type == TOK_RPAREN)
+		return ("TOK_RPAREN");
+	else if (type == TOK_AND_IF)
+		return ("TOK_AND_IF");
+	else if (type == TOK_OR_IF)
+		return ("TOK_OR_IF");
+	else if (type == TOK_PIPE)
+		return ("TOK_PIPE");
+	else if (type == TOK_LESS)
+		return ("TOK_LESS");
+	else if (type == TOK_GREAT)
+		return ("TOK_GREAT");
+	else if (type == TOK_DLESS)
+		return ("TOK_DLESS");
+	else if (type == TOK_DGREAT)
+		return ("TOK_DGREAT");
+	else
+		return ("TOK_NEWLINE");
 }
 
-int	redirect_list(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, IO_REDIRECT, NULL), err, 2))
-		return (0);
-	if (io_redirect(toknode, curr->child[0], err))
-	{
-		if (add_ast_child(curr, new_ast_node(1, REDIRECT_LIST, NULL), err, 2))
-			return (0);
-		return (redirect_list(toknode, curr->child[1], err));
-	}
-	clear_ast_tree(curr->child[0]);
-	if (is_ast_err(err))
-		return (0);
-	return (1);
-}
+// // Function to print the symbol type as a string
+// const char *get_symbol_type_string(t_symbol sym) {
+//     switch (sym) {
+//         case TERMINAL: return "TERMINAL";
+//         case AND_OR: return "AND_OR";
+//         case AND_OR_: return "AND_OR_";
+//         case PIPE_SEQUENCE: return "PIPE_SEQUENCE";
+//         case PIPE_SEQUENCE_: return "PIPE_SEQUENCE_";
+//         case COMMAND: return "COMMAND";
+//         case SUBSHELL: return "SUBSHELL";
+//         case SIMPLE_COMMAND: return "SIMPLE_COMMAND";
+//         case CMD_NAME: return "CMD_NAME";
+//         case CMD_TOK_WORD: return "CMD_TOK_WORD";
+//         case CMD_PREFIX: return "CMD_PREFIX";
+//         case CMD_PREFIX_: return "CMD_PREFIX_";
+//         case CMD_SUFFIX: return "CMD_SUFFIX";
+//         case REDIRECT_LIST: return "REDIRECT_LIST";
+//         case IO_REDIRECT: return "IO_REDIRECT";
+//         case IO_FILE: return "IO_FILE";
+//         case FILENAME: return "FILENAME";
+//         case IO_HERE: return "IO_HERE";
+//         case HERE_END: return "HERE_END";
+//         default: return "TOK_UNKNOWN";
+//     }
+// }
 
-int	io_redirect(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (add_ast_child(curr, new_ast_node(0, IO_FILE, NULL), err, 1))
-		return (0);
-	if (io_file(toknode, curr->child[0], err))
-		return (1);
-	if (is_ast_err(err))
-		return (0);
-	clear_ast_tree(curr->child[0]);
-	if (add_ast_child(curr, new_ast_node(0, IO_HERE, NULL), err, 1))
-		return (0);
-	if (io_here(toknode, curr->child[0], err))
-		return (1);
-	clear_ast_tree(curr->child[0]);
-	return (0);
-}
+// Recursive function to print the AST
+// void print_ast(t_ast_node *node, int depth)
+// {
+//     if (node == NULL)
+//         return;
+//     for (int i = 0; i < depth; i++)
+//         printf("  ");
+//     printf("Node (Depth %d):\n", depth);
+//     for (int i = 0; i < depth; i++)
+//         printf("  ");
+//     printf("  Symbol: %s\n", get_symbol_type_string(node->sym));
+// 	for (int i = 0; i < depth; i++)
+//         printf("  ");
+// 	printf("  Child_num: %zu\n", node->child_num);
 
-int	io_file(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (curr_tokentype(toknode) == TOK_LESS || \
-	curr_tokentype(toknode) == TOK_GREAT || \
-	curr_tokentype(toknode) == TOK_DGREAT)
-	{
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		if (add_ast_child(curr, new_ast_node(0, FILENAME, NULL), err, 1))
-			return (0);
-		if (filename(toknode, curr->child[0]))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	return (0);
-}
-
-int	filename(t_toknode **toknode, t_ast_node *curr)
-{
-	if (curr_tokentype(toknode) == TOK_WORD)
-	{
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		return (1);
-	}
-	return (0);
-}
-
-int	io_here(t_toknode **toknode, t_ast_node *curr, t_ast_err *err)
-{
-	if (curr_tokentype(toknode) == TOK_DLESS)
-	{
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		if (add_ast_child(curr, new_ast_node(0, HERE_END, NULL), err, 1))
-			return (0);
-		if (here_end(toknode, curr->child[0]))
-			return (1);
-		err->token = curr_token(toknode);
-	}
-	return (0);
-}
-
-int	here_end(t_toknode **toknode, t_ast_node *curr)
-{
-	if (curr_tokentype(toknode) == TOK_WORD)
-	{
-		curr->token = curr_token(toknode);
-		set_next_token(toknode);
-		return (1);
-	}
-	return (0);
-}
+//     if (node->token != NULL)
+// 	{
+//         for (int i = 0; i < depth; i++)
+//             printf("  ");
+//         printf("  Token Type: %s\n",\ 
+// 		get_token_type_string(node->token->type));
+//         for (int i = 0; i < depth; i++)
+//             printf("  ");
+//         printf("  Token String: %s\n", node->token->str);
+//     }
+//     for (size_t i = 0; node->child != NULL && i < node->child_num; i++)
+//         print_ast(node->child[i], depth + 1);
+// }
