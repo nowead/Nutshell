@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/09 22:59:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 03:47:59 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,6 @@
 # include "interface.h"
 
 # define INCOMPLETE_CMD 1001
-
-typedef enum e_symbol
-{
-	TERMINAL,
-	AND_OR,
-	AND_OR_,
-	PIPE_SEQUENCE,
-	PIPE_SEQUENCE_,
-	COMMAND,
-	SUBSHELL,
-	SIMPLE_COMMAND,
-	CMD_NAME,
-	CMD_TOK_WORD,
-	CMD_PREFIX,
-	CMD_PREFIX_,
-	CMD_SUFFIX,
-	REDIRECT_LIST,
-	IO_REDIRECT,
-	IO_FILE,
-	FILENAME,
-	IO_HERE,
-	HERE_END
-}	t_symbol;
-
-typedef struct s_ast_node
-{
-	int					sibling_index;
-	t_symbol			sym;
-	t_token				*token;
-	struct s_ast_node	*parent;
-	struct s_ast_node	**child;
-	size_t				child_num;
-}	t_ast_node;
-
-typedef struct s_ast
-{
-	t_ast_node	*root;
-	t_tokenlist	*tokenlist;
-}	t_ast;
 
 typedef struct s_ast_err
 {
@@ -163,21 +124,5 @@ t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist);
 int			handle_quote_token(t_tokenlist *subtokenlist, \
 t_toknode **curr_subtok, t_tokenlist *fields);
 t_token		*merge_two_tokens(t_token *token1, t_token *token2);
-
-// expand_parameter.c
-void		insert_fields_into_tokenlist(t_tokenlist *tokenlist, \
-t_toknode *toknode, t_tokenlist *fields);
-
-// split_into_subtokens.c
-t_tokenlist	*split_into_subtokens(t_toknode *toknode);
-
-// expand_subtokenlist.c
-int			expand_parameters_in_subtokens(t_tokenlist *subtokenlist, \
-t_shell_ctx *shell_ctx);
-
-// ft_execvpe.c
-int			ft_execvpe(const char *file, char *const argv[], char *envp[]);
-// ft_getenv.c
-char		*ft_getenv(const char *key, char *envp[]);
 
 #endif

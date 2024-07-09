@@ -45,7 +45,8 @@ AST_CONSTRUCTION_SRC	=	and_or.c                manage_ast.c			ast_construction.c
 PARAMETER_EXPANSION_SRC	=	expand_parameter.c		expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
 							insert_fields_into_tokenlist.c	is_assignment_word.c	split_into_subtokens.c\
 							split_no_quote_subtoken.c		split_subtokens_into_fields.c
-INTERFACE_SRC			=	interface.c	signal.c
+INTERFACE_SRC			=	echo_control.c			handle_input.c		init_shell_context.c	interface.c\
+							readline.c				signal_handler.c
 EXECUTOR_SRC			=	execute_ast.c			io.c		ft_execvpe.c	ft_getenv.c
 BUILTINS_SRC			=	handle_built_in.c		cd.c		echo.c			env.c		exit.c\
 							export.c		pwd.c	unset.c

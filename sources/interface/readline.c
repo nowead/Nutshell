@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   display_prompt_and_read_input.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 19:45:48 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 03:44:25 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/10 03:23:59 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/10 03:24:08 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "tokenizer.h"
-# include "parser.h"
-# include "executor.h"
-# include "interface.h"
-# include "builtins.h"
-# include "utilities.h"
+char	*display_prompt_and_read_input(int incomplete_cmd)
+{
+	if (!incomplete_cmd)
+		printf("Nutshell $ \033[s\b\b\b\b\b\b\b\b\b\b\b");
+	else
+		printf("> \033[s\b\b");
+	return (readline(get_prompt(incomplete_cmd)));
+}
 
-extern int	g_sigint_flag;
-
-#endif
+const char	*get_prompt(int incomplete_cmd)
+{
+	if (incomplete_cmd)
+		return ("> ");
+	else
+		return ("Nutshell $ ");
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:27:34 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 21:15:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 03:04:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (WIFSIGNALED(status))
 		printf("\n");
 	set_echoctl(NULL, ECHOCTL_OFF);
-	set_signal(SIGINT_HANDLER);
+	set_signal_handler(SIGINT_HANDLER);
 	return (0);
 }
 
@@ -113,7 +113,7 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (WIFSIGNALED(status))
 		printf("\n");
 	set_echoctl(&old_term, ECHOCTL_OFF);
-	set_signal(SIGINT_HANDLER);
+	set_signal_handler(SIGINT_HANDLER);
 	return (0);
 }
 

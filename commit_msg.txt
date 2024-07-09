@@ -1,7 +1,0 @@
-divide and organize parser source files
-create subdirectory of parser
-- ast_construction, parameter_expansion
-
-add error handling in handle_quote_token() function
-
-add memory clearing in split_subtokens_into_fields() function

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/09 20:58:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 00:36:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ const char	*get_token_operator_type_string(t_tokentype type)
 // 	{
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
-//         printf("  Token Type: %s\n",\ 
+//         printf("  Token Type: %s\n", \
 // 		get_token_type_string(node->token->type));
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");

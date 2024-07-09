@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 16:38:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 00:27:31 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,10 @@ void	exec_pwd(void);
 int		exec_cd(char **argv, char ***envp);
 void	exec_env(t_shell_ctx *shell_ctx);
 int		exec_export(char **argv, char ***envp);
+
+// ft_execvpe.c
+int			ft_execvpe(const char *file, char *const argv[], char *envp[]);
+// ft_getenv.c
+char		*ft_getenv(const char *key, char *envp[]);
 
 #endif
