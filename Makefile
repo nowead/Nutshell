@@ -47,7 +47,9 @@ PARAMETER_EXPANSION_SRC	=	expand_parameter.c		expand_parameters_in_string.c	expa
 							split_no_quote_subtoken.c		split_subtokens_into_fields.c
 INTERFACE_SRC			=	echo_control.c			handle_input.c		init_shell_context.c	interface.c\
 							readline.c				signal_handler.c
-EXECUTOR_SRC			=	execute_ast.c			io.c		ft_execvpe.c	ft_getenv.c
+EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c		exec_multiple_command.c\
+							exec_pipe_sequence.c	exec_prefix_and_suffix.c	exec_subshell.c		io.c		ft_execvpe.c\
+							ft_getenv.c
 BUILTINS_SRC			=	handle_built_in.c		cd.c		echo.c			env.c		exit.c\
 							export.c		pwd.c	unset.c
 UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\

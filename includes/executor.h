@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 00:27:31 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 04:14:52 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ void	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	add_argument(char **argv, char *arg);
 void	exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx);
 void	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
-
-// built_in_cmd.c
-void	exec_echo(char **argv);
-void	exec_exit(t_shell_ctx *shell_ctx);
-void	exec_pwd(void);
-int		exec_cd(char **argv, char ***envp);
-void	exec_env(t_shell_ctx *shell_ctx);
-int		exec_export(char **argv, char ***envp);
 
 // ft_execvpe.c
 int			ft_execvpe(const char *file, char *const argv[], char *envp[]);
