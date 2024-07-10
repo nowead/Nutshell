@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 12:15:05 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/10 21:55:03 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx);
 int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
 int		exec_io_file(t_ast_node *node);
 void	io_readline(int fd, const char *str);
-void	print_fd(int fd);
 
 // exec_cmd.c
 void	exec_ast(t_ast *ast, t_shell_ctx *shell_ctx);
@@ -37,9 +36,14 @@ int		exec_pipe_sequence(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		single_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		execute_middle_commands(t_ast_node **curr, int fd[3], \
+size_t *cmd_cnt, t_shell_ctx *shell_ctx);
+int		wait_for_all_commands(size_t cmd_cnt, int *status);
 int		is_there_pipe(t_ast_node *curr);
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 int		middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
+void	middle_command_child(t_ast_node *curr, int fd[3], \
+t_shell_ctx *shell_ctx);
 int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);

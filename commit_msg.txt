@@ -1,0 +1,1 @@
+fix: open_here_doc_tempfile() function frees allocated memory before exit

@@ -6,90 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 21:21:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 22:38:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	io_readline(int fd, const char *str)
-{
-	char	*line;
-
-	line = "none";
-	while (line != 0)
-	{
-		printf("> \033[s\b\b");
-		line = readline("> ");
-		if (!line)
-		{
-			ft_printf("\033[u\033[1B\033[1A");
-			break ;
-		}
-		if (ft_strlen(line) == ft_strlen(str) && \
-		ft_strncmp(line, str, ft_strlen(line)) == 0)
-			break ;
-		ft_putstr_fd(line, fd);
-		ft_putstr_fd("\n", fd);
-		free(line);
-	}
-	free(line);
-}
-
-void	print_fd(int fd)
-{
-	char	*line;
-
-	line = "none";
-	while (line != 0)
-	{
-		line = get_next_line(fd);
-		if (line)
-			ft_printf("%s", line);
-	}
-}
-
-int	open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
-{
-	int			fd;
-	int			i;
-	char		*num;
-	char		*home_path;
-
-	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
-	if (home_path == NULL)
-		err_exit("ft_strjoin", 1, EXIT_FAILURE);
-	i = 0;
-	num = ft_itoa(i);
-	*file_name = ft_strjoin(home_path, num);
-	if (*file_name == NULL)
-		err_exit("ft_strjoin", 1, EXIT_FAILURE);
-	while (1)
-	{
-		if (access(*file_name, F_OK) != -1)
-		{
-			i++;
-			free (num);
-			free (*file_name);
-			num = ft_itoa(i);
-			*file_name = ft_strjoin(home_path, num);
-			if (*file_name == NULL)
-				err_exit("ft_strjoin", 1, EXIT_FAILURE);
-		}
-		else
-		{
-			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-			{
-				free(home_path);
-				err_exit("open", 1, EXIT_FAILURE);
-			}
-			break ;
-		}
-	}
-	free (home_path);
-	return (fd);
-}
 
 int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
@@ -113,6 +34,120 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 		err_exit("close", 1, EXIT_FAILURE);
 	free(file_name);
 	return (0);
+}
+
+int	open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
+{
+	int			fd;
+	int			i;
+	char		*num;
+	char		*home_path;
+
+	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
+	if (home_path == NULL)
+		err_exit("ft_strjoin", 1, EXIT_FAILURE);
+	i = 0;
+	num = ft_itoa(i);
+	*file_name = ft_strjoin(home_path, num);
+	free (num);
+	if (*file_name == NULL)
+	{
+		free(home_path);
+		err_exit("ft_strjoin", 1, EXIT_FAILURE);
+	}
+	while (1)
+	{
+		if (access(*file_name, F_OK) != -1)
+		{
+			i++;
+			free (*file_name);
+			num = ft_itoa(i);
+			*file_name = ft_strjoin(home_path, num);
+			free(num);
+			if (*file_name == NULL)
+			{
+				free(home_path);
+				err_exit("ft_strjoin", 1, EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				free(file_name);
+				free(home_path);
+				err_exit("open", 1, EXIT_FAILURE);
+			}
+			break ;
+		}
+	}
+	free(file_name);
+	free (home_path);
+	return (fd);
+}
+
+// int	open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
+// {
+// 	int		fd;
+// 	int		i;
+// 	char	*num;
+// 	char	*home_path;
+
+// 	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
+// 	if (home_path == NULL)
+// 		err_exit("ft_strjoin", 1, EXIT_FAILURE);
+// 	i = 0;
+// 	while (1)
+// 	{
+// 		num = ft_itoa(i);
+// 		*file_name = ft_strjoin(home_path, num);
+// 		free(num);
+// 		if (*file_name == NULL)
+// 		{
+// 			free(home_path);
+// 			err_exit("ft_strjoin", 1, EXIT_FAILURE);
+// 		}
+// 		if (!access(*file_name, F_OK))
+// 		{
+// 			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 			if (fd == -1)
+// 			{
+// 				free(file_name);
+// 				free(home_path);
+// 				err_exit("open", 1, EXIT_FAILURE);
+// 			}
+// 			break ;
+// 		}
+// 		free(*file_name);
+// 		i++;
+// 	}
+// 	free(home_path);
+// 	return (fd);
+// }
+
+void	io_readline(int fd, const char *str)
+{
+	char	*line;
+
+	line = "none";
+	while (line != 0)
+	{
+		printf("> \033[s\b\b");
+		line = readline("> ");
+		if (!line)
+		{
+			ft_printf("\033[u\033[1B\033[1A");
+			break ;
+		}
+		if (ft_strlen(line) == ft_strlen(str) && \
+		ft_strncmp(line, str, ft_strlen(line)) == 0)
+			break ;
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
+		free(line);
+	}
+	free(line);
 }
 
 int	exec_io_file(t_ast_node *node)
