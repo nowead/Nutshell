@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 03:52:02 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 14:22:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void		set_echoctl(struct termios *old_term, int echoctl_flag);
 void		restore_echoctl(struct termios *old_term);
 
 // signal_handler.c
-void		init_signal_handler();
+void		init_signal_handler(void);
 void		set_signal_handler(int handler_type);
 void		sigint_handler(int signo);
 void		incomplete_cmd_handler(int signo);
@@ -101,7 +101,7 @@ const char	*get_prompt(int incomplete_cmd);
 
 // handle_input.c
 int			handle_input(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
-char *old_line, char *line);
+char *old_line, char **line);
 void		process_sigint_flag(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
 char *old_line);
 void		handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd);

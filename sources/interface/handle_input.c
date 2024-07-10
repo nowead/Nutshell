@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:22:40 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 03:22:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 15:24:59 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_input(t_shell_ctx *shell_ctx, int *incomplete_cmd, char *old_line, char *line)
+int	handle_input(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
+char *old_line, char **line)
 {
 	if (g_sigint_flag == 1)
 		process_sigint_flag(shell_ctx, incomplete_cmd, old_line);
-	if (line == NULL)
+	if (*line == NULL)
 	{
 		handle_end_of_file(shell_ctx, incomplete_cmd);
 		return (1);
@@ -24,14 +25,15 @@ int	handle_input(t_shell_ctx *shell_ctx, int *incomplete_cmd, char *old_line, ch
 	if (*incomplete_cmd)
 	{
 		*incomplete_cmd = 0;
-		line = concatenate_lines(old_line, line);
-		if (line == NULL)
+		*line = concatenate_lines(old_line, *line);
+		if (*line == NULL)
 			return (1);
 	}
 	return (0);
 }
 
-void	process_sigint_flag(t_shell_ctx *shell_ctx, int *incomplete_cmd, char *old_line)
+void	process_sigint_flag(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
+char *old_line)
 {
 	if (*incomplete_cmd == 1)
 	{
@@ -53,7 +55,7 @@ void	handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd)
 		*incomplete_cmd = 0;
 		ft_dprintf(2, "\033[u\033[1B\033[1A");
 		ft_dprintf(2, "nutshell: syntax error: unexpected end of file\n");
-    }
+	}
 }
 
 void	exit_shell(struct termios *old_term)

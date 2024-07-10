@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 03:11:03 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 15:25:23 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_signal_handler()
+void	init_signal_handler(void)
 {
 	set_signal_handler(SIGINT_HANDLER);
 	signal(SIGQUIT, SIG_IGN);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 03:47:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 12:30:50 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ typedef struct s_ast_err
 }	t_ast_err;
 
 // parse.c
-t_ast				*parse(const char *input, int *incomplete_command, \
+t_ast		*parse(const char *input, int *incomplete_command, \
 t_shell_ctx *shell_ctx);
-const char			*get_token_type_string(t_tokentype type);
-const char			*get_token_operator_type_string(t_tokentype type);
+const char	*get_token_type_string(t_tokentype type);
+const char	*get_token_operator_type_string(t_tokentype type);
 // void				print_ast(t_ast_node *node, int depth);
 // const char		*get_symbol_type_string(t_symbol sym);
 
@@ -63,22 +63,27 @@ t_ast_err *err, size_t max_child_num);
 void		free_ast_node(t_ast_node *node);
 void		clear_ast_tree(t_ast_node *node);
 void		clear_ast(t_ast	*ast);
+
 // pipe_sequence.c
 int			pipe_sequence(t_toknode **toknode, t_ast_node *curr, \
 t_ast_err *err);
 int			pipe_sequence_(t_toknode **toknode, t_ast_node *curr, \
 t_ast_err *err);
+
 // prefix_and_suffix.c
 int			cmd_prefix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err);
 int			cmd_prefix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err);
 int			cmd_suffix(t_toknode **toknode, t_ast_node *curr, t_ast_err *err);
 int			cmd_suffix_(t_toknode **toknode, t_ast_node *curr, t_ast_err *err);
+
 // redirection_handling.c
 int			redirect_list(t_toknode **toknode, t_ast_node *curr, \
 t_ast_err *err);
 int			io_redirect(t_toknode **toknode, t_ast_node *curr, t_ast_err *err);
+
 // subshell.c
 int			subshell(t_toknode **toknode, t_ast_node *curr, t_ast_err *err);
+
 // token_management.c
 void		set_next_token(t_toknode **toknode);
 t_tokentype	curr_tokentype(t_toknode **toknode);

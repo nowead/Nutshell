@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 04:14:52 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 12:15:05 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx);
 void	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // ft_execvpe.c
-int			ft_execvpe(const char *file, char *const argv[], char *envp[]);
+int		ft_execvpe(const char *file, char *const argv[], char *envp[]);
 // ft_getenv.c
-char		*ft_getenv(const char *key, char *envp[]);
+char	*ft_getenv(const char *key, char *envp[]);
 
 #endif
