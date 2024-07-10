@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe_sequence.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:08:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 04:08:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 20:15:58 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	signal(SIGINT, SIG_IGN);
 	if (wait(&status) == -1)
 		return (-1);
-	shell_ctx->exit_status = status;
-	if (WIFSIGNALED(status))
+	shell_ctx->exit_status = WEXITSTATUS(status);
+	if (WEXITSTATUS(status) == 2)
 		printf("\n");
 	set_echoctl(NULL, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 03:58:41 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:00:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 			return (-1);
 		cmd_cnt--;
 	}
-	shell_ctx->exit_status = status;
-	if (WIFSIGNALED(status))
+	shell_ctx->exit_status = WEXITSTATUS(status);
+	if (WEXITSTATUS(status) == 2)
 		printf("\n");
 	set_echoctl(&old_term, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
