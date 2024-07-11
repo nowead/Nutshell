@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 16:28:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:38:50 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ int	exec_export(char **argv, char ***envp)
 	while (argv[i])
 	{
 		if (is_assignment_word(argv[i]))
-			if (export_single_env_var(argv[i], envp))
+		{
+			if (export_single_env_var(argv[i], envp) == -1)
 				return (-1);
+		}
+		else if (!is_valid_name(argv[i], ft_strlen(argv[i])))
+		{
+			ft_dprintf(STDERR_FILENO, \
+			"`%s': not a valid identifier\n", argv[i]);
+		}
 		i++;
 	}
 	return (0);

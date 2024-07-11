@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 16:28:04 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 15:50:07 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@ int	exec_cd(char **argv, char ***envp)
 {
 	char	**oldpwd;
 	char	**pwd;
+	char	*env_home;
 
 	if (!argv[1])
+	{
+		if (chdir(ft_getenv("HOME", *envp)) == -1)
+			return (err_return("chdir"));
 		return (0);
-	if (ft_strncmp(argv[1], "~", 1) == 0 && cd_home(argv, *envp) == -1)
+	}
+	if (argv[1] && ft_strncmp(argv[1], "~", 1) == 0 \
+	&& cd_home(argv, *envp) == -1)
 		return (-1);
 	if (update_pwd(envp) == -1)
 		return (-1);
@@ -78,7 +84,32 @@ int	cd_home(char **argv, char **envp)
 	char	*env_home;
 
 	env_home = ft_getenv("HOME", envp);
-	free(argv[1]);
-	argv[1] = ft_strjoin(env_home, &argv[1][1]);
+	if (argv[1])
+	{
+		free(argv[1]);
+		argv[1] = ft_strjoin(env_home, &argv[1][1]);
+		if (argv[1] == NULL)
+			return (-1);
+	}
 	return (0);
+}
+
+void	exec_cd_in_process(char **argv, char ***envp)
+{
+	char	**oldpwd;
+	char	**pwd;
+	char	*env_home;
+
+	if (!argv[1])
+	{
+		if (chdir(ft_getenv("HOME", *envp)) == -1)
+			err_exit("chdir", 1, 1);
+		exit(EXIT_SUCCESS);
+	}
+	if (argv[1] && ft_strncmp(argv[1], "~", 1) == 0 \
+	&& cd_home(argv, *envp) == -1)
+		err_exit("cd_home", 1, 1);
+	if (chdir(argv[1]) == -1)
+		err_exit("chdir", 1, 1);
+	exit(EXIT_SUCCESS);
 }

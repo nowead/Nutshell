@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strs.c                                     :+:      :+:    :+:   */
+/*   export_in_process.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/30 17:47:39 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:44 by damin            ###   ########.fr       */
+/*   Created: 2024/07/11 16:39:06 by damin             #+#    #+#             */
+/*   Updated: 2024/07/11 16:47:53 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_free_strs(char *strs[])
+void	exec_export_in_process(char **argv)
 {
-	int	i;
+	size_t	i;
 
-	i = 0;
-	while (strs[i])
+	i = 1;
+	while (argv[i])
 	{
-		free(strs[i]);
+		if (!is_valid_name(argv[i], ft_strlen(argv[i])))
+		{
+			ft_dprintf(STDERR_FILENO, \
+			"`%s': not a valid identifier\n", argv[i]);
+			exit(EXIT_FAILURE);
+		}
 		i++;
 	}
-	free(strs);
+	exit(EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 16:37:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:47:27 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		exec_cd(char **argv, char ***envp);
 int		update_oldpwd(char ***envp);
 int		update_pwd(char ***envp);
 int		cd_home(char **argv, char **envp);
+void	exec_cd_in_process(char **argv, char ***envp);
 
 // echo.c
 void	exec_echo(char **argv);
@@ -43,7 +44,11 @@ void	exec_echo(char **argv);
 void	exec_env(t_shell_ctx *shell_ctx);
 
 // exit.c
-void	exec_exit(t_shell_ctx *shell_ctx);
+void	exec_exit(char **argv, t_shell_ctx *shell_ctx);
+void	exec_exit_in_process(char **argv);
+
+// export_in_process.c
+void	exec_export_in_process(char **argv);
 
 // export.c
 int		exec_export(char **argv, char ***envp);
@@ -58,5 +63,6 @@ void	exec_pwd(void);
 // unset.c
 int		exec_unset(char **argv, char ***envp);
 int		unset_single_env_var(char *env_key, char ***envp);
+void	exec_unset_in_process(char **argv, char ***envp);
 
 #endif

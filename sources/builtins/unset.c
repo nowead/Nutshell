@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 22:53:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/04 18:30:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:38:32 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ int	exec_unset(char **argv, char ***envp)
 	while (argv[i])
 	{
 		if (is_valid_name(argv[i], ft_strlen(argv[i])))
+		{
 			if (unset_single_env_var(argv[i], envp))
 				return (-1);
+		}
+		else
+			ft_dprintf(STDERR_FILENO, \
+			"`%s': not a valid identifier\n", argv[i]);
 		i++;
 	}
 	return (0);
@@ -57,4 +62,24 @@ int	unset_single_env_var(char *env_key, char ***envp)
 	free(*envp);
 	*envp = new_envp;
 	return (0);
+}
+
+void	exec_unset_in_process(char **argv, char ***envp)
+{
+	size_t	i;
+
+	i = 1;
+	while (argv[i])
+	{
+		if (is_valid_name(argv[i], ft_strlen(argv[i])))
+		{
+			if (unset_single_env_var(argv[i], envp))
+				exit(EXIT_FAILURE);
+		}
+		else
+			ft_dprintf(STDERR_FILENO, \
+			"`%s': not a valid identifier\n", argv[i]);
+		i++;
+	}
+	exit(EXIT_SUCCESS);
 }

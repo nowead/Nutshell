@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/08 21:21:09 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:01:19 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	execute_builtin_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
 		return (exec_unset(argv, &(shell_ctx->envp)));
 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
-		exec_exit(shell_ctx);
+		exec_exit(argv, shell_ctx);
 	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (exec_cd(argv, &(shell_ctx->envp)));
 	return (-1);

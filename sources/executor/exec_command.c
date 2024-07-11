@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 04:06:03 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:45:52 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,17 @@ void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	if (ft_strncmp(cmd_name, "echo", 5) == 0)
 		exec_echo(argv);
 	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
-		exit(EXIT_SUCCESS);
+		exec_cd_in_process(argv, &(shell_ctx->envp));
 	else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
 		exec_pwd();
 	else if (ft_strncmp(cmd_name, "export", 7) == 0)
-		exit(EXIT_SUCCESS);
+		exec_export_in_process(argv);
 	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
-		exit(EXIT_SUCCESS);
+		exec_unset_in_process(argv, &(shell_ctx->envp));
 	else if (ft_strncmp(cmd_name, "env", 4) == 0)
 		exec_env(shell_ctx);
 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
-		exit(EXIT_SUCCESS);
+		exec_exit_in_process(argv);
 	else
 		ft_execvpe(argv[0], argv, shell_ctx->envp);
 }
