@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 15:50:07 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/11 22:53:34 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	exec_cd(char **argv, char ***envp)
 	if (update_oldpwd(envp) == -1)
 		return (-1);
 	if (chdir(argv[1]) == -1)
-		return (err_return("chdir"));
+		return (err_return("cd"));
 	if (update_pwd(envp) == -1)
 		return (-1);
 	return (0);

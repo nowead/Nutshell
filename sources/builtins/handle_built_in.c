@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 21:04:34 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/11 22:49:32 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		if (ret != -1)
 			ret = exec_builtin_cmd_suffix(curr->child[2], argv, shell_ctx);
 	}
-	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
-		ret = err_return(argv[0]);
-	ft_free_strs(argv);
+	if (ret != -1)
+		ret = execute_builtin_argv(argv[0], argv, shell_ctx);
 	shell_ctx->exit_status = ret;
+	ft_free_strs(argv);
 	return (ret);
 }
 
