@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 16:45:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 01:41:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
 		exec_pwd();
 	else if (ft_strncmp(cmd_name, "export", 7) == 0)
-		exec_export_in_process(argv);
+		exec_export_in_pipe(argv);
 	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
 		exec_unset_in_process(argv, &(shell_ctx->envp));
 	else if (ft_strncmp(cmd_name, "env", 4) == 0)

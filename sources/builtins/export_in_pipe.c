@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_in_process.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 16:39:06 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 16:47:53 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 01:31:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_export_in_process(char **argv)
+void	exec_export_in_pipe(char **argv)
 {
 	size_t	i;
 
