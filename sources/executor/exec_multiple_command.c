@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 21:30:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 17:27:50 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	int				fd[3];
 	size_t			cmd_cnt;
 	int				status;
-	struct termios	old_term;
 
 	signal(SIGINT, SIG_IGN);
 	if (first_command(curr->child[0], fd, shell_ctx) == -1)
@@ -34,7 +33,7 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	shell_ctx->exit_status = WEXITSTATUS(status);
 	if (WEXITSTATUS(status) == 2)
 		printf("\n");
-	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_echoctl(NULL, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
 	return (0);
 }

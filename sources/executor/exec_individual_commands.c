@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 21:30:34 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 17:27:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
-	struct termios	old_term;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -24,7 +23,7 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 		return (-1);
 	if (pid == 0)
 	{
-		set_echoctl(&old_term, ECHOCTL_ON);
+		set_echoctl(NULL, ECHOCTL_ON);
 		signal(SIGINT, SIG_DFL);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			err_exit("dup2", 1, EXIT_FAILURE);
@@ -38,7 +37,6 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
-	struct termios	old_term;
 
 	if (close(fd[1]) == -1)
 		return (-1);

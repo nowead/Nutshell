@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 16:39:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 17:26:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int				fd;
 	char			*file_name;
-	struct termios	old_term;
 
-	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_echoctl(NULL, ECHOCTL_OFF);
 	fd = open_here_doc_tempfile(&file_name, shell_ctx);
 	io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
