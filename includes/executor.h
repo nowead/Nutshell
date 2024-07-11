@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 16:52:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 20:40:05 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		execute_middle_commands(t_ast_node **curr, int fd[3], \
 size_t *cmd_cnt, t_shell_ctx *shell_ctx);
-int		wait_for_all_commands(size_t cmd_cnt, int *status);
+int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
 
 // exec_individual_commands.c
@@ -48,7 +48,9 @@ int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 int		middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 void	middle_command_child(t_ast_node *curr, int fd[3], \
 t_shell_ctx *shell_ctx);
-int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
+int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx, \
+int *is_signaled);
+int		save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled);
 
 // exec_command.c
 void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 21:30:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/11 20:53:07 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	size_t			cmd_cnt;
 	int				status;
 	struct termios	old_term;
+	int				is_signaled;
 
+	is_signaled = 0;
 	signal(SIGINT, SIG_IGN);
 	if (first_command(curr->child[0], fd, shell_ctx) == -1)
 		return (-1);
@@ -26,13 +28,11 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	curr = curr->child[1];
 	if (execute_middle_commands(&curr, fd, &cmd_cnt, shell_ctx))
 		return (-1);
-	if (last_command(curr->child[0], fd, shell_ctx) == -1)
+	if (last_command(curr->child[0], fd, shell_ctx, &is_signaled) == -1)
 		return (-1);
-	cmd_cnt++;
-	if (wait_for_all_commands(cmd_cnt, &status))
+	if (wait_for_all_commands(cmd_cnt, &status, &is_signaled))
 		return (-1);
-	shell_ctx->exit_status = WEXITSTATUS(status);
-	if (WEXITSTATUS(status) == 2)
+	if (is_signaled)
 		printf("\n");
 	set_echoctl(&old_term, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
@@ -52,12 +52,17 @@ size_t *cmd_cnt, t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-int	wait_for_all_commands(size_t cmd_cnt, int *status)
+int	wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled)
 {
 	while (cmd_cnt)
 	{
 		if (wait(status) == -1)
 			return (-1);
+		if (WIFSIGNALED(*status))
+		{
+			if (WTERMSIG(*status) == 2)
+				*is_signaled = 1;
+		}
 		cmd_cnt--;
 	}
 	return (0);
