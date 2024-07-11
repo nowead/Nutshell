@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 16:01:19 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/11 21:04:34 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,10 +186,9 @@ int	exec_builtin_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int				fd;
 	char			*file_name;
-	struct termios	old_term;
 	int				stdin_fd;
 
-	set_echoctl(&old_term, ECHOCTL_OFF);
+	set_echoctl(NULL, ECHOCTL_OFF);
 	fd = builtin_open_here_doc_tempfile(&file_name, shell_ctx);
 	if (fd == -1)
 		return (err_return("builtin open tempfile"));
