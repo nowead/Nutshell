@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:03:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 04:03:11 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 00:59:40 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (curr->child[0]->sym == IO_FILE)
 		exec_io_file(curr->child[0]);
 	else
-		exec_io_here(curr->child[0], shell_ctx);
+		exec_io_here(curr->child[0], shell_ctx->envp);
 }

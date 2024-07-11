@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 21:07:12 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 00:59:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_io_here.c
-int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
-int		open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx);
+int		exec_io_here(t_ast_node *node, char *envp[]);
+int		open_here_doc_tempfile(char **file_name, char *envp[]);
 int		create_unique_file(char **file_name, char *home_path);
 int		open_tempfile(char **file_name, char *home_path);
 void	io_readline(int fd, const char *str);

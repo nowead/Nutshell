@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_parameter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/09 21:22:30 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 01:04:09 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ t_shell_ctx *shell_ctx)
 	if (subtokenlist == NULL)
 		return (-1);
 	if (expand_parameters_in_subtokens(subtokenlist, shell_ctx))
-		return ((int)clear_tokenlist(subtokenlist));
+	{
+		clear_tokenlist(subtokenlist);
+		return (-1);
+	}
 	fields = split_subtokens_into_fields(subtokenlist);
 	clear_tokenlist(subtokenlist);
 	if (fields == NULL)

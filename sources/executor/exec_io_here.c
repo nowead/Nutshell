@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 17:26:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 00:59:56 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
+int	exec_io_here(t_ast_node *node, char *envp[])
 {
 	int				fd;
 	char			*file_name;
 
 	set_echoctl(NULL, ECHOCTL_OFF);
-	fd = open_here_doc_tempfile(&file_name, shell_ctx);
+	fd = open_here_doc_tempfile(&file_name, envp);
 	io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
@@ -35,12 +35,12 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-int	open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
+int	open_here_doc_tempfile(char **file_name, char *envp[])
 {
 	int			fd;
 	char		*home_path;
 
-	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
+	home_path = ft_strjoin(ft_getenv("HOME", envp), "/here_doc_");
 	if (home_path == NULL)
 		err_exit("ft_strjoin", 1, EXIT_FAILURE);
 	fd = create_unique_file(file_name, home_path);
