@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 16:08:04 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:19:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
 	if (argv == NULL)
-		ret = err_return(1, "malloc: %s\n", strerror(errno));
+		ret = err_return(1, "malloc");
 	if (curr->child_num == 2)
 	{
 		argv[0] = ft_strdup(curr->child[0]->token->str);

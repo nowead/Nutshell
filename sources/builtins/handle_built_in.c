@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 15:49:12 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:19:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
 	if (argv == NULL)
-		ret = err_return(1, "malloc: %s\n", strerror(errno));
+		ret = err_return(1, "malloc");
 	if (curr->child_num == 2)
 	{
 		argv[0] = ft_strdup(curr->child[0]->token->str);
@@ -54,7 +54,7 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 			ret = exec_builtin_cmd_suffix(curr->child[2], argv, shell_ctx);
 	}
 	if (ret != -1 && execute_builtin_argv(argv[0], argv, shell_ctx) == -1)
-		ret = err_return(1, argv[0]: %s\n", strerror(errno));
+		ret = err_return(1, argv[0]);
 	ft_free_strs(argv);
 	shell_ctx->exit_status = ret;
 	return (ret);
@@ -123,19 +123,19 @@ int	exec_builtin_io_file(t_ast_node *node)
 		fd = open(node->child[0]->token->str, \
 		O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		return (err_return(1, "open: %s\n", strerror(errno)));
+		return (err_return(1, "open"));
 	if (node->token->type == TOK_LESS)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
-			return (err_return(1, "dup2: %s\n", strerror(errno)));
+			return (err_return(1, "dup2"));
 	}
 	else
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
-			return (err_return(1, "dup2: %s\n", strerror(errno)));
+			return (err_return(1, "dup2"));
 	}
 	if (close(fd) == -1)
-		return (err_return(1, "close: %s\n", strerror(errno)));
+		return (err_return(1, "close"));
 	return (0);
 }
 
@@ -148,12 +148,12 @@ int	builtin_open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
 
 	home_path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/here_doc_");
 	if (home_path == NULL)
-		return (err_return(1, "ft_strjoin: %s\n", strerror(errno)));
+		return (err_return(1, "ft_strjoin"));
 	i = 0;
 	num = ft_itoa(i);
 	*file_name = ft_strjoin(home_path, num);
 	if (*file_name == NULL)
-		return (err_return(1, "ft_strjoin: %s\n", strerror(errno)));
+		return (err_return(1, "ft_strjoin"));
 	while (1)
 	{
 		if (access(*file_name, F_OK) != -1)
@@ -164,7 +164,7 @@ int	builtin_open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
 			num = ft_itoa(i);
 			*file_name = ft_strjoin(home_path, num);
 			if (*file_name == NULL)
-				return (err_return(1, "ft_strjoin: %s\n", strerror(errno)));
+				return (err_return(1, "ft_strjoin"));
 		}
 		else
 		{
@@ -173,7 +173,7 @@ int	builtin_open_here_doc_tempfile(char **file_name, t_shell_ctx *shell_ctx)
 			{
 				free(*file_name);
 				free(home_path);
-				return (err_return(1, "open: %s\n", strerror(errno)));
+				return (err_return(1, "open"));
 			}
 			break ;
 		}
@@ -191,23 +191,23 @@ int	exec_builtin_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 	set_echoctl(NULL, ECHOCTL_OFF);
 	fd = builtin_open_here_doc_tempfile(&file_name, shell_ctx);
 	if (fd == -1)
-		return (err_return(1, "builtin open tempfile: %s\n", strerror(errno)));
+		return (err_return(1, "builtin open tempfile"));
 	io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
-		return (err_return(1, "close: %s\n", strerror(errno)));
+		return (err_return(1, "close"));
 	fd = open(file_name, O_RDONLY, 0644);
 	if (fd == -1)
-		return (err_return(1, "open: %s\n", strerror(errno)));
+		return (err_return(1, "open"));
 	if (dup2(STDIN_FILENO, stdin_fd) == -1)
-		return (err_return(1, "dup2 error: %s\n", strerror(errno)));
+		return (err_return(1, "dup2 error"));
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (err_return(1, "dup2 error: %s\n", strerror(errno)));
+		return (err_return(1, "dup2 error"));
 	if (unlink(file_name) == -1)
-		return (err_return(1, "unlink: %s\n", strerror(errno)));
+		return (err_return(1, "unlink"));
 	if (close(fd) == -1 || close(STDIN_FILENO) == -1)
-		return (err_return(1, "close: %s\n", strerror(errno)));
+		return (err_return(1, "close"));
 	if (dup2(stdin_fd, STDIN_FILENO) == -1)
-		return (err_return(1, "dup2 error: %s\n", strerror(errno)));
+		return (err_return(1, "dup2 error"));
 	free(file_name);
 	return (0);
 }

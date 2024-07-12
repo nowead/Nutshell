@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 16:04:08 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:19:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	export_new_env_var(char *new_env_var, char ***envp)
 	envp_len = ft_strslen(*envp);
 	new_envp = (char **)ft_calloc(envp_len + 2, sizeof(char *));
 	if (new_envp == NULL)
-		return (err_return(1, "malloc: %s\n", strerror(errno)));
+		return (err_return(1, "malloc"));
 	ft_memcpy(new_envp, *envp, (envp_len + 1) * sizeof(char *));
 	new_envp[envp_len] = new_env_var;
 	free(*envp);

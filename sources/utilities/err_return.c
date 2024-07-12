@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:33:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 16:03:55 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:18:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	err_return(int ret_val, const char *format, ...)
 
 	va_start(args, format);
 	ft_dprintf(STDERR_FILENO, format, args);
+	ft_dprintf(STDERR_FILENO, ": %s\n", strerror(errno));
 	va_end(args);
 	return (ret_val);
 }
