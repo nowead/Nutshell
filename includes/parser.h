@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 19:42:33 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 20:23:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_ast		*parse(const char *input, int *incomplete_command, \
 t_shell_ctx *shell_ctx);
 const char	*get_token_type_string(t_tokentype type);
 const char	*get_token_operator_type_string(t_tokentype type);
-// void				print_ast(t_ast_node *node, int depth);
-// const char		*get_symbol_type_string(t_symbol sym);
+// void				print_ast(t_ast_node *node, int depth);//
+// const char		*get_symbol_type_string(t_symbol sym);//
 
 // ast_construction
 

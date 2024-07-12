@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 11:58:09 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:20:21 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ const char	*get_token_operator_type_string(t_tokentype type)
 //     }
 // }
 
-// Recursive function to print the AST
+// //Recursive function to print the AST
 // void print_ast(t_ast_node *node, int depth)
 // {
 //     if (node == NULL)

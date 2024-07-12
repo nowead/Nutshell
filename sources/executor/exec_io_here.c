@@ -3,35 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 00:59:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 20:11:12 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_io_here(t_ast_node *node, char *envp[])
+int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int				fd;
 	char			*file_name;
 
 	set_echoctl(NULL, ECHOCTL_OFF);
-	fd = open_here_doc_tempfile(&file_name, envp);
+	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
 	io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);
 	if (fd == -1)
 		err_exit("open", 1, EXIT_FAILURE);
+	shell_ctx->stdfd[0] = dup(STDIN_FILENO);
+	if (shell_ctx->stdfd[0] == -1)
+		err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (unlink(file_name) == -1)
 		err_exit("unlink", 1, EXIT_FAILURE);
-	if (close(fd) == -1)
+	if (is_there_next_io_here(node))
+		if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
+			err_exit("dup2 error", 1, EXIT_FAILURE);
+	if (close(fd) == -1 || close(shell_ctx->stdfd[0]) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
 	free(file_name);
+	return (0);
+}
+
+int	is_there_next_io_here(t_ast_node *curr)
+{
+	curr = curr->parent->parent;
+	if (curr->child && curr->child[1])
+		curr = curr->child[1];
+	else
+		return (0);
+	if (curr->child && curr->child[0])
+		curr = curr->child[0];
+	else
+		return (0);
+	if (curr->sym == IO_REDIRECT && curr->child[0]->sym == IO_HERE)
+		return (1);
 	return (0);
 }
 
@@ -40,7 +62,7 @@ int	open_here_doc_tempfile(char **file_name, char *envp[])
 	int			fd;
 	char		*home_path;
 
-	home_path = ft_strjoin(ft_getenv("HOME", envp), "/here_doc_");
+	home_path = ft_strjoin(ft_getenv("HOME", envp), "/.here_doc_");
 	if (home_path == NULL)
 		err_exit("ft_strjoin", 1, EXIT_FAILURE);
 	fd = create_unique_file(file_name, home_path);

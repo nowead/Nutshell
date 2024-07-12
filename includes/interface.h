@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 14:22:35 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:17:27 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_shell_ctx
 	char			**envp;
 	int				exit_status;
 	struct termios	old_term;
+	int				stdfd[2];
 }	t_shell_ctx;
 
 typedef struct s_ast_node
