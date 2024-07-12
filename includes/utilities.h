@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:15:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 00:37:43 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:04:20 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define UTILITIES_H
 
 void	err_exit(char *err, int sys, int exit_status);
-int		err_return(char *err_msg);
+int		err_return(int ret_val, const char *format, ...);
 void	ft_free_strs(char *strs[]);
 int		ft_print_strs(char **strs);
 int		ft_strcmp(const char *s1, const char *s2);

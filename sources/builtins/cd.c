@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/11 22:53:34 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:04:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_cd(char **argv, char ***envp)
 	if (!argv[1])
 	{
 		if (chdir(ft_getenv("HOME", *envp)) == -1)
-			return (err_return("chdir"));
+			return (err_return(1, "chdir: %s\n", strerror(errno)));
 		return (0);
 	}
 	if (argv[1] && ft_strncmp(argv[1], "~", 1) == 0 \
@@ -32,7 +32,7 @@ int	exec_cd(char **argv, char ***envp)
 	if (update_oldpwd(envp) == -1)
 		return (-1);
 	if (chdir(argv[1]) == -1)
-		return (err_return("cd"));
+		return (err_return(1, "chdir: %s\n", strerror(errno)));
 	if (update_pwd(envp) == -1)
 		return (-1);
 	return (0);
@@ -49,11 +49,11 @@ int	update_oldpwd(char ***envp)
 		return (-1);
 	new_old_pwd = ft_strjoin("OLD", pwd);
 	if (new_old_pwd == NULL)
-		return (err_return("ft_strjoin"));
+		return (err_return(1, "ft_strjoin: %s\n", strerror(errno)));
 	if (export_single_env_var(new_old_pwd, envp) == -1)
 	{
 		free(new_old_pwd);
-		return (err_return("export_single_env_var"));
+		return (err_return(1, "export_single_env_var: %s\n", strerror(errno)));
 	}
 	free(new_old_pwd);
 	return (0);
@@ -66,11 +66,11 @@ int	update_pwd(char ***envp)
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
-		return (err_return("getcwd"));
+		return (err_return(1, "getcwd: %s\n", strerror(errno)));
 	pwd = ft_strjoin("PWD=", cwd);
 	free(cwd);
 	if (pwd == NULL)
-		return (err_return("ft_strjoin"));
+		return (err_return(1, "ft_strjoin: %s\n", strerror(errno)));
 	if (export_single_env_var(pwd, envp) == -1)
 	{
 		free(pwd);
