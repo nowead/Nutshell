@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 22:53:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 16:38:32 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 14:36:49 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,27 @@
 int	exec_unset(char **argv, char ***envp)
 {
 	size_t	i;
+	int		err_flag;
 
+	err_flag = 0;
 	i = 1;
 	while (argv[i])
 	{
 		if (is_valid_name(argv[i], ft_strlen(argv[i])))
 		{
 			if (unset_single_env_var(argv[i], envp))
-				return (-1);
+				return (0);
 		}
 		else
+		{
 			ft_dprintf(STDERR_FILENO, \
 			"`%s': not a valid identifier\n", argv[i]);
+			err_flag = 1;
+		}
 		i++;
 	}
+	if (err_flag)
+		return (1);
 	return (0);
 }
 
