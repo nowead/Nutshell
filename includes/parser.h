@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 12:30:50 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 19:42:33 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,10 @@ t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist);
 int			handle_quote_token(t_tokenlist *subtokenlist, \
 t_toknode **curr_subtok, t_tokenlist *fields);
 t_token		*merge_two_tokens(t_token *token1, t_token *token2);
+// unquote_fields.c
+int			unquote_fields(t_tokenlist *fields);
+int			unquote_single_field(t_toknode *curr);
+size_t		get_unquoted_len(char *str);
+void		copy_str_to_unquoted_str(char *unquoted_str, char *str);
 
 #endif

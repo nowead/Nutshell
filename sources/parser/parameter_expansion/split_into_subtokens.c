@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:21:29 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 15:48:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 17:04:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static t_token	*split_quoted_token(char *str, size_t *i)
 		quotetype = SINGLE_QUOTE;
 	else if (quote == '\"')
 		quotetype = DOUBLE_QUOTE;
-	(*i)++;
 	start = *i;
+	(*i)++;
 	while (str[*i] != quote)
 		(*i)++;
-	token = new_word_token(ft_substr(str, start, *i - start));
+	token = new_word_token(ft_substr(str, start, *i - start + 1));
 	if (token == NULL)
 		return (NULL);
 	(*i)++;

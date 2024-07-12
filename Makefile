@@ -44,7 +44,7 @@ AST_CONSTRUCTION_SRC	=	and_or.c                manage_ast.c			ast_construction.c
 							here_doc_redirections.c
 PARAMETER_EXPANSION_SRC	=	expand_parameter.c		expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
 							insert_fields_into_tokenlist.c	is_assignment_word.c	split_into_subtokens.c\
-							split_no_quote_subtoken.c		split_subtokens_into_fields.c
+							split_no_quote_subtoken.c		split_subtokens_into_fields.c	unquote_fields.c
 INTERFACE_SRC			=	echo_control.c			handle_input.c		init_shell_context.c	interface.c\
 							readline.c				signal_handler.c
 EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c		exec_multiple_command.c\
@@ -54,7 +54,7 @@ BUILTINS_SRC			=	exec_builtin_command.c	exec_builtin_io.c			exec_builtin_affixes
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\
 							pwd.c		unset.c
 UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\
-							ft_strcmp.c				ft_strslen.c
+							ft_strcmp.c				ft_strslen.c			print_tokenlist.c
 
 LIBFT_SRC				=	$(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\

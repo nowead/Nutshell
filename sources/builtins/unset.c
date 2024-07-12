@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 22:53:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 16:30:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 19:38:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,13 @@ int	unset_single_env_var(char *env_key, char ***envp)
 		return (-1);
 	i = 0;
 	j = 0;
-	while (i < envp_len - 1)
+	while ((*envp)[j])
 	{
 		if ((*envp)[j] != *env_var)
-			new_envp[i] = (*envp)[j];
-		else
 		{
-			j++;
 			new_envp[i] = (*envp)[j];
+			i++;
 		}
-		i++;
 		j++;
 	}
 	free(*env_var);
