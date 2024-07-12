@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 22:53:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 14:36:49 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:30:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	unset_single_env_var(char *env_key, char ***envp)
 	char	**new_envp;
 	size_t	envp_len;
 	size_t	i;
+	size_t	j;
 
 	env_var = search_env_var(env_key, ft_strlen(env_key), *envp);
 	if (env_var == NULL)
@@ -54,16 +55,18 @@ int	unset_single_env_var(char *env_key, char ***envp)
 	if (new_envp == NULL)
 		return (-1);
 	i = 0;
+	j = 0;
 	while (i < envp_len - 1)
 	{
-		if ((*envp)[i] != *env_var)
-			new_envp[i] = (*envp)[i];
+		if ((*envp)[j] != *env_var)
+			new_envp[i] = (*envp)[j];
 		else
 		{
-			new_envp[i] = (*envp)[i + 1];
-			i++;
+			j++;
+			new_envp[i] = (*envp)[j];
 		}
 		i++;
+		j++;
 	}
 	free(*env_var);
 	free(*envp);
