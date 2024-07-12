@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 16:19:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 21:09:51 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	char	**argv;
 	int		ret;
 
+	if (backup_stdin(shell_ctx) == -1)
+		err_return(1, "dup");
 	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
 	if (argv == NULL)
 		ret = err_return(1, "malloc");
@@ -36,6 +38,8 @@ int	exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		ret = execute_builtin_argv(argv[0], argv, shell_ctx);
 	shell_ctx->exit_status = ret;
 	ft_free_strs(argv);
+	if (restore_stdin(shell_ctx) == -1)
+		err_return(1, "dup2");
 	return (ret);
 }
 
@@ -50,4 +54,21 @@ int	execute_builtin_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (exec_cd(argv, &(shell_ctx->envp)));
 	return (-1);
+}
+
+int	backup_stdin(t_shell_ctx *shell_ctx)
+{
+	shell_ctx->stdfd[0]	= dup(STDIN_FILENO);
+	if (shell_ctx->stdfd[0] == -1)
+		return (-1);
+	return (0);
+}
+
+int	restore_stdin(t_shell_ctx *shell_ctx)
+{
+	if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
+		return (-1);
+	if (close(shell_ctx->stdfd[0]) == -1)
+		return (-1);
+	return (0);
 }
