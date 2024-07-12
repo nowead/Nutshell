@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilities.h                                        :+:      :+:    :+:   */
+/*   concatenate_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 20:15:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 21:42:34 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/12 21:41:08 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/12 21:41:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILITIES_H
-# define UTILITIES_H
+#include "minishell.h"
 
-void	err_exit(char *err, int sys, int exit_status);
-int		err_return(int ret_val, const char *format, ...);
-void	ft_free_strs(char *strs[]);
-int		ft_print_strs(char **strs);
-int		ft_strcmp(const char *s1, const char *s2);
-size_t	ft_strslen(char **strs);
-int		print_tokenlist(t_tokenlist *tokenlist);
-char	*concatenate_str(char *old_str, char *str);
+char	*concatenate_str(char *old_str, char *str)
+{
+	char	*new_str;
 
-#endif
+	new_str = ft_strjoin(old_str, str);
+	free(old_str);
+	free(str);
+	if (new_str == NULL)
+	{
+		perror("ft_strjoin");
+		return (NULL);
+	}
+	return (new_str);
+}
