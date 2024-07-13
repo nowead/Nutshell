@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 22:30:41 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/13 22:53:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_ast		*parse(const char *input, int *incomplete_command, \
 t_shell_ctx *shell_ctx);
 const char	*get_token_type_string(t_tokentype type);
 const char	*get_token_operator_type_string(t_tokentype type);
-// void				print_ast(t_ast_node *node, int depth);//
-// const char		*get_symbol_type_string(t_symbol sym);//
+void		print_ast(t_ast_node *node, int depth);//
+const char	*get_symbol_type_string(t_symbol sym);//
 
 // ast_construction
 
@@ -117,6 +117,16 @@ int			is_assignment_word(char *str);
 int			is_valid_name(const char *str, size_t len);
 // split_into_subtokens.c
 t_tokenlist	*split_into_subtokens(t_toknode *toknode);
+// save_quote_in_subtokens.c
+int			save_quote_in_subtokens(t_tokenlist *subtokenlist);
+int			save_quote_in_a_token(t_toknode *toknode);
+void		fill_int_array(int *arr, size_t len, int value);
+// split_subtokens_into_fields.c
+t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist);
+int			handle_quote_token(t_tokenlist *subtokenlist, \
+t_toknode **curr_subtok, t_tokenlist *fields);
+t_token		*merge_two_tokens(t_token *token1, t_token *token2);
+int			*merge_is_quoted(t_token *token1, t_token *token2);
 // split_no_quote_subtoken.c
 int			handle_no_quote_token(t_toknode **curr_subtok, t_tokenlist *fields);
 int			handle_first_field(char *str, size_t *i, t_tokenlist *fields);
@@ -124,24 +134,18 @@ int			handle_middle_field(char *str, size_t *i, \
 t_tokenlist *fields, int *is_space);
 int			handle_last_field(t_tokenlist *fields, t_toknode **curr_subtok);
 t_token		*get_field(char *str, size_t *i);
-// split_subtokens_into_fields.c
-t_tokenlist	*split_subtokens_into_fields(t_tokenlist *subtokenlist);
-int			handle_quote_token(t_tokenlist *subtokenlist, \
-t_toknode **curr_subtok, t_tokenlist *fields);
-t_token		*merge_two_tokens(t_token *token1, t_token *token2);
-// unquote_fields.c
-int			unquote_fields(t_tokenlist *fields);
-int			unquote_single_field(t_toknode *curr);
-size_t		get_unquoted_len(char *str);
-void		copy_str_to_unquoted_str(char *unquoted_str, char *str);
 // expand_pathname.c
 int			expand_pathname_in_fields(t_tokenlist *fields);
 int			expand_pathname_in_single_field(t_toknode *curr);
-size_t		count_asterisk(char *str);
-void		update_quote_state(char c, t_quotetype *quote);
-int			fill_patterns(char **patterns, char *str);
+size_t		count_asterisk(t_token *token);
+int			fill_patterns(char **patterns, t_token *token);
 char		*construct_expanded_pathname(char **patterns, size_t pattern_cnt);
-int			does_entry_match_patterns(char *entry, char **patterns);
+int			does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt);
+int			concatenate_space(char **exp_str);
 int			concatenate_pathname(char **exp_str, char *entry);
+
+t_tokenlist	*split_expanded_fields(t_tokenlist *fields);
+int			split_single_field(char *str, t_tokenlist *splited_fields);
+t_token		*get_splited_field(char *str, size_t *i);
 
 #endif

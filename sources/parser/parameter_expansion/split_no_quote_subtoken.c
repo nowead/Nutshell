@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:50:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/09 21:53:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:04:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,20 @@ int	handle_last_field(t_tokenlist *fields, t_toknode **curr_subtok)
 t_token	*get_field(char *str, size_t *i)
 {
 	size_t	start;
+	t_token	*token;
 
 	start = *i;
 	while (str[*i] && !ft_isspace(str[*i]))
 		(*i)++;
-	return (new_word_token(ft_substr(str, start, *i - start)));
+	token = new_word_token(ft_substr(str, start, *i - start));
+	if (token == NULL)
+		return (NULL);
+	token->is_quoted = (int *)ft_calloc(ft_strlen(token->str), sizeof(int));
+	if (token->is_quoted == NULL)
+	{
+		free_token(token);
+		return (NULL);
+	}
+	fill_int_array(token->is_quoted, ft_strlen(token->str), 0);
+	return (token);
 }

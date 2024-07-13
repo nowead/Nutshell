@@ -42,9 +42,10 @@ AST_CONSTRUCTION_SRC	=	and_or.c                manage_ast.c			ast_construction.c
 							ast_error_handling.c    prefix_and_suffix.c		command.c               redirection_handling.c\
 							command_name.c          subshell.c				file_redirections.c     token_management.c\
 							here_doc_redirections.c
-PARAMETER_EXPANSION_SRC	=	expand_parameter.c		expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
-							insert_fields_into_tokenlist.c	is_assignment_word.c	split_into_subtokens.c\
-							split_no_quote_subtoken.c		split_subtokens_into_fields.c	unquote_fields.c	expand_pathname.c
+PARAMETER_EXPANSION_SRC	=	expand_parameter.c				expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
+							insert_fields_into_tokenlist.c	is_assignment_word.c			split_into_subtokens.c\
+							split_no_quote_subtoken.c		split_subtokens_into_fields.c	expand_pathname.c\
+							save_quote_in_subtokens.c
 INTERFACE_SRC			=	echo_control.c			handle_input.c		init_shell_context.c	interface.c\
 							readline.c				signal_handler.c
 EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c		exec_multiple_command.c\

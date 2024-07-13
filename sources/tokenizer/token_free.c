@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:37:21 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 21:35:22 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:05:14 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	free_token(t_token *token)
 {
 	free(token->str);
 	token->str = NULL;
+	if (token->is_quoted)
+	{
+		free(token->is_quoted);
+		token->is_quoted = NULL;
+	}
 	free(token);
 	token = NULL;
 }

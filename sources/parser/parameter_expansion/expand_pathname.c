@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:41:17 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 22:24:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/13 22:35:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int	expand_pathname_in_fields(t_tokenlist *fields)
 
 int	expand_pathname_in_single_field(t_toknode *curr)
 {
-	char	*str;
 	size_t	asterisk_cnt;
 	char	**patterns;
 	char	*exp_str;
 
-	str = curr->token->str;
-	asterisk_cnt = count_asterisk(str);
-	patterns = (char **)ft_calloc(asterisk_cnt + 2, sizeof(char));
+	asterisk_cnt = count_asterisk(curr->token);
+	if (asterisk_cnt == 0)
+		return (0);
+	patterns = (char **)ft_calloc(asterisk_cnt + 2, sizeof(char *));
 	if (patterns == NULL)
 		return (-1);
-	if (fill_patterns(patterns, str))
+	if (fill_patterns(patterns, curr->token))
 	{
 		ft_free_strs(patterns);
 		return (-1);
@@ -49,49 +49,30 @@ int	expand_pathname_in_single_field(t_toknode *curr)
 		return (-1);
 	free(curr->token->str);
 	curr->token->str = exp_str;
+	curr->token->quote = NO_QUOTE;
+	free(curr->token->is_quoted);
+	curr->token->is_quoted = NULL;
 	return (0);
 }
 
-size_t	count_asterisk(char *str)
+size_t	count_asterisk(t_token *token)
 {
-	t_quotetype	quote;
 	size_t		cnt;
 	size_t		i;
 
-	quote = NO_QUOTE;
 	cnt = 0;
 	i = 0;
-	while (str[i])
+	while ((token->str)[i])
 	{
-		update_quote_state(str[i], &quote);
-		if (str[i] == NO_QUOTE && str[i] == '*')
+		if (!(token->is_quoted[i]) && (token->str)[i] == '*')
 			cnt++;
 		i++;
 	}
 	return (cnt);
 }
 
-void	update_quote_state(char c, t_quotetype *quote)
+int	fill_patterns(char **patterns, t_token *token)
 {
-	if (c == '\'')
-	{
-		if (*quote == NO_QUOTE)
-			*quote = SINGLE_QUOTE;
-		else if (*quote == SINGLE_QUOTE)
-			*quote = NO_QUOTE;
-	}
-	else if (c == '\"')
-	{
-		if (*quote == NO_QUOTE)
-			*quote = DOUBLE_QUOTE;
-		else if (*quote == DOUBLE_QUOTE)
-			*quote = NO_QUOTE;
-	}
-}
-
-int	fill_patterns(char **patterns, char *str)
-{
-	t_quotetype	quote;
 	size_t		start;
 	size_t		i;
 	size_t		j;
@@ -99,25 +80,29 @@ int	fill_patterns(char **patterns, char *str)
 	start = 0;
 	i = 0;
 	j = 0;
-	while (str[i])
+	while ((token->str)[i])
 	{
-		update_quote_state(str[i], &quote);
-		if (str[i] == NO_QUOTE && str[i] == '*')
+		if (!(token->is_quoted)[i] && (token->str)[i] == '*')
 		{
-			patterns[j] = ft_substr(str, start, i - start);
+			patterns[j] = ft_substr(token->str, start, i - start);
 			if (patterns[j] == NULL)
 				return (-1);
-			start = i;
+			i++;
 			j++;
+			start = i;
 		}
-		i++;
+		else
+			i++;
 	}
+	patterns[j] = ft_substr(token->str, start, i - start);
+	if (patterns[j] == NULL)
+		return (-1);
 	return (0);
 }
 
 char	*construct_expanded_pathname(char **patterns, size_t pattern_cnt)
 {
-	size_t			i;
+	int				is_match_found;
 	DIR				*dir;
 	struct dirent	*entry;
 	char			*exp_str;
@@ -128,32 +113,35 @@ char	*construct_expanded_pathname(char **patterns, size_t pattern_cnt)
 	dir = opendir(".");
     if (dir == NULL)
 		return (NULL);
-	i = 0;
-	while (i < pattern_cnt)
+	is_match_found = 0;
+	while (1)
 	{ 
 		entry = readdir(dir);
 		if (entry == NULL)
+			break ;
+		if (does_entry_match_patterns(entry->d_name, patterns, pattern_cnt))
 		{
-			if (closedir(dir) == -1)
-				return (NULL);
-			return (NULL);
-		}
-		if (does_entry_match_patterns(entry->d_name, patterns))
+			if (is_match_found != 0 && concatenate_space(&exp_str))
+			{
+				free(exp_str);
+				if (closedir(dir) == -1)
+					return (NULL);
+			}
 			if (concatenate_pathname(&exp_str, entry->d_name))
 			{
 				free(exp_str);
 				if (closedir(dir) == -1)
 					return (NULL);
-				return (NULL);
 			}
-		i++;
+			is_match_found = 1;
+		}
 	}
 	if (closedir(dir) == -1)
 		return (NULL);
-	return (0);
+	return (exp_str);
 }
 
-int	does_entry_match_patterns(char *entry, char **patterns)
+int	does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt)
 {
 	char	*pattern;
 	char	*entry_ptr;
@@ -161,7 +149,11 @@ int	does_entry_match_patterns(char *entry, char **patterns)
 
 	entry_ptr = entry;
 	i = 0;
-	while (patterns[i])
+	if (ft_strncmp(entry_ptr, patterns[i], ft_strlen(patterns[i])))
+		return (0);
+	entry_ptr += ft_strlen(patterns[i]);
+	i++;
+	while (i < pattern_cnt - 1)
 	{
 		entry_ptr = ft_strnstr(entry_ptr, patterns[i], ft_strlen(entry_ptr));
 		if (entry_ptr == NULL)
@@ -169,7 +161,22 @@ int	does_entry_match_patterns(char *entry, char **patterns)
 		entry_ptr += ft_strlen(patterns[i]);
 		i++;
 	}
+	if (ft_strncmp(entry + ft_strlen(entry) - ft_strlen(patterns[i]), \
+	patterns[i], ft_strlen(patterns[i])))
+		return (0);
 	return (1);
+}
+
+int	concatenate_space(char **exp_str)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(*exp_str, " ");
+	if (tmp == NULL)
+		return (-1);
+	free(*exp_str);
+	*exp_str = tmp;
+	return (0);
 }
 
 int	concatenate_pathname(char **exp_str, char *entry)
@@ -177,11 +184,6 @@ int	concatenate_pathname(char **exp_str, char *entry)
 	char	*tmp;
 
 	tmp = ft_strjoin(*exp_str, entry);
-	if (tmp == NULL)
-		return (-1);
-	free(*exp_str);
-	*exp_str = tmp;
-	tmp = ft_strjoin(*exp_str, " ");
 	if (tmp == NULL)
 		return (-1);
 	free(*exp_str);

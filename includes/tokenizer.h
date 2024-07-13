@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 22:08:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/13 20:10:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_token
 	t_tokentype		type;
 	t_quotetype		quote;
 	char			*str;
+	int				*is_quoted;
 }	t_token;
 
 typedef struct s_toknode
