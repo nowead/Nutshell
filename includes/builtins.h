@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 21:25:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/13 22:32:02 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ int		is_builtin_cmd(t_ast_node *curr);
 int		exec_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		execute_builtin_argv(char *cmd_name, char **argv, \
 t_shell_ctx *shell_ctx);
-int		backup_stdin(t_shell_ctx *shell_ctx);
-int		restore_stdin(t_shell_ctx *shell_ctx);
+void	child_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_builtin_affixes.c
 void	exec_builtin_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
-//int		exec_builtin_cmd_suffix(t_ast_node *curr, char **argv, \
-//t_shell_ctx *shell_ctx);
 void	exec_builtin_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_redirect_in_suffix(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_suffix_without_redirect(t_ast_node *curr, char **argv, \
 t_shell_ctx *shell_ctx);
-
 
 // exec_builtin_io.c
 void	exec_builtin_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
