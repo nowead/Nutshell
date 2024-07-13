@@ -6,11 +6,14 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:59:50 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/09 22:56:52 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 22:31:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, \
+t_shell_ctx *shell_ctx);
 
 int	expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx)
 {
@@ -66,7 +69,7 @@ void	search_env_end(char *str, size_t *i)
 		(*i)++;
 }
 
-char	*construct_expanded_str(char *str, size_t start, size_t *i, \
+static char	*construct_expanded_str(char *str, size_t start, size_t *i, \
 t_shell_ctx *shell_ctx)
 {
 	char	*env_value;

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:22:40 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 16:16:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/12 21:40:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char *old_line, char **line)
 	if (*incomplete_cmd)
 	{
 		*incomplete_cmd = 0;
-		*line = concatenate_lines(old_line, *line);
+		*line = concatenate_str(old_line, *line);
 		if (*line == NULL)
 			return (1);
 	}
@@ -64,19 +64,4 @@ void	exit_shell(struct termios *old_term)
 	printf("exit\n");
 	restore_echoctl(old_term);
 	exit(-1);
-}
-
-char	*concatenate_lines(char *old_line, char *line)
-{
-	char	*new_line;
-
-	new_line = ft_strjoin(old_line, line);
-	free(old_line);
-	free(line);
-	if (new_line == NULL)
-	{
-		perror("ft_strjoin");
-		return (NULL);
-	}
-	return (new_line);
 }

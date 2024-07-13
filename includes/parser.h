@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 20:23:35 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 22:30:41 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <dirent.h>
 # include "interface.h"
 
 # define INCOMPLETE_CMD 1001
@@ -100,8 +102,6 @@ int			expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx);
 int			expand_single_parameter(char **str, size_t *i, \
 t_shell_ctx *shell_ctx);
 void		search_env_end(char *str, size_t *i);
-char		*construct_expanded_str(char *str, size_t start, size_t *i, \
-t_shell_ctx *shell_ctx);
 char		*get_env_value(char *str, size_t start, size_t i, char *envp[]);
 // expand_parameters_in_subtokens.c
 int			expand_parameters_in_subtokens(t_tokenlist *subtokenlist, \
@@ -134,5 +134,14 @@ int			unquote_fields(t_tokenlist *fields);
 int			unquote_single_field(t_toknode *curr);
 size_t		get_unquoted_len(char *str);
 void		copy_str_to_unquoted_str(char *unquoted_str, char *str);
+// expand_pathname.c
+int			expand_pathname_in_fields(t_tokenlist *fields);
+int			expand_pathname_in_single_field(t_toknode *curr);
+size_t		count_asterisk(char *str);
+void		update_quote_state(char c, t_quotetype *quote);
+int			fill_patterns(char **patterns, char *str);
+char		*construct_expanded_pathname(char **patterns, size_t pattern_cnt);
+int			does_entry_match_patterns(char *entry, char **patterns);
+int			concatenate_pathname(char **exp_str, char *entry);
 
 #endif

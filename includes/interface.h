@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 17:17:27 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 21:42:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ void		process_sigint_flag(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
 char *old_line);
 void		handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd);
 void		exit_shell(struct termios *old_term);
-char		*concatenate_lines(char *old_line, char *line);
 
 #endif
