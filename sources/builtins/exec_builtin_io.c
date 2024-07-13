@@ -3,46 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_io.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 16:19:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:23:18 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin_io_here(t_ast_node *node, char *envp[])
+void	exec_builtin_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int				fd;
 	char			*file_name;
-	int				stdin_fd;
 
 	set_echoctl(NULL, ECHOCTL_OFF);
-	fd = open_here_doc_tempfile(&file_name, envp);
-	if (fd == -1)
-		return (err_return(1, "builtin open tempfile"));
+	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
 	io_readline(fd, node->child[0]->token->str);
 	if (close(fd) == -1)
-		return (err_return(1, "close"));
+		err_exit("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);
 	if (fd == -1)
-		return (err_return(1, "open"));
-	if (dup2(STDIN_FILENO, stdin_fd) == -1)
-		return (err_return(1, "dup2 error"));
+		err_exit("open", 1, EXIT_FAILURE);
+	shell_ctx->stdfd[0] = dup(STDIN_FILENO);
+	if (shell_ctx->stdfd[0] == -1)
+		err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (err_return(1, "dup2 error"));
+		err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (unlink(file_name) == -1)
-		return (err_return(1, "unlink"));
-	if (close(fd) == -1 || close(STDIN_FILENO) == -1)
-		return (err_return(1, "close"));
-	if (dup2(stdin_fd, STDIN_FILENO) == -1)
-		return (err_return(1, "dup2 error"));
+		err_exit("unlink", 1, EXIT_FAILURE);
+	if (is_there_next_io_here(node))
+		if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
+			err_exit("dup2 error", 1, EXIT_FAILURE);
+	if (close(fd) == -1 || close(shell_ctx->stdfd[0]) == -1)
+		err_exit("close", 1, EXIT_FAILURE);
 	free(file_name);
-	return (0);
 }
 
-int	exec_builtin_io_file(t_ast_node *node)
+void	exec_builtin_io_file(t_ast_node *node)
 {
 	int	fd;
 
@@ -55,18 +53,17 @@ int	exec_builtin_io_file(t_ast_node *node)
 		fd = open(node->child[0]->token->str, \
 		O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		return (err_return(1, "open"));
+		err_exit("open", 1, 1);
 	if (node->token->type == TOK_LESS)
 	{
 		if (dup2(fd, STDIN_FILENO) == -1)
-			return (err_return(1, "dup2"));
+			err_exit("dup2", 1, 1);
 	}
 	else
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
-			return (err_return(1, "dup2"));
+			err_exit("dup2", 1, 1);
 	}
 	if (close(fd) == -1)
-		return (err_return(1, "close"));
-	return (0);
+		err_exit("close", 1, 1);
 }

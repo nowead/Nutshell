@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 20:11:44 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/13 21:35:34 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		execute_middle_commands(t_ast_node **curr, int fd[3], \
 size_t *cmd_cnt, t_shell_ctx *shell_ctx);
 int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
-int 	handle_signal(char *envp[]);
+int 	handle_signal(t_shell_ctx *shell_ctx, int signaled_status);
 
 // exec_individual_commands.c
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);

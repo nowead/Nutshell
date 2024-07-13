@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 19:55:21 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/13 21:44:07 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,29 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		return (-1);
 	if (wait_for_all_commands(cmd_cnt, &status, &is_signaled))
 		return (-1);
-	if (is_signaled && handle_signal(shell_ctx->envp) == -1)
+	if (is_signaled && handle_signal(shell_ctx, WTERMSIG(status)) == -1)
 		return (-1);
 	set_echoctl(NULL, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
 	return (shell_ctx->exit_status);
 }
 
-int	handle_signal(char *envp[])
+int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
 {
 	char	*path;
 
 	printf("\n");
-	path = ft_strjoin(ft_getenv("HOME", envp), "/.here_doc_0");
+	shell_ctx->exit_status = signaled_status + 128;
+	path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/.here_doc_0");
 	if (access(path, F_OK) == 0)
+	{
+		shell_ctx->exit_status = 1;
 		if (unlink(path) == -1)
 		{
 			free(path);
 			err_return(-1, "unlink");
 		}
+	}
 	free(path);
 	return (0);
 }
