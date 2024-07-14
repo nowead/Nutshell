@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 01:41:39 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/14 19:03:50 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,15 @@ void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	}
 	if (curr->child_num != 1)
 		execute_argv(argv[0], argv, shell_ctx);
-	perror(argv[0]);
-	exit(EXIT_FAILURE);
+	handle_error(argv[0]);
+}
+
+void	handle_error(char *cmd_name)
+{
+	perror(cmd_name);
+	if (errno == ENOENT)
+		exit (FILE_NOT_EXIST_FAILURE);
+	exit(EXECVE_FAILURE);
 }
 
 int	count_argument(t_ast_node *curr)

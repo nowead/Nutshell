@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:13:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 19:43:51 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/14 20:20:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (wait(&status) == -1)
 		return (-1);
 	shell_ctx->exit_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && handle_signal(shell_ctx->envp) == -1)
+	if (WIFSIGNALED(status) && \
+	handle_signal(curr, shell_ctx, WTERMSIG(status)) == -1)
 		return (-1);
 	set_echoctl(NULL, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
