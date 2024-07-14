@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 22:57:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/14 22:16:27 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_shell_ctx *shell_ctx)
 	splited_fields = split_expanded_fields(fields);
 	clear_tokenlist(fields);
 	if (splited_fields->size != 0)
-		insert_fields_into_tokenlist(tokenlist, toknode, fields);
+		insert_fields_into_tokenlist(tokenlist, toknode, splited_fields);
 	else
 		pop_toknode(tokenlist, toknode);
 	free_toknode(toknode);
@@ -113,7 +113,8 @@ int	split_single_field(char *str, t_tokenlist *splited_fields)
 			if (tokenlist_add(splited_fields, get_splited_field(str, &i)))
 				return (-1);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (0);
 }

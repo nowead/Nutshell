@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/14 20:40:50 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/14 21:21:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,15 @@ int	handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status)
 	printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
 	path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/.here_doc_0");
-	if (is_there_here_doc(curr))
-		if (access(path, F_OK) == 0)
+	if (access(path, F_OK) == 0)
+	{
+		shell_ctx->exit_status = 1;
+		if (unlink(path) == -1)
 		{
-			shell_ctx->exit_status = 1;
-			if (unlink(path) == -1)
-			{
-				free(path);
-				err_return(-1, "unlink");
-			}
+			free(path);
+			err_return(-1, "unlink");
 		}
+	}
 	free(path);
 	return (0);
 }
