@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_parameters_in_string.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:59:50 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 22:31:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 00:45:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

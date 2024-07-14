@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_assignment_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/08 21:13:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 01:01:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ int	is_assignment_word(char *str)
 	return (is_valid_name(str, equalsign_start - str));
 }
 
-// This function checks if a given string (of specified length) is a valid name.
-// It must not be empty, must not start with a digit,
-// and must consist of alphanumeric characters or underscores.
 int	is_valid_name(const char *str, size_t len)
 {
 	size_t	i;

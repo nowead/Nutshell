@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   construct_pathname.c                               :+:      :+:    :+:   */
+/*   construct_expanded_pathname.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:20:18 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 00:20:30 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 00:59:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,44 @@
 
 char	*construct_expanded_pathname(char **patterns, size_t pattern_cnt)
 {
-	int				is_match_found;
 	DIR				*dir;
 	struct dirent	*entry;
 	char			*exp_str;
 
-	exp_str = ft_strdup("");
-	if (exp_str == NULL)
-		return (NULL);
+	exp_str = NULL;
 	dir = opendir(".");
     if (dir == NULL)
 		return (NULL);
-	is_match_found = 0;
 	while (1)
 	{ 
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
 		if (does_entry_match_patterns(entry->d_name, patterns, pattern_cnt))
-		{
-			if (is_match_found != 0 && concatenate_space(&exp_str))
-			{
-				free(exp_str);
-				if (closedir(dir) == -1)
-					return (NULL);
-			}
-			if (concatenate_pathname(&exp_str, entry->d_name))
-			{
-				free(exp_str);
-				if (closedir(dir) == -1)
-					return (NULL);
-			}
-			is_match_found = 1;
-		}
+			if (concatenate_space_and_pathname(dir, entry, exp_str))
+				return (NULL);
 	}
 	if (closedir(dir) == -1)
 		return (NULL);
+	sort_expanded_pathname(&exp_str);
 	return (exp_str);
+}
+
+int	concatenate_space_and_pathname(DIR *dir, struct dirent *entry, char *exp_str)
+{
+	if (exp_str != NULL && concatenate_space(&exp_str))
+	{
+		free(exp_str);
+		if (closedir(dir) == -1)
+			return (-1);
+	}
+	if (concatenate_pathname(&exp_str, entry->d_name))
+	{
+		free(exp_str);
+		if (closedir(dir) == -1)
+			return (-1);
+	}
+	return (0);
 }
 
 int	does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt)
