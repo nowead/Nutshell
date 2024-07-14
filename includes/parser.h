@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 22:53:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 00:27:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,18 @@ int			expand_pathname_in_fields(t_tokenlist *fields);
 int			expand_pathname_in_single_field(t_toknode *curr);
 size_t		count_asterisk(t_token *token);
 int			fill_patterns(char **patterns, t_token *token);
+// construct_expanded_pathname.c
 char		*construct_expanded_pathname(char **patterns, size_t pattern_cnt);
 int			does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt);
 int			concatenate_space(char **exp_str);
 int			concatenate_pathname(char **exp_str, char *entry);
-
+// sort_expanded_pathname.c
+int			sort_expanded_pathname(char **exp_str);
+void		ft_string_sort(char **strs, size_t len);
+void		ft_swap_strings(char **a, char **b);
+char		*ft_strsjoin(char **strs, char c);
+size_t		get_joined_len(char **strs);
+// split_expanded_fields.c
 t_tokenlist	*split_expanded_fields(t_tokenlist *fields);
 int			split_single_field(char *str, t_tokenlist *splited_fields);
 t_token		*get_splited_field(char *str, size_t *i);
