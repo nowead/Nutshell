@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 22:28:05 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/14 20:20:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_shell_ctx *shell_ctx)
 		return (-1);
 	shell_ctx->exit_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
-		return (handle_signal(shell_ctx, WTERMSIG(status)));
+		return (handle_signal(curr, shell_ctx, WTERMSIG(status)));
 	if (shell_ctx->exit_status != 0)
 		return (shell_ctx->exit_status);
 	return (parent_builtin_simple_command(curr, shell_ctx));
