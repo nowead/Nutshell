@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/13 22:32:37 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/14 19:11:30 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "interface.h"
+
+# define EXECVE_FAILURE 126
+# define FILE_NOT_EXIST_FAILURE 127
 
 // exec_ast.c
 void	exec_ast(t_ast *ast, t_shell_ctx *shell_ctx);
@@ -58,6 +61,7 @@ void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		count_argument(t_ast_node *curr);
 void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx);
+void	handle_error(char *cmd_name);
 
 // exec_prefix_and_suffix.c
 void	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
