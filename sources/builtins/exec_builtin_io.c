@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_io.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/13 21:23:18 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/15 16:50:33 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_builtin_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 
 	set_echoctl(NULL, ECHOCTL_OFF);
 	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
-	io_readline(fd, node->child[0]->token->str);
+	io_readline(fd, node->child[0]->token->str, shell_ctx);
 	if (close(fd) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);

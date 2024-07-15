@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 20:11:12 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/15 16:48:38 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 
 	set_echoctl(NULL, ECHOCTL_OFF);
 	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
-	io_readline(fd, node->child[0]->token->str);
+	io_readline(fd, node->child[0]->token->str, shell_ctx);
 	if (close(fd) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
 	fd = open(file_name, O_RDONLY, 0644);
@@ -110,7 +110,7 @@ int	open_tempfile(char **file_name, char *home_path)
 	return (fd);
 }
 
-void	io_readline(int fd, const char *str)
+void	io_readline(int fd, const char *str, t_shell_ctx *shell_ctx)
 {
 	char	*line;
 
@@ -124,6 +124,8 @@ void	io_readline(int fd, const char *str)
 			ft_printf("\033[u\033[1B\033[1A");
 			break ;
 		}
+		if (expand_parameters_in_string(&line, shell_ctx) == -1)
+			err_exit("expand_parameters_in_string", 1, EXIT_FAILURE);
 		if (ft_strlen(line) == ft_strlen(str) && \
 		ft_strncmp(line, str, ft_strlen(line)) == 0)
 			break ;

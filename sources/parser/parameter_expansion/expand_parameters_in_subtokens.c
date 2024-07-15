@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_subtokenlist.c                              :+:      :+:    :+:   */
+/*   expand_parameters_in_subtokens.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 22:36:11 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/09 22:05:50 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 16:32:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ t_shell_ctx *shell_ctx)
 	while (curr)
 	{
 		if (curr->token->quote != SINGLE_QUOTE && \
-		expand_parameters_in_subtoken(curr, shell_ctx))
+		expand_parameters_in_a_subtoken(curr, shell_ctx))
 			return (-1);
 		curr = curr->next;
 	}
 	return (0);
 }
 
-int	expand_parameters_in_subtoken(t_toknode *subtoknode, \
+int	expand_parameters_in_a_subtoken(t_toknode *subtoknode, \
 t_shell_ctx *shell_ctx)
 {
 	char		*str;

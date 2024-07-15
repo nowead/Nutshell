@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 15:17:21 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 16:47:56 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char		*get_env_value(char *str, size_t start, size_t i, char *envp[]);
 // expand_parameters_in_subtokens.c
 int			expand_parameters_in_subtokens(t_tokenlist *subtokenlist, \
 t_shell_ctx *shell_ctx);
-int			expand_parameters_in_subtoken(t_toknode *subtoknode, \
+int			expand_parameters_in_a_subtoken(t_toknode *subtoknode, \
 t_shell_ctx *shell_ctx);
 // insert_fields_into_tokenlist.c
 void		insert_fields_into_tokenlist(t_tokenlist *tokenlist, \
