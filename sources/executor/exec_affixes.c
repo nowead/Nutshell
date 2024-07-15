@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_affixes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:03:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 17:16:16 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/15 19:37:12 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,21 @@ void	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	}
 }
 
-void	exec_cmd_suffix(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx)
+void	exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
 			exec_io_redirect(curr->child[0], shell_ctx);
-		else if (curr->child[0]->token->type == TOK_WORD)
+		curr = curr->child[1];
+	}
+}
+
+void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx)
+{
+	while (curr->child)
+	{
+		if (curr->child[0]->token && curr->child[0]->token->type == TOK_WORD)
 			add_argument(argv, curr->child[0]->token->str);
 		curr = curr->child[1];
 	}

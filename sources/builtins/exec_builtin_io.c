@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:45:56 by damin             #+#    #+#             */
-/*   Updated: 2024/07/15 16:50:33 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 22:23:42 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,34 @@ void	exec_builtin_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int				fd;
 	char			*file_name;
+	int				backup_pipe_fd[2];
 
 	set_echoctl(NULL, ECHOCTL_OFF);
-	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
+	fd = open_here_doc_tempfile_write(&file_name, shell_ctx->envp);
+
 	io_readline(fd, node->child[0]->token->str, shell_ctx);
+
+// close opened fd
 	if (close(fd) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
+// reopen file RDONLY
 	fd = open(file_name, O_RDONLY, 0644);
 	if (fd == -1)
 		err_exit("open", 1, EXIT_FAILURE);
+
 	shell_ctx->stdfd[0] = dup(STDIN_FILENO);
 	if (shell_ctx->stdfd[0] == -1)
 		err_exit("dup2 error", 1, EXIT_FAILURE);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		err_exit("dup2 error", 1, EXIT_FAILURE);
+		
 	if (unlink(file_name) == -1)
 		err_exit("unlink", 1, EXIT_FAILURE);
+
 	if (is_there_next_io_here(node))
 		if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
 			err_exit("dup2 error", 1, EXIT_FAILURE);
+
 	if (close(fd) == -1 || close(shell_ctx->stdfd[0]) == -1)
 		err_exit("close", 1, EXIT_FAILURE);
 	free(file_name);

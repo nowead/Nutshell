@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 14:37:38 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 22:11:27 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 	is_signaled = 0;
 	signal(SIGINT, SIG_IGN);
+	if (backup_stdfd(shell_ctx))
+		return (-1);
 	if (first_command(curr->child[0], fd, shell_ctx) == -1)
 		return (-1);
 	cmd_cnt = 1;
@@ -92,15 +94,3 @@ int	is_there_pipe(t_ast_node *curr)
 	else
 		return (0);
 }
-
-// int	is_there_here_doc(t_ast_node *curr)
-// {
-// 	if (curr->type == PIPE_SEQUENCE)
-// 	{
-// 		while (is_there_pipe(curr))
-// 			curr = curr->child[1];
-// 		curr = curr->child[0];
-// 	}
-// 	if (curr->type == SIMPLE_COMMAND)
-	
-// }

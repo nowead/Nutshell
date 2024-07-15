@@ -80,3 +80,4 @@ io_here          : DLESS     here_end
                  
 here_end         : WORD           /* Apply rule 3 */
                  ;
+cat << EOF | cat

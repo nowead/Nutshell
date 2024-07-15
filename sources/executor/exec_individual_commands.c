@@ -6,17 +6,87 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 15:55:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 22:12:46 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
+// {
+// 	pid_t			pid;
+
+// 	if (pipe(fd) == -1)
+// 		return (-1);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		return (-1);
+// 	if (pid == 0)
+// 	{
+// 		set_echoctl(NULL, ECHOCTL_ON);
+// 		signal(SIGINT, SIG_DFL);
+// 		if (dup2(fd[1], STDOUT_FILENO) == -1)
+// 			err_exit("dup2", 1, EXIT_FAILURE);
+// 		if (close(fd[0]) == -1 || close(fd[1]) == -1)
+// 			err_exit("close", 1, EXIT_FAILURE);
+// 		exec_command(curr, shell_ctx);
+// 	}
+// 	return (0);
+// }
+
+int	backup_stdfd(t_shell_ctx *shell_ctx)
+{
+	shell_ctx->stdfd[0] = dup(STDIN_FILENO);
+	shell_ctx->stdfd[1] = dup(STDOUT_FILENO);
+	if (shell_ctx->stdfd[0] == -1 || shell_ctx->stdfd[1] == -1)
+		return (-1);
+	return (0);
+}
+
+int	pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx)
+{
+	if (pipe(fd) == -1)
+		return (err_return(-1, "pipe"));
+	if (dup2(fd[1], STDOUT_FILENO) == -1)
+		return (err_return(-1, "dup2"));
+	return (0);
+}
+
+int	restore_stdfd(t_shell_ctx *shell_ctx)
+{
+	if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
+		return (err_return(-1, "dup2"));
+	if (dup2(shell_ctx->stdfd[1], STDOUT_FILENO) == -1)
+		return (err_return(-1, "dup2"));
+	if (close(shell_ctx->stdfd[0]) == -1 || close(shell_ctx->stdfd[1]) == -1)
+		return (err_return(-1, "close"));
+	return (0);
+}
+
+// int is_there_here_doc(t_ast_node *curr)
+// {
+// 	int	i;
+// 	if (curr->sym == IO_HERE)
+// 		return (1);
+// 	i = 0;
+// 	if (curr->child)
+// 	{
+// 		while (i < curr->child_num)
+// 		{
+// 			if (is_there_here_doc(curr->child[i++]))
+// 			return (1);
+// 		}
+// 	}
+// 	return (0);
+// }
+
 int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 
-	if (pipe(fd) == -1)
+	if (pipe_redirect_first(fd, shell_ctx))
+		return (-1);
+	if (exec_redirect_only(curr, shell_ctx))
 		return (-1);
 	pid = fork();
 	if (pid == -1)
@@ -25,12 +95,10 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 	{
 		set_echoctl(NULL, ECHOCTL_ON);
 		signal(SIGINT, SIG_DFL);
-		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			err_exit("dup2", 1, EXIT_FAILURE);
-		if (close(fd[0]) == -1 || close(fd[1]) == -1)
-			err_exit("close", 1, EXIT_FAILURE);
 		exec_command(curr, shell_ctx);
 	}
+	if (restore_stdfd(shell_ctx))
+		return (-1);
 	return (0);
 }
 
@@ -70,14 +138,24 @@ t_shell_ctx *shell_ctx)
 	exec_command(curr, shell_ctx);
 }
 
+int	pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx)
+{
+	if (close(fd[1]) == -1)
+		return (-1);
+	if (dup2(fd[0], STDIN_FILENO) == -1)
+		err_exit("dup2", 1, EXIT_FAILURE);
+	if (close(fd[0]) == -1)
+		err_exit("close", 1, EXIT_FAILURE);
+	return (0);
+}
+
 int	last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx, \
 int *is_signaled)
 {
 	pid_t			pid;
 	struct termios	old_term;
 
-	if (close(fd[1]) == -1)
-		return (-1);
+	pipe_redirect_last(fd, shell_ctx);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -87,10 +165,6 @@ int *is_signaled)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		if (dup2(fd[0], STDIN_FILENO) == -1)
-			err_exit("dup2", 1, EXIT_FAILURE);
-		if (close(fd[0]) == -1)
-			err_exit("close", 1, EXIT_FAILURE);
 		exec_command(curr, shell_ctx);
 	}
 	if (save_exit_status(pid, shell_ctx, is_signaled) == -1)
