@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   construct_expanded_pathname.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:20:18 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 00:59:17 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 15:32:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,37 @@ char	*construct_expanded_pathname(char **patterns, size_t pattern_cnt)
 
 	exp_str = NULL;
 	dir = opendir(".");
-    if (dir == NULL)
+	if (dir == NULL)
 		return (NULL);
 	while (1)
-	{ 
+	{
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
 		if (does_entry_match_patterns(entry->d_name, patterns, pattern_cnt))
-			if (concatenate_space_and_pathname(dir, entry, exp_str))
+			if (concatenate_space_and_pathname(dir, entry, &exp_str))
 				return (NULL);
 	}
 	if (closedir(dir) == -1)
 		return (NULL);
+	if (exp_str == NULL)
+		return (ft_strdup(""));
 	sort_expanded_pathname(&exp_str);
 	return (exp_str);
 }
 
-int	concatenate_space_and_pathname(DIR *dir, struct dirent *entry, char *exp_str)
+int	concatenate_space_and_pathname(DIR *dir, struct dirent *entry, \
+char **exp_str)
 {
-	if (exp_str != NULL && concatenate_space(&exp_str))
+	if (exp_str != NULL && concatenate_space(exp_str))
 	{
-		free(exp_str);
+		free(*exp_str);
 		if (closedir(dir) == -1)
 			return (-1);
 	}
-	if (concatenate_pathname(&exp_str, entry->d_name))
+	if (concatenate_pathname(exp_str, entry->d_name))
 	{
-		free(exp_str);
+		free(*exp_str);
 		if (closedir(dir) == -1)
 			return (-1);
 	}

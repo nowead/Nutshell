@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 01:00:21 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 15:17:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,16 @@ t_token		*curr_token(t_toknode **toknode);
 
 // expand_parameter.c
 int			expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
+// expand_parameters_in_a_token.c
 int			expand_parameters_in_a_token(t_toknode *toknode, \
 t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
+t_tokenlist	*split_into_subtokens_and_expand(t_toknode *toknode, \
+t_shell_ctx *shell_ctx);
+t_tokenlist	*save_quote_and_split_into_fields(t_tokenlist *subtokenlist);
+t_tokenlist	*expand_pathname_and_split_fields(t_tokenlist *fields);
+int			insert_or_pop_fields(t_tokenlist *tokenlist, \
+t_toknode *toknode, t_tokenlist *splited_fields);
+
 // expand_parameters_in_string.c
 int			expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx);
 int			expand_single_parameter(char **str, size_t *i, \
@@ -142,7 +150,7 @@ int			fill_patterns(char **patterns, t_token *token);
 // construct_expanded_pathname.c
 char		*construct_expanded_pathname(char **patterns, size_t pattern_cnt);
 int			concatenate_space_and_pathname(DIR *dir, struct dirent *entry, \
-char *exp_str);
+char **exp_str);
 int			does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt);
 int			concatenate_space(char **exp_str);
 int			concatenate_pathname(char **exp_str, char *entry);

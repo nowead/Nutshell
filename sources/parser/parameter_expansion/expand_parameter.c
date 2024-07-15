@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_parameter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 00:16:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 15:40:15 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,44 +30,5 @@ int	expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx)
 		else
 			curr = curr->next;
 	}
-	return (0);
-}
-
-int	expand_parameters_in_a_token(t_toknode *toknode, t_tokenlist *tokenlist, \
-t_shell_ctx *shell_ctx)
-{
-	t_tokenlist			*subtokenlist;
-	t_tokenlist			*fields;
-	t_tokenlist			*splited_fields;
-
-	subtokenlist = split_into_subtokens(toknode);
-	if (subtokenlist == NULL)
-		return (-1);
-	if (expand_parameters_in_subtokens(subtokenlist, shell_ctx))
-	{
-		clear_tokenlist(subtokenlist);
-		return (-1);
-	}
-	if (save_quote_in_subtokens(subtokenlist))
-	{
-		clear_tokenlist(subtokenlist);
-		return (-1);
-	}
-	fields = split_subtokens_into_fields(subtokenlist);
-	clear_tokenlist(subtokenlist);
-	if (fields == NULL)
-		return (-1);
-	if (expand_pathname_in_fields(fields))
-	{
-		free(fields);
-		return (-1);
-	}
-	splited_fields = split_expanded_fields(fields);
-	clear_tokenlist(fields);
-	if (splited_fields->size != 0)
-		insert_fields_into_tokenlist(tokenlist, toknode, splited_fields);
-	else
-		pop_toknode(tokenlist, toknode);
-	free_toknode(toknode);
 	return (0);
 }

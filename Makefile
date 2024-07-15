@@ -5,10 +5,10 @@ CFLAGS = -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS	=	-Iincludes
 LIBFT_FLAGS		=	-Lsources/libft -lft
-# RL_FLAG			=	-lreadline -L${HOME}/.brew/opt/readline/lib
-# RL_INCLUDES		=	-I${HOME}/.brew/opt/readline/include
-RL_FLAG		=	-lreadline -L/opt/homebrew/opt/readline/lib
-RL_INCLUDES	=	-I/opt/homebrew/opt/readline/include
+RL_FLAG			=	-lreadline -L${HOME}/.brew/opt/readline/lib
+RL_INCLUDES		=	-I${HOME}/.brew/opt/readline/include
+# RL_FLAG		=	-lreadline -L/opt/homebrew/opt/readline/lib
+# RL_INCLUDES	=	-I/opt/homebrew/opt/readline/include
 
 LIBFT			=	$(LIBFT_DIR)libft.a
 LIBFT_HEADER	=	$(addprefix $(LIBFT_DIR), libft.h ft_printf.h get_next_line.h)
@@ -46,7 +46,7 @@ PARAMETER_EXPANSION_SRC	=	expand_parameter.c				expand_parameters_in_string.c	ex
 							insert_fields_into_tokenlist.c	is_assignment_word.c			split_into_subtokens.c\
 							split_no_quote_subtoken.c		split_subtokens_into_fields.c	expand_pathname.c\
 							save_quote_in_subtokens.c		split_expanded_fields.c			construct_expanded_pathname.c\
-							sort_expanded_pathname.c
+							sort_expanded_pathname.c		expand_parameter_in_a_token.c
 INTERFACE_SRC			=	echo_control.c			handle_input.c		init_shell_context.c	interface.c\
 							readline.c				signal_handler.c
 EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c		exec_multiple_command.c\

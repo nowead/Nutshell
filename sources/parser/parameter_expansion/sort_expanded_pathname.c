@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_expanded_pathname.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:22:01 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 00:32:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 14:41:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	sort_expanded_pathname(char **exp_str)
 	return (0);
 }
 
-void ft_string_sort(char **strs, size_t len)
+void	ft_string_sort(char **strs, size_t len)
 {
-	size_t i;
-	size_t j;
-	size_t min;
+	size_t	i;
+	size_t	j;
+	size_t	min;
 
 	i = 0;
 	while (i < len - 1)

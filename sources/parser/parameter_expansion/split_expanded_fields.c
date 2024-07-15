@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_expanded_fields.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:16:59 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 00:17:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/15 14:42:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	split_single_field(char *str, t_tokenlist *splited_fields)
 	size_t	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (!ft_isspace(str[i]))
 		{
