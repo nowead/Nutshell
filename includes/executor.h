@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/15 22:27:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 01:10:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,14 @@ int     handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_sta
 // exec_individual_commands.c
 int		backup_stdfd(t_shell_ctx *shell_ctx);
 int		restore_stdfd(t_shell_ctx *shell_ctx);
-int		pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx);
 
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
+int		pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx);
 int		middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
-void	middle_command_child(t_ast_node *curr, int fd[3], \
-t_shell_ctx *shell_ctx);
-int		pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx);
+int		pipe_redirect_middle(int fd[3], t_shell_ctx *shell_ctx);
 int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx, \
 int *is_signaled);
+int		pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx);
 int		save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled);
 
 // exec_command.c

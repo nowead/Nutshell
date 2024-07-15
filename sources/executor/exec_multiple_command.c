@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 22:11:27 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 00:16:14 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 	is_signaled = 0;
 	signal(SIGINT, SIG_IGN);
-	if (backup_stdfd(shell_ctx))
-		return (-1);
 	if (first_command(curr->child[0], fd, shell_ctx) == -1)
 		return (-1);
 	cmd_cnt = 1;

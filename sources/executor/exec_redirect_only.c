@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect_only.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:25:00 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 22:42:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 01:03:20 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
 void	redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	signal(SIGINT, SIG_DFL);
-
 	if (curr->child[0]->sym == SIMPLE_COMMAND)
 		curr = curr->child[0];
-	// curr->sym == simple_command
 	if (curr->child_num == 2)
 		exec_cmd_suffix_redirect(curr->child[1], shell_ctx);
 	else if (curr->child_num == 3)
@@ -76,6 +74,6 @@ int	open_here_doc_tempfile_read(char **file_name, char *envp[])
 		return (err_return(1, "ft_strjoin"));
 	fd = open(*file_name, O_RDONLY, 0644);
 	if (fd == -1)
-		return (err_return(1, "open"));
+		return (err_return(1, "open_here_doc_tempfile_read"));
 	return (fd);
 }
