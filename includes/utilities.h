@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:15:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 21:24:07 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:08:22 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ size_t	ft_strslen(char **strs);
 char	*concatenate_str(char *old_str, char *str);
 int		print_tokenlist(t_tokenlist *tokenlist);
 int		print_int_array(int *arr, int size);
+char	*gnl(int fd);
 
 #endif

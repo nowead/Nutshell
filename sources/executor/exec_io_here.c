@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 01:11:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:24:45 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,8 @@ void	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 	while (line != 0)
 	{
 		printf("> \033[s\b\b");
-		line = readline("> ");
+		printf("> ");
+		line = gnl(0);
 		if (!line)
 		{
 			ft_printf("\033[u\033[1B\033[1A");

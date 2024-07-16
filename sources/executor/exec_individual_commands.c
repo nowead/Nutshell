@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 12:36:13 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 13:13:40 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	restore_stdfd(t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-int is_there_here_doc(t_ast_node *curr)
+int	is_there_here_doc(t_ast_node *curr)
 {
 	int	i;
+
 	if (curr->sym == IO_HERE)
 		return (1);
 	i = 0;
@@ -65,7 +66,7 @@ int is_there_here_doc(t_ast_node *curr)
 		while (i < curr->child_num)
 		{
 			if (is_there_here_doc(curr->child[i++]))
-			return (1);
+				return (1);
 		}
 	}
 	return (0);

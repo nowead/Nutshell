@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 12:51:03 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 13:28:31 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status)
 	printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
 	path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/.here_doc");
+	if (path == NULL)
+		return (-1);
 	if (access(path, F_OK) == 0)
 	{
 		shell_ctx->exit_status = 1;

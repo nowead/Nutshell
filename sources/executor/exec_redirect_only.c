@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:25:00 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 12:44:46 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 13:36:43 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	fd = open_here_doc_tempfile_read(&file_name, shell_ctx->envp);
 	if (fd == -1)
 		return (-1);
-	if (dup2(fd, STDIN_FILENO))
+	if (dup2(fd, STDIN_FILENO) == -1)
 		return (-1);
 	if (close(fd) == -1)
 		return (-1);
 	if (unlink(file_name) == -1)
 		return (-1);
+	free(file_name);
 	return (0);
 }
 
@@ -75,6 +76,9 @@ int	open_here_doc_tempfile_read(char **file_name, char *envp[])
 		return (err_return(1, "ft_strjoin"));
 	fd = open(*file_name, O_RDONLY, 0644);
 	if (fd == -1)
+	{
+		free(*file_name);
 		return (err_return(1, "open_here_doc_tempfile_read"));
+	}
 	return (fd);
 }
