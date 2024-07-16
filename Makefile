@@ -57,8 +57,7 @@ BUILTINS_SRC			=	exec_builtin_command.c	exec_builtin_io.c			exec_builtin_affixes
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\
 							pwd.c		unset.c
 UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\
-							ft_strcmp.c				ft_strslen.c			print_tokenlist.c	concatenate_str.c\
-							gnl_minishell.c
+							ft_strcmp.c				ft_strslen.c			print_tokenlist.c	concatenate_str.c
 
 LIBFT_SRC				=	$(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\

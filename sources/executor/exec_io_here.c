@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 16:44:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 16:47:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 	{
 		write(shell_ctx->stdfd[1], "> \033[s\b\b", 8);
 		write(shell_ctx->stdfd[1], "> ", 2);
-		line = gnl(shell_ctx->stdfd[0]);
+		line = get_next_line(shell_ctx->stdfd[0]);
 		if (!line)
 		{
 			if (errno == EINTR)

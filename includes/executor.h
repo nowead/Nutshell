@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 16:44:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 16:46:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int		open_here_doc_tempfile_write(char **file_name, char *envp[]);
 // int		create_unique_file(char **file_name, char *home_path);
 // int		open_tempfile(char **file_name, char *home_path);
 int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
+void	remove_new_line_from_line(char **line);
 int		is_there_next_io_here(t_ast_node *curr);
 int		free_file_name(char *file_name);
 
