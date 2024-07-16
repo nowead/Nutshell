@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect_only.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:25:00 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 01:03:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 12:44:46 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (wait(&status) == -1)
 		return (-1);
 	shell_ctx->exit_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		return (handle_signal(curr, shell_ctx, WTERMSIG(status)));
+	if (WIFSIGNALED(status) && restore_stdfd(shell_ctx) == 0)
+		if (handle_signal(curr, shell_ctx, WTERMSIG(status)) == 0)
+			return (-1);
 	if (shell_ctx->exit_status != 0)
 		return (shell_ctx->exit_status);
 

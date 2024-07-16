@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 00:16:14 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 12:51:03 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status)
 
 	printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
-	path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/.here_doc_0");
+	path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/.here_doc");
 	if (access(path, F_OK) == 0)
 	{
 		shell_ctx->exit_status = 1;
