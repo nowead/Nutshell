@@ -6,46 +6,33 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/14 20:20:21 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:11:09 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// curr->sym == SIMPLE_COMMAND
 int	exec_builtin_simple_command(t_ast_node *curr, \
 t_shell_ctx *shell_ctx)
 {
-	int		pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-		return (err_return(1, "fork"));
-	if (pid == 0)
-		child_builtin_simple_command(curr, shell_ctx);
-	signal(SIGINT, SIG_IGN);
-	if (wait(&status) == -1)
+	if (exec_redirect_only(curr, shell_ctx))
 		return (-1);
-	shell_ctx->exit_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		return (handle_signal(curr, shell_ctx, WTERMSIG(status)));
-	if (shell_ctx->exit_status != 0)
-		return (shell_ctx->exit_status);
 	return (parent_builtin_simple_command(curr, shell_ctx));
 }
 
-void	child_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	signal(SIGINT, SIG_DFL);
-	if (curr->child_num == 2)
-		exec_redirect_in_suffix(curr->child[1], shell_ctx);
-	else
-	{
-		exec_builtin_cmd_prefix(curr->child[0], shell_ctx);
-		exec_redirect_in_suffix(curr->child[2], shell_ctx);
-	}
-	exit(EXIT_SUCCESS);
-}
+// void	child_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
+// {
+// 	signal(SIGINT, SIG_DFL);
+// 	if (curr->child_num == 2)
+// 		exec_redirect_in_suffix(curr->child[1], shell_ctx);
+// 	else
+// 	{
+// 		exec_builtin_cmd_prefix(curr->child[0], shell_ctx);
+// 		exec_redirect_in_suffix(curr->child[2], shell_ctx);
+// 	}
+// 	exit(EXIT_SUCCESS);
+// }
 
 int	parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
@@ -67,6 +54,8 @@ int	parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	}
 	if (ret != -1)
 		ret = execute_builtin_argv(argv[0], argv, shell_ctx);
+	if (ret == -1)
+		ret = 1;
 	shell_ctx->exit_status = ret;
 	ft_free_strs(argv);
 	return (ret);

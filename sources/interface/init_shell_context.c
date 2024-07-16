@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell_context.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 01:03:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 01:04:15 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:14:31 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	init_shell_ctx(t_shell_ctx *shell_ctx, char **envp)
 {
 	shell_ctx->envp = init_envp(envp);
 	if (shell_ctx->envp == NULL)
-		exit_shell(&(shell_ctx->old_term));
+		exit_shell(shell_ctx);
 	shell_ctx->exit_status = 0;
 }
 

@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_affixes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:29:43 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 22:31:25 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 19:09:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exec_builtin_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	while (curr->child)
-	{
-		if (curr->child[0]->sym == IO_REDIRECT)
-			exec_builtin_io_redirect(curr->child[0], shell_ctx);
-		curr = curr->child[1];
-	}
-}
-
-void	exec_redirect_in_suffix(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	while (curr->child)
-	{
-		if (curr->child[0]->sym == IO_REDIRECT)
-			exec_builtin_io_redirect(curr->child[0], shell_ctx);
-		curr = curr->child[1];
-	}
-}
 
 int	exec_suffix_without_redirect(t_ast_node *curr, char **argv, \
 t_shell_ctx *shell_ctx)
@@ -38,16 +18,22 @@ t_shell_ctx *shell_ctx)
 	while (curr->child)
 	{
 		if (curr->child[0]->token && curr->child[0]->token->type == TOK_WORD)
-			add_argument(argv, curr->child[0]->token->str);
+			if (builtin_add_argument(argv, curr->child[0]->token->str))
+				return (-1);
 		curr = curr->child[1];
 	}
 	return (0);
 }
 
-void	exec_builtin_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
+int	builtin_add_argument(char **argv, char *arg)
 {
-	if (curr->child[0]->sym == IO_FILE)
-		exec_builtin_io_file(curr->child[0]);
-	else
-		exec_builtin_io_here(curr->child[0], shell_ctx);
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	argv[i] = ft_strdup(arg);
+	if (argv[i] == NULL)
+		return (err_return(1, "ft_strdup"));
+	return (0);
 }

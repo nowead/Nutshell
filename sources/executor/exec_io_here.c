@@ -6,38 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 18:50:07 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:42:20 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
-// {
-// 	int		fd;
-// 	char	*file_name;
-// 	int		backup_pipe_fd[2];
-// 	int		ret;
-
-// 	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
-// 	if (fd == -1)
-// 		return (free_file_name(file_name));
-// 	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
-// 		return (free_file_name(file_name));
-// 	if (close(fd) == -1 && free_file_name(file_name))
-// 		return (err_return(-1, "close"));
-// 	fd = open(file_name, O_RDONLY, 0644);
-// 	if (fd == -1 && free_file_name(file_name))
-// 		return (err_return(-1, "open"));
-// 	if (dup2(fd, STDIN_FILENO) && free_file_name(file_name))
-// 		return (err_return(-1, "dup2"));
-// 	if (unlink(file_name) && free_file_name(file_name))
-// 		return (err_return(-1, "unlink"));
-// 	if (close(fd) == -1 && free_file_name(file_name))
-// 		return (err_return(-1, "close"));
-// 	free(file_name);
-// 	return (0);
-// }
 
 int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
@@ -159,7 +132,6 @@ int	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 		{
 			if (errno == EINTR)
 				return (-1);
-			ft_printf("\033[u\033[1B\033[1A");
 			break ;
 		}
 		remove_new_line_from_line(&line);
