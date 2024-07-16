@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 21:37:21 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 21:57:59 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	handle_error(char *cmd_name)
 {
 	if (errno == ENOENT || errno == EFAULT)
 	{
-		if (errno == EFAULT)
+		if (errno == EFAULT)// PATH가 Unset된 경우
 			ft_dprintf(STDERR_FILENO, \
 			"Nutshell: %s: No such file or directory\n", cmd_name);
-		else if (errno == ENOENT)
+		else if (errno == ENOENT) // PATH는 존재하지만 파일이 없는 경우
 			ft_dprintf(STDERR_FILENO, \
 			"Nutshell: %s: command not found\n", cmd_name);
 		exit (FILE_NOT_EXIST_FAILURE);
