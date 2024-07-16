@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_individual_commands.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 21:03:17 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:53:00 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 
-	if (pipe_redirect_first(fd, shell_ctx))
+	if (pipe_redirect_first(fd))
 		return (-1);
 	if (exec_redirect_only(curr, shell_ctx) == -1)
 		return (-1);
@@ -42,7 +42,7 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 
-	if (pipe_redirect_middle(fd, shell_ctx))
+	if (pipe_redirect_middle(fd))
 		return (-1);
 	if (exec_redirect_only(curr, shell_ctx))
 		return (-1);
@@ -68,7 +68,7 @@ int *is_signaled)
 {
 	pid_t			pid;
 
-	if (pipe_redirect_last(fd, shell_ctx))
+	if (pipe_redirect_last(fd))
 		return (-1);
 	if (exec_redirect_only(curr, shell_ctx))
 		return (-1);

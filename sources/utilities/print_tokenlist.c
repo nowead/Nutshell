@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tokenlist.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:13:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 22:37:16 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:55:55 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	print_tokenlist(t_tokenlist *tokenlist)
 
 int	print_int_array(int *arr, int size)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < size)

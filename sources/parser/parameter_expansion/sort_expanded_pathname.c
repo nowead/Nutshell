@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_expanded_pathname.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:22:01 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 14:41:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:45:30 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	sort_expanded_pathname(char **exp_str)
 {
 	char	**splited;
-	size_t	i;
 
 	splited = ft_split(*exp_str, ' ');
 	if (splited == NULL)

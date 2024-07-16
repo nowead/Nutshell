@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 16:39:43 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 19:25:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:51:13 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	exec_io_file(t_ast_node *node)
 {
 	int	fd;
 
+	fd = -1;
 	if (node->token->type == TOK_LESS)
 		fd = open(node->child[0]->token->str, O_RDONLY);
 	else if (node->token->type == TOK_GREAT)
@@ -31,11 +32,8 @@ int	exec_io_file(t_ast_node *node)
 		if (dup2(fd, STDIN_FILENO) == -1)
 			return (err_return(-1, "dup2"));
 	}
-	else
-	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-			return (err_return(-1, "dup2"));
-	}
+	else if (dup2(fd, STDOUT_FILENO) == -1)
+		return (err_return(-1, "dup2"));
 	if (close(fd) == -1)
 		return (err_return(-1, "close"));
 	return (0);
