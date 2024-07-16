@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 01:10:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 12:58:59 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ int		execute_middle_commands(t_ast_node **curr, int fd[3], \
 size_t *cmd_cnt, t_shell_ctx *shell_ctx);
 int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
-int     handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status);
+int		handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status);
 
 // exec_individual_commands.c
 int		backup_stdfd(t_shell_ctx *shell_ctx);
 int		restore_stdfd(t_shell_ctx *shell_ctx);
+int		is_there_here_doc(t_ast_node *curr);
 
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 int		pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx);
