@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_minishell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 14:05:27 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 14:10:01 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 15:17:48 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,10 @@ char	*gnl(int fd)
 		if (newline != NULL)
 			break ;
 		readbyte = read(fd, buf, BUFFER_SIZE);
-        if (g_sigint_flag == 1)
-        {
-            g_sigint_flag = 0;
-            return (ft_free_fdnode(&head, fdnode));
-        }
 		if (readbyte == -1)
+		{
 			return (ft_free_fdnode(&head, fdnode));
+		}
 		if (readbyte == 0)
 			break ;
 		buf[readbyte] = '\0';

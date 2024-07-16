@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/12 21:42:16 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 15:00:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void		init_signal_handler(void);
 void		set_signal_handler(int handler_type);
 void		sigint_handler(int signo);
 void		incomplete_cmd_handler(int signo);
+void		here_doc_handler(int signo);
 
 // init_shell_context.c
 void		init_shell_ctx(t_shell_ctx *shell_ctx, char **envp);

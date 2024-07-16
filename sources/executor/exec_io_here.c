@@ -6,40 +6,11 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 14:55:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 16:44:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
-// {
-// 	int				fd;
-// 	char			*file_name;
-
-// 	set_echoctl(NULL, ECHOCTL_OFF);
-// 	fd = open_here_doc_tempfile_write(&file_name, shell_ctx->envp);
-// 	io_readline(fd, node->child[0]->token->str, shell_ctx);
-// 	if (close(fd) == -1)
-// 		err_exit("close", 1, EXIT_FAILURE);
-// 	fd = open(file_name, O_RDONLY, 0644);
-// 	if (fd == -1)
-// 		err_exit("open", 1, EXIT_FAILURE);
-// 	shell_ctx->stdfd[0] = dup(STDIN_FILENO);
-// 	if (shell_ctx->stdfd[0] == -1)
-// 		err_exit("dup2 error", 1, EXIT_FAILURE);
-// 	if (dup2(fd, STDIN_FILENO) == -1)
-// 		err_exit("dup2 error", 1, EXIT_FAILURE);
-// 	if (unlink(file_name) == -1)
-// 		err_exit("unlink", 1, EXIT_FAILURE);
-// 	if (is_there_next_io_here(node))
-// 		if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
-// 			err_exit("dup2 error", 1, EXIT_FAILURE);
-// 	if (close(fd) == -1 || close(shell_ctx->stdfd[0]) == -1)
-// 		err_exit("close", 1, EXIT_FAILURE);
-// 	free(file_name);
-// 	return (0);
-// }
 
 int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
@@ -47,47 +18,29 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 	char			*file_name;
 	int				backup_pipe_fd[2];
 
-	set_echoctl(NULL, ECHOCTL_OFF);
 	fd = open_here_doc_tempfile_write(&file_name, shell_ctx->envp);
-
-// backup pipe fd
-	backup_pipe_fd[0] = dup(STDIN_FILENO);
-	backup_pipe_fd[1] = dup(STDOUT_FILENO);
-	if (backup_pipe_fd[0] == -1 || backup_pipe_fd[1] == -1)
-		return (err_return(1, "dup"));
-
-// restore original stdin, stdout
-	if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
-		return (err_return(1, "dup2"));
-	if (dup2(shell_ctx->stdfd[1], STDOUT_FILENO) == -1)
-		return (err_return(1, "dup2"));
+	if (fd == -1)
+		return (free_file_name(file_name));
 
 	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
-		return (-1);
-
-// restore pipe fd
-	if (dup2(backup_pipe_fd[0], STDIN_FILENO) == -1)
-		return (err_return(1, "dup2"));
-	if (dup2(backup_pipe_fd[1], STDOUT_FILENO) == -1)
-		return (err_return(1, "dup2"));
-	if (close(backup_pipe_fd[0]) == -1 || close(backup_pipe_fd[1]) == -1)
-		return (err_return(1, "close"));
-
-// close opened fd
-	if (close(fd) == -1)
-		return (err_return(1, "close"));
-// reopen file RDONLY
+		return (free_file_name(file_name));
+	if (close(fd) == -1 && free_file_name(file_name))
+		return (err_return(-1, "close"));
 	fd = open(file_name, O_RDONLY, 0644);
-	if (fd == -1)
-		return (err_return(1, "open"));
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (err_return(1, "dup2"));
-	if (unlink(file_name) == -1)
-		return (err_return(1, "unlink"));
-	if (close(fd) == -1)
-		return (err_return(1, "close"));
+	if (fd == -1 && free_file_name(file_name))
+		return (err_return(-1, "open"));
+	if (dup2(fd, STDIN_FILENO) && free_file_name(file_name))
+		return (err_return(-1, "dup2"));
+	if (unlink(file_name) && free_file_name(file_name))
+		return (err_return(-1, "unlink"));
 	free(file_name);
 	return (0);
+}
+
+int	free_file_name(char *file_name)
+{
+	free(file_name);
+	return (-1);
 }
 
 int	is_there_next_io_here(t_ast_node *curr)
@@ -108,7 +61,7 @@ int	is_there_next_io_here(t_ast_node *curr)
 
 int	open_here_doc_tempfile_write(char **file_name, char *envp[])
 {
-	int			fd;
+	int		fd;
 
 	*file_name = ft_strjoin(ft_getenv("HOME", envp), "/.here_doc");
 	if (*file_name == NULL)
@@ -119,6 +72,15 @@ int	open_here_doc_tempfile_write(char **file_name, char *envp[])
 	return (fd);
 }
 
+void	remove_new_line_from_line(char **line)
+{
+	int		len;
+
+	len = ft_strlen(*line);
+	if ((*line)[len - 1] == '\n')
+		(*line)[len - 1] = '\0';
+}
+
 int	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 {
 	char	*line;
@@ -126,15 +88,22 @@ int	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 	line = "none";
 	while (line != 0)
 	{
-		printf("> \033[s\b\b");
-		line = readline("> ");
+		write(shell_ctx->stdfd[1], "> \033[s\b\b", 8);
+		write(shell_ctx->stdfd[1], "> ", 2);
+		line = gnl(shell_ctx->stdfd[0]);
 		if (!line)
 		{
+			if (errno == EINTR)
+			{
+				restore_stdfd(shell_ctx);
+				return (-1);
+			}
 			ft_printf("\033[u\033[1B\033[1A");
 			break ;
 		}
+		remove_new_line_from_line(&line);
 		if (expand_parameters_in_string(&line, shell_ctx) == -1)
-			return (err_return(1, "expand_parameters_in_string"));
+			return (err_return(-1, "expand_parameters_in_string"));
 		if (ft_strlen(line) == ft_strlen(delimiter) && \
 		ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 			break ;

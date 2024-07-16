@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/07/10 16:16:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 16:04:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ void	incomplete_cmd_handler(int signo)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	printf("\033[2D \b\033[s");
+}
+
+void	here_doc_handler(int signo)
+{
+	write(1, "\n", 1);
+	write(1, "sigal is recieved\n", 18);
 }
