@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 14:24:45 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 14:55:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,48 +54,38 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 	backup_pipe_fd[0] = dup(STDIN_FILENO);
 	backup_pipe_fd[1] = dup(STDOUT_FILENO);
 	if (backup_pipe_fd[0] == -1 || backup_pipe_fd[1] == -1)
-		err_exit("dup", 1, EXIT_FAILURE);
+		return (err_return(1, "dup"));
 
 // restore original stdin, stdout
 	if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
-		err_exit("dup2", 1, EXIT_FAILURE);
+		return (err_return(1, "dup2"));
 	if (dup2(shell_ctx->stdfd[1], STDOUT_FILENO) == -1)
-		err_exit("dup2", 1, EXIT_FAILURE);
+		return (err_return(1, "dup2"));
 
-	io_readline(fd, node->child[0]->token->str, shell_ctx);
+	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
+		return (-1);
 
 // restore pipe fd
 	if (dup2(backup_pipe_fd[0], STDIN_FILENO) == -1)
-		err_exit("dup2", 1, EXIT_FAILURE);
+		return (err_return(1, "dup2"));
 	if (dup2(backup_pipe_fd[1], STDOUT_FILENO) == -1)
-		err_exit("dup2", 1, EXIT_FAILURE);
+		return (err_return(1, "dup2"));
 	if (close(backup_pipe_fd[0]) == -1 || close(backup_pipe_fd[1]) == -1)
-		err_exit("close", 1, EXIT_FAILURE);
+		return (err_return(1, "close"));
 
 // close opened fd
 	if (close(fd) == -1)
-		err_exit("close", 1, EXIT_FAILURE);
-// // reopen file RDONLY
-// 	fd = open(file_name, O_RDONLY, 0644);
-// 	if (fd == -1)
-// 		err_exit("open", 1, EXIT_FAILURE);
-
-	// shell_ctx->stdfd[0] = dup(STDIN_FILENO);
-	// if (shell_ctx->stdfd[0] == -1)
-	// 	err_exit("dup2 error", 1, EXIT_FAILURE);
-
-	// if (dup2(fd, STDIN_FILENO) == -1)
-	// 	err_exit("dup2 error", 1, EXIT_FAILURE);
-		
-	// if (unlink(file_name) == -1)
-	// 	err_exit("unlink", 1, EXIT_FAILURE);
-
-	// if (is_there_next_io_here(node))
-	// 	if (dup2(shell_ctx->stdfd[0], STDIN_FILENO) == -1)
-	// 		err_exit("dup2 error", 1, EXIT_FAILURE);
-
-	// if (close(fd) == -1 || close(shell_ctx->stdfd[0]) == -1)
-	// 	err_exit("close", 1, EXIT_FAILURE);
+		return (err_return(1, "close"));
+// reopen file RDONLY
+	fd = open(file_name, O_RDONLY, 0644);
+	if (fd == -1)
+		return (err_return(1, "open"));
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (err_return(1, "dup2"));
+	if (unlink(file_name) == -1)
+		return (err_return(1, "unlink"));
+	if (close(fd) == -1)
+		return (err_return(1, "close"));
 	free(file_name);
 	return (0);
 }
@@ -129,7 +119,7 @@ int	open_here_doc_tempfile_write(char **file_name, char *envp[])
 	return (fd);
 }
 
-void	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
+int	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 {
 	char	*line;
 
@@ -137,15 +127,14 @@ void	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 	while (line != 0)
 	{
 		printf("> \033[s\b\b");
-		printf("> ");
-		line = gnl(0);
+		line = readline("> ");
 		if (!line)
 		{
 			ft_printf("\033[u\033[1B\033[1A");
 			break ;
 		}
 		if (expand_parameters_in_string(&line, shell_ctx) == -1)
-			err_exit("expand_parameters_in_string", 1, EXIT_FAILURE);
+			return (err_return(1, "expand_parameters_in_string"));
 		if (ft_strlen(line) == ft_strlen(delimiter) && \
 		ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 			break ;
@@ -154,4 +143,5 @@ void	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 		free(line);
 	}
 	free(line);
+	return (0);
 }

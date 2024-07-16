@@ -6,30 +6,34 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:03:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 19:37:12 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:49:04 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx)
+int	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
-			exec_io_redirect(curr->child[0], shell_ctx);
+			if (exec_io_redirect(curr->child[0], shell_ctx))
+				return (-1);
 		curr = curr->child[1];
 	}
+	return (0);
 }
 
-void	exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
+int	exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{
 		if (curr->child[0]->sym == IO_REDIRECT)
-			exec_io_redirect(curr->child[0], shell_ctx);
+			if (exec_io_redirect(curr->child[0], shell_ctx))
+				return (-1);
 		curr = curr->child[1];
 	}
+	return (0);
 }
 
 void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx)
@@ -54,10 +58,17 @@ void	add_argument(char **argv, char *arg)
 		err_exit("add_argument", 1, EXIT_FAILURE);
 }
 
-void	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
+int	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (curr->child[0]->sym == IO_FILE)
-		exec_io_file(curr->child[0]);
+	{
+		if (exec_io_file(curr->child[0]))
+			return (-1);
+	}
 	else
-		exec_io_here(curr->child[0], shell_ctx);
+	{
+		if (exec_io_here(curr->child[0], shell_ctx))
+			return (-1);
+	}
+	return (0);
 }

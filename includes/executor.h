@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 12:58:59 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 14:55:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,15 @@ void	handle_error(char *cmd_name);
 
 // exec_redirect_only.c
 int		exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx);
-void	redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		open_here_doc_tempfile_read(char **file_name, char *envp[]);
 
 // exec_affixes.c
-void	exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
-void	exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx);
 void	add_argument(char **argv, char *arg);
-void	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_subshell.c
 void	exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -89,7 +89,7 @@ int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
 int		open_here_doc_tempfile_write(char **file_name, char *envp[]);
 // int		create_unique_file(char **file_name, char *home_path);
 // int		open_tempfile(char **file_name, char *home_path);
-void	io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
+int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
 int		is_there_next_io_here(t_ast_node *curr);
 
 // exec_io_file.c
