@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_pathname.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:41:17 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 00:44:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:22:35 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int	expand_pathname_in_fields(t_tokenlist *fields)
 	curr = fields->head;
 	while (curr)
 	{
-		if (expand_pathname_in_single_field(curr))
-			return (-1);
+		if (!is_assignment_word(curr->token->str))
+			if (expand_pathname_in_single_field(curr))
+				return (-1);
 		curr = curr->next;
 	}
 	return (0);
