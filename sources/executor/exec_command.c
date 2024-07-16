@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 21:34:52 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 20:46:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,17 @@ void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 void	handle_error(char *cmd_name)
 {
-	perror(cmd_name);
-	if (errno == ENOENT)
+	if (errno == ENOENT || errno == EFAULT)
+	{
+		if (errno == EFAULT)
+			ft_dprintf(STDERR_FILENO, \
+			"Nutshell: %s: No such file or directory\n", cmd_name);
+		else if (errno == ENOENT)
+			ft_dprintf(STDERR_FILENO, \
+			"Nutshell: %s: command not found\n", cmd_name);
 		exit (FILE_NOT_EXIST_FAILURE);
+	}
+	perror(cmd_name);
 	exit(EXECVE_FAILURE);
 }
 
