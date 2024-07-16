@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 18:04:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 21:04:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,16 @@ int		is_there_pipe(t_ast_node *curr);
 int		handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status);
 
 // exec_individual_commands.c
-int		backup_stdfd(t_shell_ctx *shell_ctx);
-int		restore_stdfd(t_shell_ctx *shell_ctx);
-int		is_there_here_doc(t_ast_node *curr);
-
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
-int		pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx);
 int		middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
-int		pipe_redirect_middle(int fd[3], t_shell_ctx *shell_ctx);
 int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx, \
 int *is_signaled);
-int		pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx);
 int		save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled);
+
+// pipe_redirection.c
+int		pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx);
+int		pipe_redirect_middle(int fd[3], t_shell_ctx *shell_ctx);
+int		pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx);
 
 // exec_command.c
 void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -88,7 +86,6 @@ void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
 int		open_here_doc_tempfile(char **file_name, char *envp[]);
 int		create_unique_file(char **file_name, char *home_path);
-int		open_tempfile(char **file_name, char *home_path);
 int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
 void	remove_new_line_from_line(char **line);
 int		is_there_next_io_here(t_ast_node *curr);

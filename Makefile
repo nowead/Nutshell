@@ -47,13 +47,13 @@ PARAMETER_EXPANSION_SRC	=	expand_parameter.c				expand_parameters_in_string.c	ex
 							split_no_quote_subtoken.c		split_subtokens_into_fields.c	expand_pathname.c\
 							save_quote_in_subtokens.c		split_expanded_fields.c			construct_expanded_pathname.c\
 							sort_expanded_pathname.c		expand_parameter_in_a_token.c
-INTERFACE_SRC			=	echo_control.c			handle_input.c		init_shell_context.c	interface.c\
-							readline.c				signal_handler.c
-EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c		exec_multiple_command.c\
-							exec_pipe_sequence.c	exec_affixes.c	exec_subshell.c		exec_io_here.c	exec_io_file.c\
+INTERFACE_SRC			=	echo_control.c			handle_input.c				init_shell_context.c	interface.c\
+							readline.c				signal_handler.c			backup_stdfd.c
+EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c			exec_multiple_command.c\
+							exec_pipe_sequence.c	exec_affixes.c				exec_subshell.c			exec_io_here.c	exec_io_file.c\
 							ft_execvpe.c			ft_getenv.c		exec_individual_commands.c			exec_single_command.c\
-							exec_redirect_only.c
-BUILTINS_SRC			=	exec_builtin_command.c	exec_builtin_io.c			exec_builtin_affixes.c	is_builtin_cmd.c\
+							exec_redirect_only.c	pipe_redirection.c
+BUILTINS_SRC			=	exec_builtin_command.c		exec_builtin_affixes.c	is_builtin_cmd.c\
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\
 							pwd.c		unset.c
 UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\

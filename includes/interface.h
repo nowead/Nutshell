@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 18:39:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 21:01:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,9 @@ void		process_sigint_flag(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
 char *old_line);
 void		handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd);
 void		exit_shell(t_shell_ctx *shell_ctx);
+
+// backup_stdfd.c
+int			backup_stdfd(t_shell_ctx *shell_ctx);
+int			restore_stdfd(t_shell_ctx *shell_ctx);
 
 #endif

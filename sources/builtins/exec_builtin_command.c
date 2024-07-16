@@ -6,13 +6,12 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 19:11:09 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 20:52:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// curr->sym == SIMPLE_COMMAND
 int	exec_builtin_simple_command(t_ast_node *curr, \
 t_shell_ctx *shell_ctx)
 {
@@ -20,19 +19,6 @@ t_shell_ctx *shell_ctx)
 		return (-1);
 	return (parent_builtin_simple_command(curr, shell_ctx));
 }
-
-// void	child_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
-// {
-// 	signal(SIGINT, SIG_DFL);
-// 	if (curr->child_num == 2)
-// 		exec_redirect_in_suffix(curr->child[1], shell_ctx);
-// 	else
-// 	{
-// 		exec_builtin_cmd_prefix(curr->child[0], shell_ctx);
-// 		exec_redirect_in_suffix(curr->child[2], shell_ctx);
-// 	}
-// 	exit(EXIT_SUCCESS);
-// }
 
 int	parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
