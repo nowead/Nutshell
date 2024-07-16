@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_individual_commands.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 13:13:40 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 18:40:15 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	restore_stdfd(t_shell_ctx *shell_ctx)
 		return (err_return(-1, "dup2"));
 	if (dup2(shell_ctx->stdfd[1], STDOUT_FILENO) == -1)
 		return (err_return(-1, "dup2"));
-	if (close(shell_ctx->stdfd[0]) == -1 || close(shell_ctx->stdfd[1]) == -1)
-		return (err_return(-1, "close"));
 	return (0);
 }
 
@@ -85,8 +83,6 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 
-	if (backup_stdfd(shell_ctx))
-		return (-1);
 	if (pipe_redirect_first(fd, shell_ctx))
 		return (-1);
 	if (is_there_here_doc(curr) && exec_redirect_only(curr, shell_ctx) == -1)
@@ -129,8 +125,6 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 
-	if (backup_stdfd(shell_ctx))
-		return (-1);
 	if (pipe_redirect_middle(fd, shell_ctx))
 		return (-1);
 	if (is_there_here_doc(curr) && exec_redirect_only(curr, shell_ctx))
@@ -168,8 +162,6 @@ int *is_signaled)
 {
 	pid_t			pid;
 
-	if (backup_stdfd(shell_ctx))
-		return (-1);
 	if (pipe_redirect_last(fd, shell_ctx))
 		return (-1);
 	if (is_there_here_doc(curr) && exec_redirect_only(curr, shell_ctx))

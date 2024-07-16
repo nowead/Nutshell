@@ -6,33 +6,69 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 16:47:25 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 18:50:07 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
+// {
+// 	int		fd;
+// 	char	*file_name;
+// 	int		backup_pipe_fd[2];
+// 	int		ret;
+
+// 	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
+// 	if (fd == -1)
+// 		return (free_file_name(file_name));
+// 	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
+// 		return (free_file_name(file_name));
+// 	if (close(fd) == -1 && free_file_name(file_name))
+// 		return (err_return(-1, "close"));
+// 	fd = open(file_name, O_RDONLY, 0644);
+// 	if (fd == -1 && free_file_name(file_name))
+// 		return (err_return(-1, "open"));
+// 	if (dup2(fd, STDIN_FILENO) && free_file_name(file_name))
+// 		return (err_return(-1, "dup2"));
+// 	if (unlink(file_name) && free_file_name(file_name))
+// 		return (err_return(-1, "unlink"));
+// 	if (close(fd) == -1 && free_file_name(file_name))
+// 		return (err_return(-1, "close"));
+// 	free(file_name);
+// 	return (0);
+// }
+
 int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
-	int				fd;
-	char			*file_name;
-	int				backup_pipe_fd[2];
+	int		fd;
+	char	*file_name;
+	int		ret;
 
-	fd = open_here_doc_tempfile_write(&file_name, shell_ctx->envp);
+	fd = open_here_doc_tempfile(&file_name, shell_ctx->envp);
 	if (fd == -1)
 		return (free_file_name(file_name));
-
 	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
-		return (free_file_name(file_name));
+		ret = -1;
 	if (close(fd) == -1 && free_file_name(file_name))
-		return (err_return(-1, "close"));
+		ret = err_return(-1, "close");
+	if (ret == -1)
+	{
+		unlink(file_name);
+		return (-1);
+	}
 	fd = open(file_name, O_RDONLY, 0644);
 	if (fd == -1 && free_file_name(file_name))
-		return (err_return(-1, "open"));
-	if (dup2(fd, STDIN_FILENO) && free_file_name(file_name))
-		return (err_return(-1, "dup2"));
+		ret = err_return(-1, "open");
+	if (ret != -1)
+		if (dup2(fd, STDIN_FILENO) && free_file_name(file_name))
+			ret = err_return(-1, "dup2");
 	if (unlink(file_name) && free_file_name(file_name))
-		return (err_return(-1, "unlink"));
+		ret = err_return(-1, "unlink");
+	if (close(fd) == -1 && free_file_name(file_name))
+		ret = err_return(-1, "close");
+	if (ret == -1)
+		return (-1);
 	free(file_name);
 	return (0);
 }
@@ -59,16 +95,44 @@ int	is_there_next_io_here(t_ast_node *curr)
 	return (0);
 }
 
-int	open_here_doc_tempfile_write(char **file_name, char *envp[])
+int	open_here_doc_tempfile(char **file_name, char *envp[])
 {
 	int		fd;
+	char	*home_path;
 
-	*file_name = ft_strjoin(ft_getenv("HOME", envp), "/.here_doc");
-	if (*file_name == NULL)
-		return (err_return(1, "ft_strjoin"));
-	fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (err_return(1, "open"));
+	home_path = ft_strjoin(ft_getenv("HOME", envp), "/.here_doc_");
+	if (home_path == NULL)
+		return (err_return(-1, "ft_strjoin"));
+	fd = create_unique_file(file_name, home_path);
+	free (home_path);
+	return (fd);
+}
+
+int	create_unique_file(char **file_name, char *home_path)
+{
+	size_t	i;
+	int		fd;
+	char	*num;
+
+	i = 0;
+	while (1)
+	{
+		num = ft_itoa(i);
+		*file_name = ft_strjoin(home_path, num);
+		if (*file_name == NULL)
+			return (err_return(-1, "ft_strjoin"));
+		if (access(*file_name, F_OK) == -1)
+		{
+			free (num);
+			fd = open(*file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				return (err_return(-1, "open"));
+			break;
+		}
+		free (num);
+		free (*file_name);
+		i++;
+	}
 	return (fd);
 }
 
@@ -94,10 +158,7 @@ int	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 		if (!line)
 		{
 			if (errno == EINTR)
-			{
-				restore_stdfd(shell_ctx);
 				return (-1);
-			}
 			ft_printf("\033[u\033[1B\033[1A");
 			break ;
 		}

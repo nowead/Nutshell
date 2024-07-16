@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:22:40 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 21:40:55 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 18:40:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char *old_line)
 void	handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd)
 {
 	if (!*incomplete_cmd)
-		exit_shell(&(shell_ctx->old_term));
+		exit_shell(shell_ctx);
 	else
 	{
 		*incomplete_cmd = 0;
@@ -58,10 +58,11 @@ void	handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd)
 	}
 }
 
-void	exit_shell(struct termios *old_term)
+void	exit_shell(t_shell_ctx *shell_ctx)
 {
 	printf("\033[u\033[1B\033[1A");
 	printf("exit\n");
-	restore_echoctl(old_term);
+	restore_stdfd(shell_ctx);
+	restore_echoctl(&(shell_ctx->old_term));
 	exit(-1);
 }
