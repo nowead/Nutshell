@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export_single.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 20:32:09 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 17:46:47 by seonseo          ###   ########.fr       */
+/*   Created: 2024/07/17 17:22:10 by seonseo           #+#    #+#             */
+/*   Updated: 2024/07/17 17:34:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_env(t_shell_ctx *shell_ctx)
+int	export_print_envp(char *envp[])
 {
 	size_t	i;
-	char	**envp;
 
-	envp = shell_ctx->envp;
 	i = 0;
 	while (envp[i])
 	{
+		printf("declare -x ");
+		printf("%.*s", (int)get_key_len(envp[i]), envp[i]);
 		if (ft_strchr(envp[i], '='))
-			printf("%s\n", envp[i]);
+		{
+			printf("=\"");
+			printf("%s", ft_strchr(envp[i], '=') + 1);
+			printf("\"");
+		}
+		printf("\n");
 		i++;
 	}
-	exit(EXIT_SUCCESS);
+	return (0);
 }

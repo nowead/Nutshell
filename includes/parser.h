@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 16:55:30 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:41:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ t_toknode *toknode, t_tokenlist *fields);
 // is_assignment_word.c
 int			is_assignment_word_token(t_token *token);
 int			is_assignment_word(char *str);
+int			is_export_word(char *str);
 int			is_valid_name(const char *str, size_t len);
 // split_into_subtokens.c
 t_tokenlist	*split_into_subtokens(t_toknode *toknode);

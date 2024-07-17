@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_assignment_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:44:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 17:40:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ int	is_assignment_word(char *str)
 	equalsign_start = ft_strchr(str, '=');
 	if (equalsign_start == NULL)
 		return (0);
+	return (is_valid_name(str, equalsign_start - str));
+}
+
+int	is_export_word(char *str)
+{
+	const char	*equalsign_start;
+
+	if (str[0] == '=')
+		return (0);
+	equalsign_start = ft_strchr(str, '=');
+	if (equalsign_start == NULL)
+		return (is_valid_name(str, ft_strlen(str)));
 	return (is_valid_name(str, equalsign_start - str));
 }
 

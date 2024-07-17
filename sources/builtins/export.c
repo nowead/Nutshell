@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 16:19:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:45:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_export(char **argv, char ***envp)
 	i = 1;
 	while (argv[i])
 	{
-		if (is_assignment_word(argv[i]))
+		if (is_export_word(argv[i]))
 		{
 			if (export_single_env_var(argv[i], envp) == -1)
 				return (-1);
@@ -34,6 +34,8 @@ int	exec_export(char **argv, char ***envp)
 		}
 		i++;
 	}
+	if (i == 1)
+		export_print_envp(*envp);
 	if (err_flag)
 		return (1);
 	return (0);
@@ -69,6 +71,8 @@ size_t	get_key_len(char *env_var)
 	const char	*equalsign_start;
 
 	equalsign_start = ft_strchr(env_var, '=');
+	if (equalsign_start == NULL)
+		return (ft_strlen(env_var));
 	return (equalsign_start - env_var);
 }
 

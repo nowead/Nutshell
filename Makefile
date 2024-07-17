@@ -55,7 +55,7 @@ EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c			exec_multiple_c
 							exec_redirect_only.c	pipe_redirection.c
 BUILTINS_SRC			=	exec_builtin_command.c		exec_builtin_affixes.c	is_builtin_cmd.c\
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\
-							pwd.c		unset.c
+							pwd.c		unset.c			export_single.c
 UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\
 							ft_strcmp.c				ft_strslen.c			print_tokenlist.c
 

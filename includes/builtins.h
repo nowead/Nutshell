@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:53:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 17:25:59 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int		export_single_env_var(char *env_var, char ***envp);
 size_t	get_key_len(char *env_var);
 char	**search_env_var(const char *key, size_t len, char *envp[]);
 int		export_new_env_var(char *new_env_var, char ***envp);
+
+// export_single.c
+int		export_print_envp(char *envp[]);
 
 // export_in_pipe.c
 void	exec_export_in_pipe(char **argv);
