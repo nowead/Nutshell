@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 22:52:15 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 18:52:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	add_argument(char **argv, char *arg);
 int		exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_subshell.c
-void	exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_io_here.c

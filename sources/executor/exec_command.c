@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:49:18 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 18:50:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		exec_simple_command(curr->child[0], shell_ctx);
 	else
 	{
-		exec_redirect_list(curr->child[1], shell_ctx);
+		// exec_redirect_list(curr->child[1], shell_ctx);
 		exec_subshell(curr->child[0], shell_ctx);
 	}
 }

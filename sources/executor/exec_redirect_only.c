@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:25:00 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 16:47:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 18:58:00 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,31 @@ int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
     action.sa_handler = here_doc_handler;
     action.sa_flags = 0;
 	action.sa_flags &= ~SA_RESTART;
-	if (sigaction(SIGINT, &action, NULL) == -1) {
+	if (sigaction(SIGINT, &action, NULL) == -1)
+	{
+		shell_ctx->exit_status = 1;
         return (err_return(-1, "sigaction"));
     }
 	if (redirect_only_simple_command(curr, shell_ctx))
 	{
 		signal(SIGINT, sigint_handler);
+		shell_ctx->exit_status = 1;
 		return (-1);
 	}
 	signal(SIGINT, sigint_handler);
 	return (0);
 }
 
+// sym: command
 int	redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (curr->child[0]->sym == SIMPLE_COMMAND)
 		curr = curr->child[0];
 	if (curr->child[0]->sym == SUBSHELL)
-		return (0);
+	{
+		if (exec_redirect_list(curr->child[1], shell_ctx))
+			return (-1);
+	}
 	if (curr->child_num == 2)
 	{
 		if (exec_cmd_suffix_redirect(curr->child[1], shell_ctx))
