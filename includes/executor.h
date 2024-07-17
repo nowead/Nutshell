@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 18:52:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 20:40:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,19 @@ void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_io_here.c
 int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
-int		open_here_doc_tempfile(char **file_name, char *envp[]);
-int		create_unique_file(char **file_name, char *home_path);
-int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
-void	remove_new_line_from_line(char **line);
+int		setup_here_doc(t_ast_node *node, t_shell_ctx *shell_ctx, \
+int *fd, char **file_name);
+int		here_doc_redirect_stdin(int fd, char *file_name);
 int		is_there_next_io_here(t_ast_node *curr);
 int		free_file_name(char *file_name);
+
+// open_here_doc_tempfile.c
+int		open_here_doc_tempfile(char **file_name, char *envp[]);
+int		create_unique_file(char **file_name, char *home_path);
+
+// io_readline.c
+int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
+void	remove_new_line_from_line(char **line);
 
 // exec_io_file.c
 int		exec_io_file(t_ast_node *node);

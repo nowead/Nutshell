@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 20:41:30 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 21:02:38 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (curr->child[0]->sym == SIMPLE_COMMAND)
 		exec_simple_command(curr->child[0], shell_ctx);
 	else
-	{
 		exec_subshell(curr->child[0], shell_ctx);
-	}
 }
 
 void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
@@ -51,10 +49,10 @@ void	handle_error(char *cmd_name)
 {
 	if (errno == ENOENT || errno == EFAULT)
 	{
-		if (errno == EFAULT)// PATH가 Unset된 경우
+		if (errno == EFAULT)
 			ft_dprintf(STDERR_FILENO, \
 			"Nutshell: %s: No such file or directory\n", cmd_name);
-		else if (errno == ENOENT) // PATH는 존재하지만 파일이 없는 경우
+		else if (errno == ENOENT)
 			ft_dprintf(STDERR_FILENO, \
 			"Nutshell: %s: command not found\n", cmd_name);
 		exit (FILE_NOT_EXIST_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 17:14:36 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 19:12:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	g_sigint_flag = 0;
 // int custom_rl_getc() 
 // {
 //     unsigned char c;
-	
+//	
 //     if (read(STDIN_FILENO, &c, 1) == 1)
 // 	{
 //         if (c == 12)
@@ -32,12 +32,13 @@ int	g_sigint_flag = 0;
 //     }
 //     return EOF;
 // }
+//
+// rl_getc_function = custom_rl_getc;
 
 int	run_shell(char *envp[])
 {
 	t_shell_ctx		shell_ctx;
 
-	// rl_getc_function = custom_rl_getc;
 	set_echoctl(&(shell_ctx.old_term), ECHOCTL_OFF);
 	init_signal_handler();
 	init_shell_ctx(&shell_ctx, envp);
@@ -57,7 +58,6 @@ void	shell_main_loop(t_shell_ctx *shell_ctx)
 		if (handle_input(shell_ctx, &line))
 			continue ;
 		ast = parse(line, shell_ctx);
-		// print_ast(ast->root, 0);
 		execute_parsed_command(ast, shell_ctx, line);
 		free(line);
 	}

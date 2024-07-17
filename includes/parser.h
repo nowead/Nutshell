@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 17:41:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 20:40:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ int			fill_patterns(char **patterns, t_token *token);
 char		*construct_expanded_pathname(char **patterns, size_t pattern_cnt);
 int			concatenate_space_and_pathname(DIR *dir, struct dirent *entry, \
 char **exp_str);
-int			does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt);
+int			does_entry_match_patterns(char *entry, char **patterns, \
+size_t pattern_cnt);
 int			concatenate_space(char **exp_str);
 int			concatenate_pathname(char **exp_str, char *entry);
 // sort_expanded_pathname.c
