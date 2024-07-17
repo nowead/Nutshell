@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:22:40 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 18:40:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 14:54:09 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ void	handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd)
 	else
 	{
 		*incomplete_cmd = 0;
-		ft_dprintf(2, "\033[u\033[1B\033[1A");
-		ft_dprintf(2, "nutshell: syntax error: unexpected end of file\n");
+		set_signal_handler(SIGINT_HANDLER);
+		ft_dprintf(2, "Nutshell: syntax error: unexpected end of file\n");
 	}
 }
 
 void	exit_shell(t_shell_ctx *shell_ctx)
 {
-	printf("\033[u\033[1B\033[1A");
-	printf("exit\n");
+	if (printf("exit\n") == -1)
+		err_exit("printf", 1, EXIT_FAILURE);
 	restore_stdfd(shell_ctx);
 	restore_echoctl(&(shell_ctx->old_term));
-	exit(-1);
+	exit(0);
 }

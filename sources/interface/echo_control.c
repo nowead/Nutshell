@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_control.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:03:37 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/10 03:03:43 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 13:20:44 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	set_echoctl(struct termios *old_term, int echoctl_flag)
 	tcgetattr(STDIN_FILENO, old_term);
 	tcgetattr(STDIN_FILENO, &new_term);
 	if (echoctl_flag == ECHOCTL_OFF)
-		new_term.c_lflag &= ~(ECHOCTL);
+		new_term.c_lflag &= ~(ECHOCTL| ICANON);
 	else
-		new_term.c_lflag |= (ECHOCTL);
+		new_term.c_lflag |= (ECHOCTL| ICANON);
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
 }
 

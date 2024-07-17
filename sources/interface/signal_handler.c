@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 22:44:31 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 14:53:33 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	sigint_handler(int signo)
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();
-	printf("\033[s");
 }
 
 void	incomplete_cmd_handler(int signo)
@@ -47,7 +46,7 @@ void	incomplete_cmd_handler(int signo)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	printf("\033[2D \b\033[s");
+	printf("\033[2D \b");
 }
 
 void	here_doc_handler(int signo)
