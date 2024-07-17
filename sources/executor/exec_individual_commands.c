@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 21:31:05 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 22:56:51 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 	}
 	if (pid == 0)
 	{
+		if (close(fd[0]) == -1 || close(fd[1]) == -1)
+			err_exit("close", 1, 1);
 		convert_to_child_process();
 		exec_command(curr, shell_ctx);
 	}
@@ -54,6 +56,8 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 	}
 	if (pid == 0)
 	{
+		if (close(fd[0]) == -1 || close(fd[1]) == -1)
+			err_exit("close", 1, 1);
 		convert_to_child_process();
 		exec_command(curr, shell_ctx);
 	}
