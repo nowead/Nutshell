@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:53:00 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 19:13:14 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int *is_signaled)
 		signal(SIGINT, SIG_DFL);
 		exec_command(curr, shell_ctx);
 	}
+	signal(SIGINT, SIG_IGN);
 	if (save_exit_status(pid, shell_ctx, is_signaled) == -1)
 		return (-1);
 	if (restore_stdfd(shell_ctx))

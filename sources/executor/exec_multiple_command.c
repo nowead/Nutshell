@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 16:47:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 19:17:09 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
 {
 	printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
+	set_echoctl(NULL, ECHOCTL_OFF);
+	signal(SIGINT, sigint_handler);
 	return (0);
 }
 
