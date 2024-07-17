@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 21:01:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:55:53 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <readline/history.h>
 # include "parser.h"
 
-# define SIGINT_HANDLER 0
-# define SIGINT_INCOMPLETE_CMD_HANDLER 2
 # define ECHOCTL_ON 1
 # define ECHOCTL_OFF 0
 
@@ -77,8 +75,6 @@ typedef struct s_ast
 // interface.c
 int			run_shell(char *envp[]);
 void		shell_main_loop(t_shell_ctx *shell_ctx);
-int			update_signal_and_old_line(int *incomplete_cmd, char **old_line, \
-char *line);
 void		execute_parsed_command(t_ast *ast, t_shell_ctx *shell_ctx, \
 char *line);
 
@@ -90,23 +86,14 @@ void		restore_echoctl(struct termios *old_term);
 void		init_signal_handler(void);
 void		set_signal_handler(int handler_type);
 void		sigint_handler(int signo);
-void		incomplete_cmd_handler(int signo);
 void		here_doc_handler(int signo);
 
 // init_shell_context.c
 void		init_shell_ctx(t_shell_ctx *shell_ctx, char **envp);
 char		**init_envp(char *envp[]);
 
-// readline.c
-char		*display_prompt_and_read_input(int incomplete_cmd);
-const char	*get_prompt(int incomplete_cmd);
-
 // handle_input.c
-int			handle_input(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
-char *old_line, char **line);
-void		process_sigint_flag(t_shell_ctx *shell_ctx, int *incomplete_cmd, \
-char *old_line);
-void		handle_end_of_file(t_shell_ctx *shell_ctx, int *incomplete_cmd);
+int			handle_input(t_shell_ctx *shell_ctx, char **line);
 void		exit_shell(t_shell_ctx *shell_ctx);
 
 // backup_stdfd.c

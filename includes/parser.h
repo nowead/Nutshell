@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 16:47:56 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:55:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,8 @@
 
 # define INCOMPLETE_CMD 1001
 
-typedef struct s_ast_err
-{
-	t_token	*token;
-	int		errnum;
-}	t_ast_err;
-
 // parse.c
-t_ast		*parse(const char *input, int *incomplete_command, \
-t_shell_ctx *shell_ctx);
+t_ast		*parse(const char *input, t_shell_ctx *shell_ctx);
 const char	*get_token_type_string(t_tokentype type);
 const char	*get_token_operator_type_string(t_tokentype type);
 void		print_ast(t_ast_node *node, int depth);//

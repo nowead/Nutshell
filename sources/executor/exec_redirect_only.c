@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:25:00 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 21:45:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:47:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
     }
 	if (redirect_only_simple_command(curr, shell_ctx))
 	{
-		set_signal_handler(SIGINT_HANDLER);
+		signal(SIGINT, sigint_handler);
 		return (-1);
 	}
-	set_signal_handler(SIGINT_HANDLER);
+	signal(SIGINT, sigint_handler);
 	return (0);
 }
 
