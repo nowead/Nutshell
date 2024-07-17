@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:48:15 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 18:27:38 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	int				fd[3];
 	size_t			cmd_cnt;
 	int				status;
+	struct termios	old_term;
 	int				is_signaled;
 
 	is_signaled = 0;
@@ -31,17 +32,32 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		return (-1);
 	if (wait_for_all_commands(cmd_cnt, &status, &is_signaled))
 		return (-1);
-	if (is_signaled && handle_signal(shell_ctx, WTERMSIG(status)) == -1)
+	if (is_signaled && handle_signal(curr, shell_ctx, WTERMSIG(status)) == -1)
 		return (-1);
 	set_echoctl(NULL, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
 	return (shell_ctx->exit_status);
 }
 
-int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
+int	handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status)
 {
+	char	*path;
+
 	printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
+	path = ft_strjoin(ft_getenv("HOME", shell_ctx->envp), "/.here_doc");
+	if (path == NULL)
+		return (-1);
+	if (access(path, F_OK) == 0)
+	{
+		shell_ctx->exit_status = 1;
+		if (unlink(path) == -1)
+		{
+			free(path);
+			err_return(-1, "unlink");
+		}
+	}
+	free(path);
 	return (0);
 }
 

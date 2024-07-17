@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 22:55:18 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/12 16:21:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	exec_cd(char **argv, char ***envp)
 {
+	char	**oldpwd;
+	char	**pwd;
+	char	*env_home;
+
 	if (!argv[1])
 	{
 		if (chdir(ft_getenv("HOME", *envp)) == -1)
@@ -36,6 +40,7 @@ int	exec_cd(char **argv, char ***envp)
 
 int	update_oldpwd(char ***envp)
 {
+	char	**old_pwd;
 	char	*new_old_pwd;
 	char	*pwd;
 
@@ -91,6 +96,10 @@ int	cd_home(char **argv, char **envp)
 
 void	exec_cd_in_process(char **argv, char ***envp)
 {
+	char	**oldpwd;
+	char	**pwd;
+	char	*env_home;
+
 	if (!argv[1])
 	{
 		if (chdir(ft_getenv("HOME", *envp)) == -1)

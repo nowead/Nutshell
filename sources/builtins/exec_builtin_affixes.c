@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_affixes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:29:43 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:53:20 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 19:09:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_suffix_without_redirect(t_ast_node *curr, char **argv)
+int	exec_suffix_without_redirect(t_ast_node *curr, char **argv, \
+t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{

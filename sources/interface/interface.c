@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 14:00:12 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 16:20:12 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	shell_main_loop(t_shell_ctx *shell_ctx)
 	t_ast	*ast;
 	int		incomplete_cmd;
 
-	old_line = NULL;
 	incomplete_cmd = 0;
 	while (1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:53:41 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 20:52:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (curr->child_num == 2)
 	{
 		argv[0] = ft_strdup(curr->child[0]->token->str);
-		ret = exec_suffix_without_redirect(curr->child[1], argv);
+		ret = exec_suffix_without_redirect(curr->child[1], argv, shell_ctx);
 	}
 	else
 	{
 		argv[0] = ft_strdup(curr->child[1]->token->str);
-		ret = exec_suffix_without_redirect(curr->child[2], argv);
+		ret = exec_suffix_without_redirect(curr->child[2], argv, shell_ctx);
 	}
 	if (ret != -1)
 		ret = execute_builtin_argv(argv[0], argv, shell_ctx);

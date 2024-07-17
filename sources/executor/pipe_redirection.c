@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:02:45 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:52:55 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 21:03:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pipe_redirect_first(int fd[3])
+int	pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx)
 {
 	if (pipe(fd) == -1)
 		return (err_return(-1, "pipe"));
@@ -21,7 +21,7 @@ int	pipe_redirect_first(int fd[3])
 	return (0);
 }
 
-int	pipe_redirect_middle(int fd[3])
+int	pipe_redirect_middle(int fd[3], t_shell_ctx *shell_ctx)
 {
 	if (close(fd[1]) == -1)
 		return (-1);
@@ -37,7 +37,7 @@ int	pipe_redirect_middle(int fd[3])
 	return (0);
 }
 
-int	pipe_redirect_last(int fd[3])
+int	pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx)
 {
 	if (close(fd[1]) == -1)
 		return (err_return(-1, "close_pipe_redirect_last"));

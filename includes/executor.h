@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 22:52:15 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 21:04:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		execute_middle_commands(t_ast_node **curr, int fd[3], \
 size_t *cmd_cnt, t_shell_ctx *shell_ctx);
 int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
-int		handle_signal(t_shell_ctx *shell_ctx, int signaled_status);
+int		handle_signal(t_ast_node *curr, t_shell_ctx *shell_ctx, int signaled_status);
 
 // exec_individual_commands.c
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
@@ -55,9 +55,9 @@ int *is_signaled);
 int		save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled);
 
 // pipe_redirection.c
-int		pipe_redirect_first(int fd[3]);
-int		pipe_redirect_middle(int fd[3]);
-int		pipe_redirect_last(int fd[3]);
+int		pipe_redirect_first(int fd[3], t_shell_ctx *shell_ctx);
+int		pipe_redirect_middle(int fd[3], t_shell_ctx *shell_ctx);
+int		pipe_redirect_last(int fd[3], t_shell_ctx *shell_ctx);
 
 // exec_command.c
 void	exec_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -74,7 +74,7 @@ int		open_here_doc_tempfile_read(char **file_name, char *envp[]);
 // exec_affixes.c
 int		exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
-void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv);
+void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx);
 void	add_argument(char **argv, char *arg);
 int		exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 

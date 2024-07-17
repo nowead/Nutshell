@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_affixes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:03:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:49:10 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 14:49:04 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv)
+void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv, t_shell_ctx *shell_ctx)
 {
 	while (curr->child)
 	{

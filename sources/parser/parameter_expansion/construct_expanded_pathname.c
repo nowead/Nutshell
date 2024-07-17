@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   construct_expanded_pathname.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 00:20:18 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:45:19 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/15 15:32:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char **exp_str)
 
 int	does_entry_match_patterns(char *entry, char **patterns, size_t pattern_cnt)
 {
+	char	*pattern;
 	char	*entry_ptr;
 	size_t	i;
 
