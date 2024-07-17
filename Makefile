@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 
 HEADER_FLAGS	=	-Iincludes
 LIBFT_FLAGS		=	-Lsources/libft -lft

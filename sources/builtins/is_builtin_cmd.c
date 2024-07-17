@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:28:33 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/12 01:42:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:18:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	is_builtin_cmd(t_ast_node *curr)
 		cmd_name = curr->child[0]->token->str;
 	else if (curr->child_num == 3)
 		cmd_name = curr->child[1]->token->str;
+	else
+		return (0);
 	if (ft_strncmp(cmd_name, "export", 7) == 0)
 		return (1);
 	else if (ft_strncmp(cmd_name, "unset", 6) == 0)

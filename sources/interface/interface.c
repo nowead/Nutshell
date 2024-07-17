@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 16:41:19 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:14:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	shell_main_loop(t_shell_ctx *shell_ctx)
 		if (handle_input(shell_ctx, &line))
 			continue ;
 		ast = parse(line, shell_ctx);
+		// print_ast(ast->root, 0);
 		execute_parsed_command(ast, shell_ctx, line);
 		free(line);
 	}
