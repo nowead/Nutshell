@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 19:13:14 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 21:31:05 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 	}
 	if (pid == 0)
 	{
-		set_echoctl(NULL, ECHOCTL_ON);
-		signal(SIGINT, SIG_DFL);
+		convert_to_child_process();
 		exec_command(curr, shell_ctx);
 	}
 	if (restore_stdfd(shell_ctx))
@@ -55,7 +54,7 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 	}
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		convert_to_child_process();
 		exec_command(curr, shell_ctx);
 	}
 	if (restore_stdfd(shell_ctx))
@@ -80,7 +79,7 @@ int *is_signaled)
 	}
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		convert_to_child_process();
 		exec_command(curr, shell_ctx);
 	}
 	signal(SIGINT, SIG_IGN);

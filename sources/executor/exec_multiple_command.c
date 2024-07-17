@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 19:17:09 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 21:33:06 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		return (-1);
 	if (is_signaled && handle_signal(shell_ctx, WTERMSIG(status)) == -1)
 		return (-1);
-	set_echoctl(NULL, ECHOCTL_OFF);
-	signal(SIGINT, sigint_handler);
+	convert_to_nutshell_terminal();
 	return (shell_ctx->exit_status);
 }
 
@@ -42,8 +41,7 @@ int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
 {
 	printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
-	set_echoctl(NULL, ECHOCTL_OFF);
-	signal(SIGINT, sigint_handler);
+	convert_to_nutshell_terminal();
 	return (0);
 }
 

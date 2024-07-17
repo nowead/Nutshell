@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 16:55:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 21:29:57 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ void		restore_echoctl(struct termios *old_term);
 
 // signal_handler.c
 void		init_signal_handler(void);
-void		set_signal_handler(int handler_type);
 void		sigint_handler(int signo);
 void		here_doc_handler(int signo);
+void		convert_to_child_process(void);
+void		convert_to_nutshell_terminal(void);
 
 // init_shell_context.c
 void		init_shell_ctx(t_shell_ctx *shell_ctx, char **envp);

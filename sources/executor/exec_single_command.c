@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:13:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 18:56:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 21:31:22 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		return (-1);
 	if (pid == 0)
 	{
-		set_echoctl(NULL, ECHOCTL_ON);
-		signal(SIGINT, SIG_DFL);
+		convert_to_child_process();
 		exec_command(curr, shell_ctx);
 	}
 	signal(SIGINT, SIG_IGN);
@@ -43,7 +42,6 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (WIFSIGNALED(status) && \
 	handle_signal(shell_ctx, WTERMSIG(status)) == 0)
 		return (-1);
-	set_echoctl(NULL, ECHOCTL_OFF);
-	signal(SIGINT, sigint_handler);
+	convert_to_nutshell_terminal();
 	return (shell_ctx->exit_status);
 }
