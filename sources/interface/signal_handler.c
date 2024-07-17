@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 16:20:02 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/17 14:53:33 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	incomplete_cmd_handler(int signo)
 
 void	here_doc_handler(int signo)
 {
+	(void)signo;
 }

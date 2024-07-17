@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 21:57:59 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/16 22:49:18 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	if (curr->child_num == 2)
 	{
 		argv[0] = curr->child[0]->token->str;
-		exec_cmd_suffix_argument(curr->child[1], argv, shell_ctx);
+		exec_cmd_suffix_argument(curr->child[1], argv);
 	}
 	else if (curr->child_num == 3)
 	{
 		argv[0] = curr->child[1]->token->str;
-		exec_cmd_suffix_argument(curr->child[2], argv, shell_ctx);
+		exec_cmd_suffix_argument(curr->child[2], argv);
 	}
 	if (curr->child_num != 1)
 		execute_argv(argv[0], argv, shell_ctx);

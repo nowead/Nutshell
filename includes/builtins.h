@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 19:12:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:53:52 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ t_shell_ctx *shell_ctx);
 int		parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_builtin_affixes.c
-int		exec_suffix_without_redirect(t_ast_node *curr, char **argv, \
-t_shell_ctx *shell_ctx);
+int		exec_suffix_without_redirect(t_ast_node *curr, char **argv);
 int		builtin_add_argument(char **argv, char *arg);
 
 // exec_builtin_io.c

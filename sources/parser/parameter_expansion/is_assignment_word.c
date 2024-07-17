@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_assignment_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 19:19:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/15 01:01:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:44:52 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 // If found, it validates the part before = as a valid name using is_valid_name.
 int	is_assignment_word_token(t_token *token)
 {
-	const char	*equalsign_start;
-
 	if (token->type == TOK_ASSIGNMENT_WORD)
 		return (1);
 	if (token->type != TOK_WORD)

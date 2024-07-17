@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:13:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 19:32:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/16 22:47:00 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		return (-1);
 	shell_ctx->exit_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) && \
-	handle_signal(curr, shell_ctx, WTERMSIG(status)) == 0)
+	handle_signal(shell_ctx, WTERMSIG(status)) == 0)
 		return (-1);
 	set_echoctl(NULL, ECHOCTL_OFF);
 	set_signal_handler(SIGINT_HANDLER);
