@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/16 19:42:20 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:52:00 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 		return (free_file_name(file_name));
 	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
 		ret = -1;
-	if (close(fd) == -1 && free_file_name(file_name))
+	if (close(fd) == -1)
 		ret = err_return(-1, "close");
 	if (ret == -1)
 	{
 		unlink(file_name);
+		free (file_name);
 		return (-1);
 	}
 	fd = open(file_name, O_RDONLY, 0644);
