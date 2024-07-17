@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:04:19 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 18:53:17 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/17 20:57:32 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ int	exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx)
 void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (exec_and_or(curr->child[0], shell_ctx) == -1)
-		exit(EXIT_FAILURE);
+	{
+		if (shell_ctx->exit_status == 0)
+			shell_ctx->exit_status = 1;
+		exit (shell_ctx->exit_status);
+	}
 	else
 		exit(shell_ctx->exit_status);
 }
