@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_and_or.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:56:58 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 22:42:43 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 21:40:00 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	exec_and_or(t_ast_node *root, t_shell_ctx *shell_ctx)
 	int	initial_result;
 
 	if (root->child == NULL)
+		return (-1);
+	if (get_here_doc_input(root, shell_ctx))
 		return (-1);
 	initial_result = exec_pipe_sequence(root->child[0], shell_ctx);
 	return (exec_and_or_(root->child[1], initial_result, shell_ctx));

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 17:06:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 22:02:00 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		handle_signal(t_shell_ctx *shell_ctx, int signaled_status);
 
 // get_here_doc_input.c
 int		get_here_doc_input(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		get_here_doc_input_from_pipe(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		search_get_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_cmd_prefix_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_cmd_suffix_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -94,7 +95,6 @@ int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
 int		setup_here_doc(t_ast_node *node, t_shell_ctx *shell_ctx, char **file_name);
 int		here_doc_redirect_stdin(int fd, char *file_name);
 int		is_there_next_io_here(t_ast_node *curr);
-int		free_file_name(char *file_name);
 
 // open_here_doc_tempfile.c
 int		open_here_doc_tempfile(char **file_name, char *envp[]);
