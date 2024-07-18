@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 20:34:53 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:39:14 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ast	*parse(const char	*input, t_shell_ctx *shell_ctx)
 	t_ast				*ast;
 	t_ast_err			err;
 
-	tokenlist = tokenize(input, &err);
+	tokenlist = tokenize(input, &err, shell_ctx);
 	if (tokenlist == NULL)
 		return (NULL);
 	if (expand_parameter(tokenlist, shell_ctx))
@@ -26,15 +26,21 @@ t_ast	*parse(const char	*input, t_shell_ctx *shell_ctx)
 	err = (t_ast_err){};
 	ast = program(tokenlist, &err);
 	if (err.errnum == INCOMPLETE_CMD)
+	{
+		shell_ctx->exit_status = 258;
 		ft_dprintf(2, "Nutshell: syntax error: unexpected end of file\n");
+	}
 	else if (err.errnum == ENOMEM)
 	{
 		errno = err.errnum;
 		perror("ENOMEM");
 	}
 	else if (err.token != NULL)
+	{
+		shell_ctx->exit_status = 258;
 		ft_dprintf(2, "syntax error near unexpected token \'%s\'\n", \
 		get_token_type_string(err.token->type));
+	}
 	if (ast == NULL)
 		clear_tokenlist(tokenlist);
 	return (ast);

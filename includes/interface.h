@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 21:29:57 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 13:29:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdio.h>
 # include <stdlib.h>
-# include <termios.h>
 # include <unistd.h>
 # include <signal.h>
 # include <readline/readline.h>
@@ -47,14 +46,6 @@ typedef enum e_symbol
 	IO_HERE,
 	HERE_END
 }	t_symbol;
-
-typedef struct s_shell_ctx
-{
-	char			**envp;
-	int				exit_status;
-	struct termios	old_term;
-	int				stdfd[2];
-}	t_shell_ctx;
 
 typedef struct s_ast_node
 {

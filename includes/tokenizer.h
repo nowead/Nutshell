@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 16:56:07 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:29:21 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include <stdio.h>
 # include <errno.h>
+# include <termios.h>
 
 typedef enum e_tokentype
 {
@@ -79,10 +80,18 @@ typedef struct s_ast_err
 	int		errnum;
 }	t_ast_err;
 
+typedef struct s_shell_ctx
+{
+	char			**envp;
+	int				exit_status;
+	struct termios	old_term;
+	int				stdfd[2];
+}	t_shell_ctx;
+
 // tokenize.c
-t_tokenlist	*tokenize(const char *input, t_ast_err *err);
+t_tokenlist	*tokenize(const char *input, t_ast_err *err, t_shell_ctx *shell_ctx);
 int			process_tokens(const char *input, t_tokenlist *tokenlist, \
-t_ast_err *err);
+t_ast_err *err, t_shell_ctx *shell_ctx);
 int			add_final_token(t_token_handler_args *args, size_t i);
 
 // token_creation_handler.c
