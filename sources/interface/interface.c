@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 15:18:57 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 18:31:52 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	run_shell(char *envp[])
 {
 	t_shell_ctx		shell_ctx;
 
+	ft_printf("pid: %d\n", getpid());
 	set_echoctl(&(shell_ctx.old_term), ECHOCTL_OFF, STDIN_FILENO);
 	init_signal_handler();
 	init_shell_ctx(&shell_ctx, envp);
@@ -70,5 +71,15 @@ void	execute_parsed_command(t_ast *ast, t_shell_ctx *shell_ctx, char *line)
 	exec_ast(ast, shell_ctx);
 	restore_stdfd(shell_ctx);
 	clear_ast(ast);
+	clear_here_doc_files(shell_ctx);
 	add_history(line);
+}
+
+int	clear_here_doc_files(t_shell_ctx *shell_ctx)
+{
+	if (shell_ctx->heredoc_files)
+		ft_free_strs(shell_ctx->heredoc_files);
+	shell_ctx->heredoc_files = NULL;
+	shell_ctx->heredoc_idx = 0;
+	return (0);
 }

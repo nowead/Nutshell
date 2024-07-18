@@ -6,12 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 23:03:51 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 16:18:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// sym : command
 int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;

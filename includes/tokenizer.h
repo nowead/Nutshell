@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 13:29:21 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 17:09:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_shell_ctx
 	int				exit_status;
 	struct termios	old_term;
 	int				stdfd[2];
+	char			**heredoc_files;
+	size_t			heredoc_idx;
 }	t_shell_ctx;
 
 // tokenize.c

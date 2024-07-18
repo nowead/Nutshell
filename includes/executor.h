@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 13:09:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 17:06:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
 int		handle_signal(t_shell_ctx *shell_ctx, int signaled_status);
 
+// get_here_doc_input.c
+int		get_here_doc_input(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		search_get_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_cmd_prefix_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_cmd_suffix_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_io_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
+
 // exec_individual_commands.c
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 int		middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
@@ -84,8 +91,7 @@ void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_io_here.c
 int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
-int		setup_here_doc(t_ast_node *node, t_shell_ctx *shell_ctx, \
-int *fd, char **file_name);
+int		setup_here_doc(t_ast_node *node, t_shell_ctx *shell_ctx, char **file_name);
 int		here_doc_redirect_stdin(int fd, char *file_name);
 int		is_there_next_io_here(t_ast_node *curr);
 int		free_file_name(char *file_name);

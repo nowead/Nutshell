@@ -52,12 +52,13 @@ INTERFACE_SRC			=	echo_control.c			handle_input.c				init_shell_context.c	interf
 EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c				exec_multiple_command.c\
 							exec_pipe_sequence.c	exec_affixes.c				exec_subshell.c				exec_io_here.c	exec_io_file.c\
 							ft_execvpe.c			ft_getenv.c		exec_individual_commands.c				exec_single_command.c\
-							exec_redirect_only.c	pipe_redirection.c			open_here_doc_tempfile.c	io_readline.c
+							exec_redirect_only.c	pipe_redirection.c			open_here_doc_tempfile.c	io_readline.c\
+							get_here_doc_input.c
 BUILTINS_SRC			=	exec_builtin_command.c		exec_builtin_affixes.c	is_builtin_cmd.c\
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\
 							pwd.c		unset.c			export_single.c
 UTILITIES_SRC			=	err_exit.c				err_return.c			ft_free_strs.c	ft_print_strs.c\
-							ft_strcmp.c				ft_strslen.c
+							ft_strcmp.c				ft_strslen.c			add_str_to_strs.c
 
 LIBFT_SRC				=	$(addprefix $(LIBFT_DIR), \
 ft_isalpha.c    ft_memchr.c     ft_putchar_fd.c ft_strchr.c     ft_strlcpy.c    ft_strrchr.c	ft_atoi.c\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:13:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 21:31:22 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 18:41:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	pid_t	pid;
 	int		status;
 
+	if (get_here_doc_input(curr->parent, shell_ctx) == -1)
+		return (-1);
 	if (exec_redirect_only(curr, shell_ctx))
 		return (-1);
 	pid = fork();

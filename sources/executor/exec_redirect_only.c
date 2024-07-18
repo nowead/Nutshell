@@ -6,12 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:25:00 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 21:24:12 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 16:19:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// sym : command
 int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	struct sigaction	action;
@@ -34,6 +35,7 @@ int	exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	return (0);
 }
 
+// command : command
 int	redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	if (curr->child[0]->sym == SIMPLE_COMMAND)

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 15:19:34 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 17:03:04 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int			run_shell(char *envp[]);
 void		shell_main_loop(t_shell_ctx *shell_ctx);
 void		execute_parsed_command(t_ast *ast, t_shell_ctx *shell_ctx, \
 char *line);
+int			clear_here_doc_files(t_shell_ctx *shell_ctx);
 
 // echo_control.c
 void		set_echoctl(struct termios *old_term, int echoctl_flag, int stdin_fd);
