@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 22:02:00 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 22:37:46 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		search_get_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_cmd_prefix_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_cmd_suffix_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_io_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		exec_redirect_list_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_individual_commands.c
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:07:42 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 22:17:45 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 22:40:10 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	search_get_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		curr = curr->child[0];
 	if (curr->child[0]->sym == SUBSHELL)
 	{
-		if (exec_redirect_list(curr->child[1], shell_ctx))
+		if (exec_redirect_list_hd(curr->child[1], shell_ctx))
 			return (-1);
 		return (0);
 	}
@@ -118,6 +118,17 @@ int	exec_io_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		if (add_str_to_strs(file_name, &shell_ctx->heredoc_files))
 			return (-1);
 	}
+	return (0);
+}
+
+int	exec_redirect_list_hd(t_ast_node *curr, t_shell_ctx *shell_ctx)
+{
+	if (curr->child == NULL)
+		return (0);
+	if (exec_io_redirect_hd(curr->child[0], shell_ctx))
+		return (-1);
+	if (exec_redirect_list_hd(curr->child[1], shell_ctx))
+		return (-1);
 	return (0);
 }
 
