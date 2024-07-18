@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 14:02:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:39:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_ast	*parse(const char	*input, t_shell_ctx *shell_ctx)
 	else if (err.token != NULL)
 	{
 		shell_ctx->exit_status = 258;
-		ft_dprintf(2, "syntax error near unexpected token \'%s\'\n", \
+		ft_dprintf(2, "Nutshell: syntax error near unexpected token \'%s\'\n", \
 		get_token_type_string(err.token->type));
 	}
 	if (ast == NULL)
@@ -62,25 +62,25 @@ const char	*get_token_type_string(t_tokentype type)
 const char	*get_token_operator_type_string(t_tokentype type)
 {
 	if (type == TOK_LPAREN)
-		return ("TOK_LPAREN");
+		return ("(");
 	else if (type == TOK_RPAREN)
-		return ("TOK_RPAREN");
+		return (")");
 	else if (type == TOK_AND_IF)
-		return ("TOK_AND_IF");
+		return ("&&");
 	else if (type == TOK_OR_IF)
-		return ("TOK_OR_IF");
+		return ("||");
 	else if (type == TOK_PIPE)
-		return ("TOK_PIPE");
+		return ("|");
 	else if (type == TOK_LESS)
-		return ("TOK_LESS");
+		return ("<");
 	else if (type == TOK_GREAT)
-		return ("TOK_GREAT");
+		return (">");
 	else if (type == TOK_DLESS)
-		return ("TOK_DLESS");
+		return ("<<");
 	else if (type == TOK_DGREAT)
-		return ("TOK_DGREAT");
+		return (">>");
 	else
-		return ("TOK_NEWLINE");
+		return ("newline");
 }
 
 // Function to print the symbol type as a string
