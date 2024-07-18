@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 20:40:24 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:09:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	remove_new_line_from_line(char **line);
 
 // exec_io_file.c
 int		exec_io_file(t_ast_node *node);
+int		exec_io_file_redirect(t_ast_node *node);
 
 // ft_execvpe.c
 int		ft_execvpe(const char *file, char *const argv[], char *envp[]);
