@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvpe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 12:30:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:48:47 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,15 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 	if (ft_strchr(file, '/'))
 	{
 		if (access(file, F_OK) == 0)
-			return (execve(file, argv, envp));
+		{
+			if (access(file, X_OK) == 0)
+				return (execve(file, argv, envp));
+			else
+			{
+				ft_dprintf(2, "Nutshell: %s: Permission denied\n", file);
+				return (-1);
+			}
+		}
 		errno = EFAULT;
 		return (-1);
 	}
@@ -60,6 +68,7 @@ static char	*ft_execvpe_search(const char *file, char *dirs[])
 			else
 			{
 				free(path);
+				ft_dprintf(2, "Nutshell: %s: Permission denied\n", path);
 				break ;
 			}
 		}

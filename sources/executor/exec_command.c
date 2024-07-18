@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 21:02:38 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:41:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	handle_error(char *cmd_name)
 			"Nutshell: %s: command not found\n", cmd_name);
 		exit (FILE_NOT_EXIST_FAILURE);
 	}
-	perror(cmd_name);
+	if (errno != EACCES)
+		perror(cmd_name);
 	exit(EXECVE_FAILURE);
 }
 
