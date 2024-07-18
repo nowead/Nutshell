@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 21:30:23 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 15:19:19 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	here_doc_handler(int signo)
 
 void	convert_to_child_process(void)
 {
-	set_echoctl(NULL, ECHOCTL_ON);
+	set_echoctl(NULL, ECHOCTL_ON, STDIN_FILENO);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
 
 void	convert_to_nutshell_terminal(void)
 {
-	set_echoctl(NULL, ECHOCTL_OFF);
+	set_echoctl(NULL, ECHOCTL_OFF, STDIN_FILENO);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:22:40 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 16:43:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:20:16 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ void	exit_shell(t_shell_ctx *shell_ctx)
 	if (printf("exit\n") == -1)
 		err_exit("printf", 1, EXIT_FAILURE);
 	restore_stdfd(shell_ctx);
-	restore_echoctl(&(shell_ctx->old_term));
+	restore_echoctl(&(shell_ctx->old_term), STDIN_FILENO);
 	exit(0);
 }

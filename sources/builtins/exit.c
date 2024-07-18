@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 20:33:41 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 15:19:58 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	no_numeric_err_exit(char **argv)
 
 void	exec_exit(char **argv, t_shell_ctx *shell_ctx)
 {
-	restore_echoctl(&(shell_ctx->old_term));
+	restore_echoctl(&(shell_ctx->old_term), STDIN_FILENO);
 	exec_exit_in_process(argv);
 }
 

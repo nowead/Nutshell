@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 13:29:16 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:19:34 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void		execute_parsed_command(t_ast *ast, t_shell_ctx *shell_ctx, \
 char *line);
 
 // echo_control.c
-void		set_echoctl(struct termios *old_term, int echoctl_flag);
-void		restore_echoctl(struct termios *old_term);
+void		set_echoctl(struct termios *old_term, int echoctl_flag, int stdin_fd);
+void		restore_echoctl(struct termios *old_term, int stdin_fd);
 
 // signal_handler.c
 void		init_signal_handler(void);
