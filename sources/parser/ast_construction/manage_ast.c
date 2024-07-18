@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 21:36:20 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 14:32:52 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	clear_ast_tree(t_ast_node *node)
 {
 	size_t	i;
 
+	if (node == NULL)
+		return ;
 	if (node->child == NULL)
 	{
 		free_ast_node(node);
