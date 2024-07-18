@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 20:32:09 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 21:26:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	run_shell(char *envp[])
 {
 	t_shell_ctx		shell_ctx;
 
+	init_shell_ctx(&shell_ctx, envp);
 	set_echoctl(&(shell_ctx.old_term), ECHOCTL_OFF, STDIN_FILENO);
 	init_signal_handler();
-	init_shell_ctx(&shell_ctx, envp);
 	backup_stdfd(&shell_ctx);
 	shell_main_loop(&shell_ctx);
 	return (0);
