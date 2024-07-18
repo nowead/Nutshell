@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 23:10:30 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:23:51 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
 {
-	printf("\n");
+	if (signaled_status == SIGQUIT)
+		ft_dprintf(STDERR_FILENO, "Quit: %d\n", signaled_status);
+	else
+		printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
 	convert_to_nutshell_terminal();
 	return (0);

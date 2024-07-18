@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/17 17:44:25 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 11:55:20 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int	exec_cd(char **argv, char ***envp)
 	if (update_oldpwd(envp) == -1)
 		return (-1);
 	if (chdir(argv[1]) == -1)
-		return (err_return(1, "chdir"));
+	{
+		ft_dprintf(STDERR_FILENO, \
+		"Nutshell: cd: %s: No such file or directory\n", argv[1]);
+		return (-1);
+	}
 	if (update_pwd(envp) == -1)
 		return (-1);
 	return (0);
@@ -102,6 +106,10 @@ void	exec_cd_in_process(char **argv, char ***envp)
 	&& cd_home(argv, *envp) == -1)
 		err_exit("cd_home", 1, 1);
 	if (chdir(argv[1]) == -1)
-		err_exit("chdir", 1, 1);
+	{
+		ft_dprintf(STDERR_FILENO, \
+		"Nutshell: cd: %s: No such file or directory\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
 	exit(EXIT_SUCCESS);
 }

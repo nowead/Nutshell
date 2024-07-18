@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:37:26 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:30:26 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,6 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 		execve(path, argv, envp);
 	return (-1);
 }
-// int	ft_execvpe(const char *file, char *const argv[], char *envp[])
-// {
-// 	char	**dirs;
-// 	char	*path;
-
-// 	if (file == NULL || *file == '\0')
-// 	{
-// 		errno = ENOENT;
-// 		return (-1);
-// 	}
-// 	if (ft_strchr(file, '/'))
-// 		return (execve(file, argv, envp));
-// 	dirs = ft_split(ft_getenv("PATH", envp), ':');
-// 	if (dirs == NULL)
-// 		return (-1);
-// 	path = ft_execvpe_search(file, dirs);
-// 	ft_free_strs(dirs);
-// 	if (path != NULL)
-// 		execve(path, argv, envp);
-// 	return (-1);
-// }
 
 static char	*ft_execvpe_search(const char *file, char *dirs[])
 {
