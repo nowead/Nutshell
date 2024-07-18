@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:53:41 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/18 21:08:26 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// sym : simple_command
 int	exec_builtin_simple_command(t_ast_node *curr, \
 t_shell_ctx *shell_ctx)
 {
-	if (exec_redirect_only(curr, shell_ctx))
+	if (exec_redirect_only(curr->parent, shell_ctx))
 		return (-1);
 	return (parent_builtin_simple_command(curr, shell_ctx));
 }

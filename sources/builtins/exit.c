@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 15:19:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 20:31:19 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 static int	no_numeric_err_exit(char **argv)
 {
+	printf("exit\n");
+	write(STDERR_FILENO, "Nutshell: exit: ", 16);
 	ft_dprintf(2, \
-	"exit\nNutshell: exit: %s: numeric argument required\n", \
-	argv[1]);
+	"Nutshell: exit: %s: numeric argument required\n", argv[1]);
 	exit(255);
 }
 
 void	exec_exit(char **argv, t_shell_ctx *shell_ctx)
 {
-	restore_echoctl(&(shell_ctx->old_term), STDIN_FILENO);
+	restore_stdfd(shell_ctx);
+	restore_echoctl(&(shell_ctx->old_term), shell_ctx->stdfd[0]);
 	exec_exit_in_process(argv);
 }
 

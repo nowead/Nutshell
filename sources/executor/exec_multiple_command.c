@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 18:27:06 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/18 21:09:13 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 
 	is_signaled = 0;
 	signal(SIGINT, SIG_IGN);
-	if (get_here_doc_input(curr, shell_ctx) == -1)
-		return (-1);
 	if (first_command(curr->child[0], fd, shell_ctx) == -1)
 		return (-1);
 	cmd_cnt = 1;
