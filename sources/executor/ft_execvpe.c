@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 15:05:54 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 15:46:47 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ char *envp[])
 {
 	struct stat	file_stat;
 
+	if (stat(file, &file_stat) == -1)
+		return (-1);
+	if (S_ISDIR(file_stat.st_mode))
+	{
+		errno = EISDIR;
+		return (-1);
+	}
 	if (access(file, F_OK) == 0)
 	{
-		if (stat(file, &file_stat) == -1)
-			return (-1);
-		if (S_ISDIR(file_stat.st_mode))
-		{
-			errno = EISDIR;
-			return (-1);
-		}
 		if (access(file, X_OK) == 0)
 			return (execve(file, argv, envp));
 		else
