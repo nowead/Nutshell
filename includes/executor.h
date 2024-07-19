@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/19 13:56:39 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:28:36 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int		exec_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
 void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_io_here.c
-int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
-int		here_doc_redirect_stdin(int fd, char *file_name);
+int		exec_io_here(t_shell_ctx *shell_ctx);
+int		here_doc_redirect_stdin(int fd);
 int		is_there_next_io_here(t_ast_node *curr);
 
 // make_heredoc_file.c

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_here.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/19 13:22:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:28:24 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // sym : here_end
-int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
+int	exec_io_here(t_shell_ctx *shell_ctx)
 {
 	int		fd;
 	char	*file_name;
@@ -25,13 +25,13 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 	if (fd == -1)
 		ret = err_return(-1, "open");
 	if (ret != -1)
-		ret = here_doc_redirect_stdin(fd, file_name);
+		ret = here_doc_redirect_stdin(fd);
 	if (ret == -1)
 		return (-1);
 	return (0);
 }
 
-int	here_doc_redirect_stdin(int fd, char *file_name)
+int	here_doc_redirect_stdin(int fd)
 {
 	int	ret;
 
