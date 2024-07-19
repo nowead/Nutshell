@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 17:25:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:14:04 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	exec_cd_in_process(char **argv, char ***envp);
 
 // echo.c
 void	exec_echo(char **argv);
+int		option_made_with_n(char *str);
 
 // env.c
 void	exec_env(t_shell_ctx *shell_ctx);

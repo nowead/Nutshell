@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 17:29:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 11:55:20 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 14:41:13 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	exec_cd(char **argv, char ***envp)
 	if (chdir(argv[1]) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, \
-		"Nutshell: cd: %s: No such file or directory\n", argv[1]);
+		"Nutshell: cd: %s: ", argv[1]);
+		perror("");
 		return (-1);
 	}
 	if (update_pwd(envp) == -1)

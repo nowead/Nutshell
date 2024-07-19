@@ -6,11 +6,12 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 14:06:01 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 15:05:54 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
 
 static int	exec_absolute_path(const char *file, char *const argv[], \
 char *envp[]);
@@ -46,8 +47,17 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 static int	exec_absolute_path(const char *file, char *const argv[], \
 char *envp[])
 {
+	struct stat	file_stat;
+
 	if (access(file, F_OK) == 0)
 	{
+		if (stat(file, &file_stat) == -1)
+			return (-1);
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			errno = EISDIR;
+			return (-1);
+		}
 		if (access(file, X_OK) == 0)
 			return (execve(file, argv, envp));
 		else
