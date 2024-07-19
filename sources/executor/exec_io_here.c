@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:51:12 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 22:17:03 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:22:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,6 @@ int	exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx)
 	if (ret == -1)
 		return (-1);
 	return (0);
-}
-
-int	setup_here_doc(t_ast_node *node, t_shell_ctx *shell_ctx, char **file_name)
-{
-	int	fd;
-	int	ret;
-
-	ret = 0;
-	set_echoctl(NULL, ECHOCTL_OFF, shell_ctx->stdfd[0]);
-	fd = open_here_doc_tempfile(file_name, shell_ctx->envp);
-	if (fd == -1)
-		return (-1);
-	if (io_readline(fd, node->child[0]->token->str, shell_ctx))
-	{
-		write(shell_ctx->stdfd[1], "\n", 1);
-		ret = -1;
-	}
-	if (close(fd) == -1)
-		ret = err_return(-1, "close");
-	return (ret);
 }
 
 int	here_doc_redirect_stdin(int fd, char *file_name)

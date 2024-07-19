@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:13:41 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 21:09:45 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:30:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_external_cmd(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	pid_t	pid;
 	int		status;
 
-	if (exec_redirect_only(curr, shell_ctx))
+	if (exec_redirections(curr, shell_ctx))
 		return (-1);
 	pid = fork();
 	if (pid == -1)

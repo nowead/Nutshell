@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:02:22 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 22:13:31 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:55:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,13 @@ int	clear_here_doc_files(t_shell_ctx *shell_ctx)
 
 	i = 0;
 	if (shell_ctx->heredoc_files)
+	{
 		while (shell_ctx->heredoc_files[i])
 		{
 			unlink(shell_ctx->heredoc_files[i]);
 			i++;
 		}
+	}
 	if (shell_ctx->heredoc_files)
 		ft_free_strs(shell_ctx->heredoc_files);
 	shell_ctx->heredoc_files = NULL;

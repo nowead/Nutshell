@@ -51,8 +51,8 @@ INTERFACE_SRC			=	echo_control.c			handle_input.c				init_shell_context.c	interf
 							signal_handler.c			backup_stdfd.c
 EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c				exec_multiple_command.c\
 							exec_pipe_sequence.c	exec_affixes.c				exec_subshell.c				exec_io_here.c	exec_io_file.c\
-							ft_execvpe.c			ft_getenv.c		exec_individual_commands.c				exec_single_command.c\
-							exec_redirect_only.c	pipe_redirection.c			open_here_doc_tempfile.c	io_readline.c\
+							ft_execvpe.c			ft_getenv.c					exec_individual_commands.c	exec_single_command.c\
+							exec_redirections.c		pipe_redirection.c			make_heredoc_file.c			search_make_heredoc_filename.c\
 							get_here_doc_input.c
 BUILTINS_SRC			=	exec_builtin_command.c		exec_builtin_affixes.c	is_builtin_cmd.c\
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\

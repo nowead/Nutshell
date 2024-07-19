@@ -6,12 +6,14 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 12:48:47 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:45:03 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	exec_absolute_path(const char *file, char *const argv[], \
+char *envp[]);
 static char	*ft_execvpe_search(const char *file, char *dirs[]);
 static char	*path_join(const char *dir, const char *file);
 
@@ -27,18 +29,9 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 	}
 	if (ft_strchr(file, '/'))
 	{
-		if (access(file, F_OK) == 0)
-		{
-			if (access(file, X_OK) == 0)
-				return (execve(file, argv, envp));
-			else
-			{
-				ft_dprintf(2, "Nutshell: %s: Permission denied\n", file);
-				return (-1);
-			}
-		}
-		errno = EFAULT;
-		return (-1);
+		if (exec_absolute_path(file, argv, envp) == -1)
+			return (-1);
+		return (0);
 	}
 	dirs = ft_split(ft_getenv("PATH", envp), ':');
 	if (dirs == NULL)
@@ -47,6 +40,23 @@ int	ft_execvpe(const char *file, char *const argv[], char *envp[])
 	ft_free_strs(dirs);
 	if (path != NULL)
 		execve(path, argv, envp);
+	return (-1);
+}
+
+static int	exec_absolute_path(const char *file, char *const argv[], \
+char *envp[])
+{
+	if (access(file, F_OK) == 0)
+	{
+		if (access(file, X_OK) == 0)
+			return (execve(file, argv, envp));
+		else
+		{
+			ft_dprintf(2, "Nutshell: %s: Permission denied\n", file);
+			return (-1);
+		}
+	}
+	errno = EFAULT;
 	return (-1);
 }
 

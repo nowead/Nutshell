@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 21:08:26 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:30:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	exec_builtin_simple_command(t_ast_node *curr, \
 t_shell_ctx *shell_ctx)
 {
-	if (exec_redirect_only(curr->parent, shell_ctx))
+	if (exec_redirections(curr->parent, shell_ctx))
 		return (-1);
 	return (parent_builtin_simple_command(curr, shell_ctx));
 }

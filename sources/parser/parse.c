@@ -6,17 +6,17 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 14:53:17 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:55:51 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ast	*parse(const char	*input, t_shell_ctx *shell_ctx)
+t_ast	*parse(const char *input, t_shell_ctx *shell_ctx)
 {
-	t_tokenlist			*tokenlist;
-	t_ast				*ast;
-	t_ast_err			err;
+	t_tokenlist	*tokenlist;
+	t_ast		*ast;
+	t_ast_err	err;
 
 	tokenlist = tokenize(input, &err, shell_ctx);
 	if (tokenlist == NULL)
@@ -25,25 +25,31 @@ t_ast	*parse(const char	*input, t_shell_ctx *shell_ctx)
 		return (clear_tokenlist(tokenlist));
 	err = (t_ast_err){};
 	ast = program(tokenlist, &err);
-	if (err.errnum == INCOMPLETE_CMD)
+	handle_parse_error(&err, shell_ctx);
+	if (ast == NULL)
+		clear_tokenlist(tokenlist);
+	return (ast);
+}
+
+int	handle_parse_error(t_ast_err *err, t_shell_ctx *shell_ctx)
+{
+	if (err->errnum == INCOMPLETE_CMD)
 	{
 		shell_ctx->exit_status = 258;
 		ft_dprintf(2, "Nutshell: syntax error: unexpected end of file\n");
 	}
-	else if (err.errnum == ENOMEM)
+	else if (err->errnum == ENOMEM)
 	{
-		errno = err.errnum;
+		errno = err->errnum;
 		perror("ENOMEM");
 	}
-	else if (err.token != NULL)
+	else if (err->token != NULL)
 	{
 		shell_ctx->exit_status = 258;
-		ft_dprintf(2, "Nutshell: syntax error near unexpected token \'%s\'\n", \
-		get_token_type_string(err.token->type));
+		ft_dprintf(2, \
+		"Nutshell: syntax error near unexpected token \'%s\'\n", \
+		get_token_type_string(err->token->type));
 	}
-	if (ast == NULL)
-		clear_tokenlist(tokenlist);
-	return (ast);
 }
 
 // // Function to print the token type as a string
@@ -123,12 +129,11 @@ const char	*get_token_operator_type_string(t_tokentype type)
 // 	for (int i = 0; i < depth; i++)
 //         printf("  ");
 // 	printf("  Child_num: %zu\n", node->child_num);
-
 //     if (node->token != NULL)
 // 	{
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
-//         printf("  Token Type: %s\n", get_token_type_string(node->token->type));
+//			printf("  Token Type: %d\n", node->token->type);
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
 //         printf("  Token String: %s\n", node->token->str);

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:17:36 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 17:09:37 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:48:03 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ typedef struct s_shell_ctx
 }	t_shell_ctx;
 
 // tokenize.c
-t_tokenlist	*tokenize(const char *input, t_ast_err *err, t_shell_ctx *shell_ctx);
+t_tokenlist	*tokenize(const char *input, t_shell_ctx *shell_ctx);
 int			process_tokens(const char *input, t_tokenlist *tokenlist, \
-t_ast_err *err, t_shell_ctx *shell_ctx);
+t_shell_ctx *shell_ctx);
 int			add_final_token(t_token_handler_args *args, size_t i);
 
 // token_creation_handler.c

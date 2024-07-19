@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_individual_commands.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:15:43 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 13:30:49 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 
 	if (pipe_redirect_first(fd))
 		return (-1);
-	if (exec_redirect_only(curr, shell_ctx) == -1)
+	if (exec_redirections(curr, shell_ctx) == -1)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
@@ -46,7 +46,7 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 
 	if (pipe_redirect_middle(fd))
 		return (-1);
-	if (exec_redirect_only(curr, shell_ctx))
+	if (exec_redirections(curr, shell_ctx))
 		return (-1);
 	pid = fork();
 	if (pid == -1)
@@ -74,7 +74,7 @@ int *is_signaled)
 
 	if (pipe_redirect_last(fd))
 		return (-1);
-	if (exec_redirect_only(curr, shell_ctx))
+	if (exec_redirections(curr, shell_ctx))
 		return (-1);
 	pid = fork();
 	if (pid == -1)

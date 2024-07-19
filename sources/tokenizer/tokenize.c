@@ -6,13 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 21:53:49 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 13:20:28 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:48:18 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tokenlist	*tokenize(const char *input, t_ast_err *err, t_shell_ctx *shell_ctx)
+t_tokenlist	*tokenize(const char *input, t_shell_ctx *shell_ctx)
 {
 	t_tokenlist	*tokenlist;
 
@@ -24,7 +24,7 @@ t_tokenlist	*tokenize(const char *input, t_ast_err *err, t_shell_ctx *shell_ctx)
 		perror("tokenlist allocation fail");
 		return (NULL);
 	}
-	if (process_tokens(input, tokenlist, err, shell_ctx) == -1)
+	if (process_tokens(input, tokenlist, shell_ctx) == -1)
 	{
 		clear_tokenlist(tokenlist);
 		return (NULL);
@@ -32,7 +32,7 @@ t_tokenlist	*tokenize(const char *input, t_ast_err *err, t_shell_ctx *shell_ctx)
 	return (tokenlist);
 }
 
-int	process_tokens(const char *input, t_tokenlist *tokenlist, t_ast_err *err, \
+int	process_tokens(const char *input, t_tokenlist *tokenlist, \
 t_shell_ctx *shell_ctx)
 {
 	t_tokentype				tokentype;
@@ -53,7 +53,6 @@ t_shell_ctx *shell_ctx)
 	}
 	if (quotetype != NO_QUOTE)
 	{
-		err->errnum = INCOMPLETE_CMD;
 		shell_ctx->exit_status = 258;
 		ft_dprintf(2, "Nutshell: syntax error: unexpected end of file\n");
 		return (-1);

@@ -6,13 +6,13 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:03:37 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 15:26:42 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:56:15 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_echoctl(struct termios *old_term, int echoctl_flag, int	stdin_fd)
+void	set_echoctl(struct termios *old_term, int echoctl_flag, int stdin_fd)
 {
 	struct termios	new_term;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:14:28 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 13:36:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
 {
 	if (signaled_status == SIGQUIT)
 		ft_dprintf(STDERR_FILENO, "Quit: %d\n", signaled_status);
-	else if(signaled_status == SIGINT)
+	else if (signaled_status == SIGINT)
 		printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
 	convert_to_nutshell_terminal();

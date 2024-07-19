@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 17:03:04 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:56:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ char *line);
 int			clear_here_doc_files(t_shell_ctx *shell_ctx);
 
 // echo_control.c
-void		set_echoctl(struct termios *old_term, int echoctl_flag, int stdin_fd);
+void		set_echoctl(struct termios *old_term, int echoctl_flag, \
+int stdin_fd);
 void		restore_echoctl(struct termios *old_term, int stdin_fd);
 
 // signal_handler.c

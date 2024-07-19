@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 16:39:43 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 13:09:19 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:36:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exec_io_file(t_ast_node *node)
 {
 	int	fd;
 
-	fd = exec_io_file_redirect(node);	
+	fd = exec_io_file_redirect(node);
 	if (fd == -1)
 	{
 		ft_dprintf(2, "Nutshell: %s: No such file or directory\n", \

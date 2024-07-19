@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:07:42 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 22:40:10 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:34:03 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,92 +43,9 @@ int	get_here_doc_input_from_pipe(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	while (curr->child_num)
 	{
-		if (search_get_heredoc_filename(curr->child[0], shell_ctx) == -1)
+		if (search_make_heredoc_filename(curr->child[0], shell_ctx) == -1)
 			return (-1);
 		curr = curr->child[1];
 	}
 	return (0);
 }
-
-int	search_get_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	if (curr->child[0]->sym == SIMPLE_COMMAND)
-		curr = curr->child[0];
-	if (curr->child[0]->sym == SUBSHELL)
-	{
-		if (exec_redirect_list_hd(curr->child[1], shell_ctx))
-			return (-1);
-		return (0);
-	}
-	if (curr->child_num == 2)
-	{
-		if (exec_cmd_suffix_redirect_hd(curr->child[1], shell_ctx))
-			return (-1);
-	}
-	else if (curr->child_num == 3)
-	{
-		if (exec_cmd_prefix_hd(curr->child[0], shell_ctx))
-			return (-1);
-		if (exec_cmd_suffix_redirect_hd(curr->child[2], shell_ctx))
-			return (-1);
-	}
-	else
-		if (exec_cmd_prefix_hd(curr->child[0], shell_ctx))
-			return (-1);
-	return (0);
-}
-
-int	exec_cmd_prefix_hd(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	while (curr->child)
-	{
-		if (curr->child[0]->sym == IO_REDIRECT)
-			if (exec_io_redirect_hd(curr->child[0], shell_ctx))
-				return (-1);
-		curr = curr->child[1];
-	}
-	return (0);
-}
-
-int	exec_cmd_suffix_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	while (curr->child)
-	{
-		if (curr->child[0]->sym == IO_REDIRECT)
-			if (exec_io_redirect_hd(curr->child[0], shell_ctx))
-				return (-1);
-		curr = curr->child[1];
-	}
-	return (0);
-}
-
-// sym : IO_HERE
-int	exec_io_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	char	*file_name;
-
-	if (curr->child[0]->sym == IO_HERE)
-	{
-		if (setup_here_doc(curr->child[0], shell_ctx, &file_name))
-		{
-			unlink(file_name);
-			free(file_name);
-			return (-1);
-		}
-		if (add_str_to_strs(file_name, &shell_ctx->heredoc_files))
-			return (-1);
-	}
-	return (0);
-}
-
-int	exec_redirect_list_hd(t_ast_node *curr, t_shell_ctx *shell_ctx)
-{
-	if (curr->child == NULL)
-		return (0);
-	if (exec_io_redirect_hd(curr->child[0], shell_ctx))
-		return (-1);
-	if (exec_redirect_list_hd(curr->child[1], shell_ctx))
-		return (-1);
-	return (0);
-}
-

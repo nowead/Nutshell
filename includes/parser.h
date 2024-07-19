@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 12:45:05 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:52:30 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 
 // parse.c
 t_ast		*parse(const char *input, t_shell_ctx *shell_ctx);
+int			handle_parse_error(t_ast_err *err, t_shell_ctx *shell_ctx);
 const char	*get_token_type_string(t_tokentype type);
 const char	*get_token_operator_type_string(t_tokentype type);
-void		print_ast(t_ast_node *node, int depth);
-const char	*get_symbol_type_string(t_symbol sym);
+// void		print_ast(t_ast_node *node, int depth);
+// const char	*get_symbol_type_string(t_symbol sym);
 
 // ast_construction
 

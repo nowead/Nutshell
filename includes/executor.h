@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 22:37:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:56:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int		handle_signal(t_shell_ctx *shell_ctx, int signaled_status);
 // get_here_doc_input.c
 int		get_here_doc_input(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		get_here_doc_input_from_pipe(t_ast_node *curr, t_shell_ctx *shell_ctx);
-int		search_get_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx);
-int		exec_cmd_prefix_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
-int		exec_cmd_suffix_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
-int		exec_io_redirect_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
-int		exec_redirect_list_hd(t_ast_node *curr, t_shell_ctx *shell_ctx);
+
+// search_make_heredoc_filename.c
+int		search_make_heredoc_filename(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		get_hd_input_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		get_hd_input_cmd_suffix(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		get_hd_input_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
+int		get_hd_input_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_individual_commands.c
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
@@ -75,10 +77,9 @@ int		count_argument(t_ast_node *curr);
 void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx);
 void	handle_error(char *cmd_name);
 
-// exec_redirect_only.c
-int		exec_redirect_only(t_ast_node *curr, t_shell_ctx *shell_ctx);
+// exec_redirections.c
+int		exec_redirections(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
-int		open_here_doc_tempfile_read(char **file_name, char *envp[]);
 
 // exec_affixes.c
 int		exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -93,15 +94,14 @@ void	exec_subshell(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_io_here.c
 int		exec_io_here(t_ast_node *node, t_shell_ctx *shell_ctx);
-int		setup_here_doc(t_ast_node *node, t_shell_ctx *shell_ctx, char **file_name);
 int		here_doc_redirect_stdin(int fd, char *file_name);
 int		is_there_next_io_here(t_ast_node *curr);
 
-// open_here_doc_tempfile.c
+// make_heredoc_file.c
+int		make_heredoc_file(t_ast_node *node, t_shell_ctx *shell_ctx, \
+char **file_name);
 int		open_here_doc_tempfile(char **file_name, char *envp[]);
 int		create_unique_file(char **file_name, char *home_path);
-
-// io_readline.c
 int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
 void	remove_new_line_from_line(char **line);
 
