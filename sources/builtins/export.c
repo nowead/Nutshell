@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:03:57 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/17 17:45:22 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:40:37 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ char	**search_env_var(const char *key, size_t key_len, char *envp[])
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
+		if (ft_strncmp(envp[i], key, key_len) == 0 && \
+		(envp[i][key_len] == '=' || envp[i][key_len] == '\0'))
 			return (&envp[i]);
 		i++;
 	}
