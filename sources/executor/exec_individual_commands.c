@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_individual_commands.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 16:18:18 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:15:43 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,6 @@ int	save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled)
 		return (-1);
 	shell_ctx->exit_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == 2)
-			*is_signaled = 1;
-	}
+		*is_signaled = 1;
 	return (0);
 }

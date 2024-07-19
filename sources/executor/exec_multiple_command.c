@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 21:09:13 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 13:14:28 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
 {
 	if (signaled_status == SIGQUIT)
 		ft_dprintf(STDERR_FILENO, "Quit: %d\n", signaled_status);
-	else
+	else if(signaled_status == SIGINT)
 		printf("\n");
 	shell_ctx->exit_status = signaled_status + 128;
 	convert_to_nutshell_terminal();
@@ -69,7 +69,8 @@ int	wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled)
 		if (wait(status) == -1)
 			return (-1);
 		if (WIFSIGNALED(*status))
-			*is_signaled = 1;
+			if (WTERMSIG(*status) != SIGPIPE)
+				*is_signaled = 1;
 		cmd_cnt--;
 	}
 	return (0);
