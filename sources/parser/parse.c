@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:55:51 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:09:05 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ast	*parse(const char *input, t_shell_ctx *shell_ctx)
 	t_ast		*ast;
 	t_ast_err	err;
 
-	tokenlist = tokenize(input, &err, shell_ctx);
+	tokenlist = tokenize(input, shell_ctx);
 	if (tokenlist == NULL)
 		return (NULL);
 	if (expand_parameter(tokenlist, shell_ctx))
@@ -31,7 +31,7 @@ t_ast	*parse(const char *input, t_shell_ctx *shell_ctx)
 	return (ast);
 }
 
-int	handle_parse_error(t_ast_err *err, t_shell_ctx *shell_ctx)
+void	handle_parse_error(t_ast_err *err, t_shell_ctx *shell_ctx)
 {
 	if (err->errnum == INCOMPLETE_CMD)
 	{

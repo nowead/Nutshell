@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_and_or.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:56:58 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 21:40:00 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:12:31 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	exec_and_or_(t_ast_node *curr, int prev_result, t_shell_ctx *shell_ctx)
 {
 	int	curr_result;
 
+	if (shell_ctx->exit_status == 130 && curr->parent->parent)
+		return (-1);
 	if (curr->token && \
 	((curr->token->type == TOK_AND_IF && prev_result == 0) || \
 	(curr->token->type == TOK_OR_IF && prev_result != 0)))
