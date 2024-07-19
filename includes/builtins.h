@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 15:14:04 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 15:58:23 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		cd_home(char **argv, char **envp);
 void	exec_cd_in_process(char **argv, char ***envp);
 
 // echo.c
-void	exec_echo(char **argv);
+void	exec_echo(char **argv, char **envp);
 int		option_made_with_n(char *str);
 
 // env.c

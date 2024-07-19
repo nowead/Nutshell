@@ -6,13 +6,13 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:31:10 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 15:14:52 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 16:01:35 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_echo(char **argv)
+void	exec_echo(char **argv, char **envp)
 {
 	int	i;
 	int	n_flag_on;
@@ -26,7 +26,10 @@ void	exec_echo(char **argv)
 	}
 	while (argv[i] || (argv[i] && argv[i][0] == '\0'))
 	{
-		printf("%s", argv[i]);
+		if (argv[i] && ft_strncmp(argv[i], "~", 2) == 0)
+			printf("%s", ft_getenv("HOME", envp));
+		else
+			printf("%s", argv[i]);
 		i++;
 		if (argv[i] || (argv[i] && argv[i][0] == '\0'))
 			printf(" ");

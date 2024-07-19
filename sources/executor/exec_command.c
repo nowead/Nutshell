@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 15:01:31 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/19 15:58:39 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	count_argument(t_ast_node *curr)
 void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 {
 	if (ft_strncmp(cmd_name, "echo", 5) == 0)
-		exec_echo(argv);
+		exec_echo(argv, shell_ctx->envp);
 	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		exec_cd_in_process(argv, &(shell_ctx->envp));
 	else if (ft_strncmp(cmd_name, "pwd", 3) == 0)
