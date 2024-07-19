@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execvpe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 15:04:14 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:45:03 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:06:01 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ char *envp[])
 		if (access(file, X_OK) == 0)
 			return (execve(file, argv, envp));
 		else
-		{
-			ft_dprintf(2, "Nutshell: %s: Permission denied\n", file);
 			return (-1);
-		}
 	}
 	errno = EFAULT;
 	return (-1);
