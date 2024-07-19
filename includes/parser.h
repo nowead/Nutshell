@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 14:01:22 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:45:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_token		*curr_token(t_toknode **toknode);
 
 // expand_parameter.c
 int			expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
+int			is_prev_dless(t_toknode *curr);
 // expand_parameters_in_a_token.c
 int			expand_parameters_in_a_token(t_toknode *toknode, \
 t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
