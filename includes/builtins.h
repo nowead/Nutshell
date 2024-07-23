@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 15:58:23 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/23 20:35:15 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exec_env(t_shell_ctx *shell_ctx);
 
 // exit.c
 void	exec_exit(char **argv, t_shell_ctx *shell_ctx);
-void	exec_exit_in_process(char **argv);
+void	exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx);
 
 // export.c
 int		exec_export(char **argv, char ***envp);

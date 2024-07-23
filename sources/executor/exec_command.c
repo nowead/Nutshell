@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 15:58:39 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/23 20:59:39 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	else if (ft_strncmp(cmd_name, "env", 4) == 0)
 		exec_env(shell_ctx);
 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
-		exec_exit_in_process(argv);
+		exec_exit_in_process(argv, shell_ctx);
 	else
 		ft_execvpe(argv[0], argv, shell_ctx->envp);
 }

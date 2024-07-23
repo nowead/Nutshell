@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:41:17 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/16 22:22:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/23 21:07:51 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,22 @@ int	expand_pathname_in_single_field(t_toknode *curr)
 	ft_free_strs(patterns);
 	if (exp_str == NULL)
 		return (-1);
-	free(curr->token->str);
-	curr->token->str = exp_str;
+	handle_expanded_pathname_update_token(curr, exp_str);
+	return (0);
+}
+
+void	handle_expanded_pathname_update_token(t_toknode *curr, char *exp_str)
+{
+	if (*exp_str == '\0')
+		free(exp_str);
+	else
+	{
+		free(curr->token->str);
+		curr->token->str = exp_str;
+	}
 	curr->token->quote = NO_QUOTE;
 	free(curr->token->is_quoted);
 	curr->token->is_quoted = NULL;
-	return (0);
 }
 
 size_t	count_asterisk(t_token *token)

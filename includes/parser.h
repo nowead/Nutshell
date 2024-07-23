@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 14:09:19 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/23 21:08:43 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ t_token		*get_field(char *str, size_t *i);
 // expand_pathname.c
 int			expand_pathname_in_fields(t_tokenlist *fields);
 int			expand_pathname_in_single_field(t_toknode *curr);
+void		handle_expanded_pathname_update_token(t_toknode *curr, \
+char *exp_str);
 size_t		count_asterisk(t_token *token);
 int			fill_patterns(char **patterns, t_token *token);
 // construct_expanded_pathname.c

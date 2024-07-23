@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 20:31:19 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/23 20:35:29 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	exec_exit(char **argv, t_shell_ctx *shell_ctx)
 {
 	restore_stdfd(shell_ctx);
 	restore_echoctl(&(shell_ctx->old_term), shell_ctx->stdfd[0]);
-	exec_exit_in_process(argv);
+	exec_exit_in_process(argv, shell_ctx);
 }
 
-void	exec_exit_in_process(char **argv)
+void	exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx)
 {
 	int	i;
 
@@ -48,5 +48,5 @@ void	exec_exit_in_process(char **argv)
 		else
 			exit(ft_atoi(argv[1]));
 	}
-	exit(EXIT_SUCCESS);
+	exit(shell_ctx->exit_status);
 }
