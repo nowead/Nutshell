@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/19 14:28:36 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/23 18:30:59 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	exec_ast(t_ast *ast, t_shell_ctx *shell_ctx);
 // exec_and_or.c
 int		exec_and_or(t_ast_node *root, t_shell_ctx *shell_ctx);
 int		exec_and_or_(t_ast_node *curr, int prev_result, t_shell_ctx *shell_ctx);
+int		is_this_subshell(t_ast_node *curr);
 
 // exec_pipe_sequence.c
 int		exec_pipe_sequence(t_ast_node *curr, t_shell_ctx *shell_ctx);
