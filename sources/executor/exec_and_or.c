@@ -31,10 +31,7 @@ int	exec_and_or_(t_ast_node *curr, int prev_result, t_shell_ctx *shell_ctx)
 	if (curr->child == NULL)
 		return (0);
 	if (shell_ctx->exit_status == 130 && is_this_subshell(curr))
-	{
-		curr_result = 1;
-		return (exec_and_or_(curr->child[1], curr_result, shell_ctx));
-	}
+		return (1);
 	if (curr->token && \
 	((curr->token->type == TOK_AND_IF && prev_result == 0) || \
 	(curr->token->type == TOK_OR_IF && prev_result != 0)))

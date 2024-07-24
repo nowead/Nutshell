@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/07/23 20:35:29 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/24 21:21:25 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	no_numeric_err_exit(char **argv)
 {
 	printf("exit\n");
-	write(STDERR_FILENO, "Nutshell: exit: ", 16);
 	ft_dprintf(2, \
 	"Nutshell: exit: %s: numeric argument required\n", argv[1]);
 	exit(255);

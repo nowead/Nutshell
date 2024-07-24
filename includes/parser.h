@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/23 21:08:43 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/24 20:31:57 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ t_token		*curr_token(t_toknode **toknode);
 // expand_parameter.c
 int			expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
 int			is_prev_dless(t_toknode *curr);
+// unquote_a_token.c
+int         unquote_a_token(t_toknode *curr);
+size_t      get_unquoted_len(char *str);
+void    	copy_str_to_unquoted_str(char *unquoted_str, char *str);
+void    	evaluate_quotetype(const char *str, const size_t i, t_quotetype *quotetype);
+int         is_real_quote(const char *str, const size_t i, const t_quotetype quotetype);
 // expand_parameters_in_a_token.c
 int			expand_parameters_in_a_token(t_toknode *toknode, \
 t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);

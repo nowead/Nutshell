@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
+// if (shell_ctx->exit_status != 258)
+// 	shell_ctx->exit_status = 0;
 void	exec_ast(t_ast *ast, t_shell_ctx *shell_ctx)
 {
-	if (shell_ctx->exit_status != 258)
-		shell_ctx->exit_status = 0;
 	exec_and_or(ast->root, shell_ctx);
 }

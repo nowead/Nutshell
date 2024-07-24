@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_parameter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:13:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/23 22:00:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/24 21:07:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx)
 		{
 			prev = curr;
 			curr = curr->next;
-			if (is_prev_dless(curr))
+			if (is_prev_dless(prev))
 			{
-				if (delete_quotes_from_a_token(prev))
+				if (unquote_a_token(prev))
 					return (-1);
 			}
 			else if (expand_parameters_in_a_token(prev, tokenlist, shell_ctx))
@@ -43,10 +43,4 @@ int	is_prev_dless(t_toknode *curr)
 	if (curr->prev && curr->prev->token->type == TOK_DLESS)
 		return (1);
 	return (0);
-}
-
-int	delete_quotes_from_a_token(t_toknode *toknode)
-{
-	char	*new_str;
-	char	*str;
 }
