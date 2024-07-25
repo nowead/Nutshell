@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_affixes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:03:02 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 14:28:50 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/25 22:08:56 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,10 @@ void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv)
 {
 	while (curr->child)
 	{
-		if (curr->child[0]->token && curr->child[0]->token->type == TOK_WORD)
-			add_argument(argv, curr->child[0]->token->str);
+		if (curr->child[0]->sym == TERMINAL)
+			add_argument_from_tokenlist(argv, curr->child[0]->tokenlist);
 		curr = curr->child[1];
 	}
-}
-
-void	add_argument(char **argv, char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	argv[i] = ft_strdup(arg);
-	if (argv[i] == NULL)
-		err_exit("add_argument", 1, EXIT_FAILURE);
 }
 
 int	exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)

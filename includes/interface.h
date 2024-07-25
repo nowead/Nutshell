@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:11:21 by damin             #+#    #+#             */
-/*   Updated: 2024/07/19 13:56:44 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/25 20:25:01 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_ast_node
 	int					sibling_index;
 	t_symbol			sym;
 	t_token				*token;
+	t_tokenlist			*tokenlist;
 	struct s_ast_node	*parent;
 	struct s_ast_node	**child;
 	size_t				child_num;

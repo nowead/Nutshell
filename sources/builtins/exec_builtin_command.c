@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:30:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/25 21:31:59 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	char	**argv;
 	int		ret;
 
-	argv = (char **)ft_calloc(count_argument(curr) + 2, sizeof(char *));
+	argv = (char **)ft_calloc(get_argv_len(curr) + 2, sizeof(char *));
 	if (argv == NULL)
 		return (err_return(1, "malloc"));
 	if (curr->child_num == 2)

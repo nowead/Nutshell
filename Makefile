@@ -42,8 +42,8 @@ AST_CONSTRUCTION_SRC	=	and_or.c                manage_ast.c			ast_construction.c
 							ast_error_handling.c    prefix_and_suffix.c		command.c               redirection_handling.c\
 							command_name.c          subshell.c				file_redirections.c     token_management.c\
 							here_doc_redirections.c
-PARAMETER_EXPANSION_SRC	=	expand_parameter.c				expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
-							insert_fields_into_tokenlist.c	is_assignment_word.c			split_into_subtokens.c\
+PARAMETER_EXPANSION_SRC	=	expand_parameters_in_string.c	expand_parameters_in_subtokens.c\
+							is_assignment_word.c			split_into_subtokens.c\
 							split_no_quote_subtoken.c		split_subtokens_into_fields.c	expand_pathname.c\
 							save_quote_in_subtokens.c		split_expanded_fields.c			construct_expanded_pathname.c\
 							sort_expanded_pathname.c		expand_parameter_in_a_token.c	unquote_a_token.c
@@ -53,7 +53,7 @@ EXECUTOR_SRC			=	exec_ast.c				exec_and_or.c				exec_command.c				exec_multiple_
 							exec_pipe_sequence.c	exec_affixes.c				exec_subshell.c				exec_io_here.c	exec_io_file.c\
 							ft_execvpe.c			ft_getenv.c					exec_individual_commands.c	exec_single_command.c\
 							exec_redirections.c		pipe_redirection.c			make_heredoc_file.c			search_make_heredoc_filename.c\
-							get_here_doc_input.c
+							get_here_doc_input.c	expand_parameter.c			fill_argv.c
 BUILTINS_SRC			=	exec_builtin_command.c		exec_builtin_affixes.c	is_builtin_cmd.c\
 							cd.c		echo.c			env.c		exit.c		export.c				export_in_pipe.c\
 							pwd.c		unset.c			export_single.c

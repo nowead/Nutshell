@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/24 21:12:35 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/25 22:16:17 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_ast	*parse(const char *input, t_shell_ctx *shell_ctx)
 	tokenlist = tokenize(input, shell_ctx);
 	if (tokenlist == NULL)
 		return (NULL);
-	if (expand_parameter(tokenlist, shell_ctx))
-		return (clear_tokenlist(tokenlist));
 	err = (t_ast_err){};
 	ast = program(tokenlist, &err);
 	handle_parse_error(&err, shell_ctx);

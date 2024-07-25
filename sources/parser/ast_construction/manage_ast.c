@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:58:24 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/18 14:32:52 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/25 20:28:36 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	free_ast_node(t_ast_node *node)
 			node->parent->child = NULL;
 		}
 	}
+	if (node->tokenlist)
+		clear_tokenlist(node->tokenlist);
 	*node = (t_ast_node){};
 	free(node);
 	node = NULL;

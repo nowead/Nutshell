@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/24 20:31:57 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/25 21:54:00 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ t_token		*curr_token(t_toknode **toknode);
 // parameter_expansion
 
 // expand_parameter.c
-int			expand_parameter(t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
-int			is_prev_dless(t_toknode *curr);
+int			expand_parameters_in_simple_command(t_ast_node *curr, \
+t_shell_ctx *shell_ctx);
+int			expand_parameters_in_cmd_name(t_ast_node *curr, \
+t_shell_ctx *shell_ctx);
 // unquote_a_token.c
 int         unquote_a_token(t_toknode *curr);
 size_t      get_unquoted_len(char *str);
@@ -97,14 +99,12 @@ void    	copy_str_to_unquoted_str(char *unquoted_str, char *str);
 void    	evaluate_quotetype(const char *str, const size_t i, t_quotetype *quotetype);
 int         is_real_quote(const char *str, const size_t i, const t_quotetype quotetype);
 // expand_parameters_in_a_token.c
-int			expand_parameters_in_a_token(t_toknode *toknode, \
-t_tokenlist *tokenlist, t_shell_ctx *shell_ctx);
-t_tokenlist	*split_into_subtokens_and_expand(t_toknode *toknode, \
+t_tokenlist *expand_parameters_in_a_token(t_token *token, \
+t_shell_ctx *shell_ctx);
+t_tokenlist	*split_into_subtokens_and_expand(t_token *token, \
 t_shell_ctx *shell_ctx);
 t_tokenlist	*save_quote_and_split_into_fields(t_tokenlist *subtokenlist);
 t_tokenlist	*expand_pathname_and_split_fields(t_tokenlist *fields);
-int			insert_or_pop_fields(t_tokenlist *tokenlist, \
-t_toknode *toknode, t_tokenlist *splited_fields);
 
 // expand_parameters_in_string.c
 int			expand_parameters_in_string(char **str, t_shell_ctx *shell_ctx);
@@ -117,16 +117,13 @@ int			expand_parameters_in_subtokens(t_tokenlist *subtokenlist, \
 t_shell_ctx *shell_ctx);
 int			expand_parameters_in_a_subtoken(t_toknode *subtoknode, \
 t_shell_ctx *shell_ctx);
-// insert_fields_into_tokenlist.c
-void		insert_fields_into_tokenlist(t_tokenlist *tokenlist, \
-t_toknode *toknode, t_tokenlist *fields);
 // is_assignment_word.c
 int			is_assignment_word_token(t_token *token);
 int			is_assignment_word(char *str);
 int			is_export_word(char *str);
 int			is_valid_name(const char *str, size_t len);
 // split_into_subtokens.c
-t_tokenlist	*split_into_subtokens(t_toknode *toknode);
+t_tokenlist	*split_into_subtokens(t_token *token);
 // save_quote_in_subtokens.c
 int			save_quote_in_subtokens(t_tokenlist *subtokenlist);
 int			save_quote_in_a_token(t_toknode *toknode);

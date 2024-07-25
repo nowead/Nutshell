@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_into_subtokens.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:21:29 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/13 20:09:12 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/25 21:42:07 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_token	*split_quoted_token(char *str, size_t *i);
 static t_token	*split_unquoted_token(char *str, size_t *i);
 
-t_tokenlist	*split_into_subtokens(t_toknode *toknode)
+t_tokenlist	*split_into_subtokens(t_token *token)
 {
 	size_t		i;
 	char		*str;
@@ -24,7 +24,7 @@ t_tokenlist	*split_into_subtokens(t_toknode *toknode)
 	subtokenlist = (t_tokenlist *)ft_calloc(1, sizeof(t_tokenlist));
 	if (subtokenlist == NULL)
 		return (NULL);
-	str = toknode->token->str;
+	str = token->str;
 	i = 0;
 	while (str[i])
 	{
