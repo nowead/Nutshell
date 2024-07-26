@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/25 21:31:59 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:07:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,14 @@ int	parent_builtin_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	char	**argv;
 	int		ret;
 
-	argv = (char **)ft_calloc(get_argv_len(curr) + 2, sizeof(char *));
+	argv = NULL;
+	ret = expand_parameters_in_simple_command(curr, shell_ctx);
+	if (ret != -1)
+		argv = (char **)ft_calloc(get_argv_len(curr) + 2, sizeof(char *));
 	if (argv == NULL)
-		return (err_return(1, "malloc"));
-	if (curr->child_num == 2)
-	{
-		argv[0] = ft_strdup(curr->child[0]->token->str);
-		ret = exec_suffix_without_redirect(curr->child[1], argv);
-	}
-	else
-	{
-		argv[0] = ft_strdup(curr->child[1]->token->str);
-		ret = exec_suffix_without_redirect(curr->child[2], argv);
-	}
+		ret = -1;
+	if (ret != -1)
+		ret = fill_argv(curr, argv);
 	if (ret != -1)
 		ret = execute_builtin_argv(argv[0], argv, shell_ctx);
 	if (ret == -1)

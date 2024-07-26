@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:41:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/24 21:08:01 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 21:16:09 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	copy_str_to_unquoted_str(char *unquoted_str, char *str)
 	j = 0;
 	while (str[j])
 	{
-		
 		if (!is_real_quote(str, j, quotetype))
 		{
 			unquoted_str[i] = str[j];
@@ -71,7 +70,8 @@ void	copy_str_to_unquoted_str(char *unquoted_str, char *str)
 	unquoted_str[i] = '\0';
 }
 
-void	evaluate_quotetype(const char *str, const size_t i, t_quotetype *quotetype)
+void	evaluate_quotetype(const char *str, const size_t i, \
+t_quotetype *quotetype)
 {
 	if (str[i] == '\'')
 	{

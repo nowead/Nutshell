@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/25 22:14:00 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 21:13:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx);
 void	handle_error(char *cmd_name);
 
 // fill_argv.c
-void	fill_argv(t_ast_node *curr, char **argv);
-void	add_argument_from_tokenlist(char **argv, t_tokenlist *tokenlist);
-void	add_argument(char **argv, char *arg);
+int		fill_argv(t_ast_node *curr, char **argv);
+int		add_argument_from_tokenlist(char **argv, t_tokenlist *tokenlist);
+int		add_argument(char **argv, char *arg);
 
 // exec_redirections.c
 int		exec_redirections(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -90,7 +90,7 @@ int		redirect_only_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx);
 // exec_affixes.c
 int		exec_cmd_prefix(t_ast_node *curr, t_shell_ctx *shell_ctx);
 int		exec_cmd_suffix_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
-void	exec_cmd_suffix_argument(t_ast_node *curr, char **argv);
+int		exec_cmd_suffix_argument(t_ast_node *curr, char **argv);
 int		exec_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx);
 
 // exec_subshell.c
@@ -111,7 +111,8 @@ int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
 void	remove_new_line_from_line(char **line);
 
 // exec_io_file.c
-int		exec_io_file(t_ast_node *node);
+int		exec_io_file(t_ast_node *node, t_shell_ctx *shell_ctx);
+int		expand_io_filename(t_ast_node *node, t_shell_ctx *shell_ctx);
 int		exec_io_file_redirect(t_ast_node *node);
 
 // ft_execvpe.c

@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/25 21:54:00 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 21:17:26 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,15 @@ t_shell_ctx *shell_ctx);
 int			expand_parameters_in_cmd_name(t_ast_node *curr, \
 t_shell_ctx *shell_ctx);
 // unquote_a_token.c
-int         unquote_a_token(t_toknode *curr);
-size_t      get_unquoted_len(char *str);
-void    	copy_str_to_unquoted_str(char *unquoted_str, char *str);
-void    	evaluate_quotetype(const char *str, const size_t i, t_quotetype *quotetype);
-int         is_real_quote(const char *str, const size_t i, const t_quotetype quotetype);
+int			unquote_a_token(t_toknode *curr);
+size_t		get_unquoted_len(char *str);
+void		copy_str_to_unquoted_str(char *unquoted_str, char *str);
+void		evaluate_quotetype(const char *str, const size_t i, \
+t_quotetype *quotetype);
+int			is_real_quote(const char *str, const size_t i, \
+const t_quotetype quotetype);
 // expand_parameters_in_a_token.c
-t_tokenlist *expand_parameters_in_a_token(t_token *token, \
+t_tokenlist	*expand_parameters_in_a_token(t_token *token, \
 t_shell_ctx *shell_ctx);
 t_tokenlist	*split_into_subtokens_and_expand(t_token *token, \
 t_shell_ctx *shell_ctx);

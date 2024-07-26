@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_strs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damin <damin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:47:39 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:44 by damin            ###   ########.fr       */
+/*   Updated: 2024/07/26 20:07:44 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_free_strs(char *strs[])
 {
 	int	i;
 
+	if (!strs)
+		return ;
 	i = 0;
 	while (strs[i])
 	{

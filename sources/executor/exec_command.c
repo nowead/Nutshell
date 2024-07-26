@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/25 22:12:50 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:03:32 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	exec_simple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	argv = (char **)ft_calloc(get_argv_len(curr) + 1, sizeof(char *));
 	if (argv == NULL)
 		err_exit("malloc failed", 1, EXIT_FAILURE);
-	fill_argv(curr, argv);
+	if (fill_argv(curr, argv))
+		exit(EXIT_FAILURE);
 	execute_argv(argv[0], argv, shell_ctx);
 	handle_error(argv[0]);
 }

@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 16:39:43 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:36:37 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 21:12:55 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_io_file(t_ast_node *node)
+// sym : IO_FILE
+int	exec_io_file(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
 	int	fd;
 
+	if (expand_io_filename(node->child[0], shell_ctx))
+		return (-1);
 	fd = exec_io_file_redirect(node);
 	if (fd == -1)
 	{
@@ -32,6 +35,23 @@ int	exec_io_file(t_ast_node *node)
 		return (err_return(-1, "dup2"));
 	if (close(fd) == -1)
 		return (err_return(-1, "close"));
+	return (0);
+}
+
+int	expand_io_filename(t_ast_node *node, t_shell_ctx *shell_ctx)
+{
+	node->tokenlist = expand_parameters_in_a_token(node->token, shell_ctx);
+	if (node->tokenlist->size != 1)
+	{
+		dprintf(2, "Nutshell: %s: ambiguous redirect\n", node->token->str);
+		return (-1);
+	}
+	free_token(node->token);
+	node->token = node->tokenlist->head->token;
+	free(node->tokenlist->head);
+	node->tokenlist->head = NULL;
+	free(node->tokenlist);
+	node->tokenlist = NULL;
 	return (0);
 }
 

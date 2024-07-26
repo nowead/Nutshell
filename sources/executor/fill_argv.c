@@ -6,39 +6,46 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:11:45 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/25 22:12:07 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 19:59:54 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fill_argv(t_ast_node *curr, char **argv)
+int	fill_argv(t_ast_node *curr, char **argv)
 {
 	if (curr->child_num == 2)
 	{
-		add_argument_from_tokenlist(argv, curr->child[0]->tokenlist);
-		exec_cmd_suffix_argument(curr->child[1], argv);
+		if (add_argument_from_tokenlist(argv, curr->child[0]->tokenlist))
+			return (-1);
+		if (exec_cmd_suffix_argument(curr->child[1], argv))
+			return (-1);
 	}
 	else if (curr->child_num == 3)
 	{
-		add_argument_from_tokenlist(argv, curr->child[1]->tokenlist);
-		exec_cmd_suffix_argument(curr->child[2], argv);
+		if (add_argument_from_tokenlist(argv, curr->child[1]->tokenlist))
+			return (-1);
+		if (exec_cmd_suffix_argument(curr->child[2], argv))
+			return (-1);
 	}
+	return (0);
 }
 
-void	add_argument_from_tokenlist(char **argv, t_tokenlist *tokenlist)
+int	add_argument_from_tokenlist(char **argv, t_tokenlist *tokenlist)
 {
 	t_toknode	*curr;
 
 	curr = tokenlist->head;
 	while (curr)
 	{
-		add_argument(argv, curr->token->str);
+		if (add_argument(argv, curr->token->str))
+			return (-1);
 		curr = curr->next;
 	}
+	return (0);
 }
 
-void	add_argument(char **argv, char *arg)
+int	add_argument(char **argv, char *arg)
 {
 	int	i;
 
@@ -47,5 +54,6 @@ void	add_argument(char **argv, char *arg)
 		i++;
 	argv[i] = ft_strdup(arg);
 	if (argv[i] == NULL)
-		err_exit("add_argument", 1, EXIT_FAILURE);
+		return (err_return(-1, "ft_strdup"));
+	return (0);
 }

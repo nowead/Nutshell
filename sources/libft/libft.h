@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 11:23:52 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/24 22:06:58 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/26 21:15:40 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		ft_putstr_fd(char *s, int fd);
 char		**ft_split(char const *s, char const c);
 char		*ft_strchr(const char *s, int c);
 size_t		ft_strslen(char **strs);
-long	    ft_strtol(const char *str, char **endptr, int base);
+long		ft_strtol(const char *str, char **endptr, int base);
 char		*ft_strdup(const char *s1);
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 char		*ft_strjoin(char const *s1, char const *s2);
