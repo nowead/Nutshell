@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/26 20:03:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:11:28 by mindaewon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ void	handle_error(char *cmd_name)
 			"Nutshell: %s: command not found\n", cmd_name);
 		exit (FILE_NOT_EXIST_FAILURE);
 	}
-	ft_dprintf(STDERR_FILENO, "Nutshell: ");
-	perror(cmd_name);
+	if (errno != EACCES)
+	{
+		ft_dprintf(STDERR_FILENO, "Nutshell: ");
+		perror(cmd_name);	
+	}
 	exit(EXECVE_FAILURE);
 }
