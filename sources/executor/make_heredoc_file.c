@@ -19,6 +19,8 @@ char **file_name)
 	int	ret;
 
 	ret = 0;
+	if (unquote_a_token(node->child[0]->token))
+		return (-1);
 	set_echoctl(NULL, ECHOCTL_OFF, shell_ctx->stdfd[0]);
 	fd = open_here_doc_tempfile(file_name, shell_ctx->envp);
 	if (fd == -1)

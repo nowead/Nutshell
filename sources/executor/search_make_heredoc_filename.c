@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_make_heredoc_filename.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:34:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:34:16 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/01 15:46:02 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,18 @@ int	get_hd_input_cmd_suffix(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-// sym : IO_HERE
+// sym : IO_REDIRECT
 int	get_hd_input_io_redirect(t_ast_node *curr, t_shell_ctx *shell_ctx)
 {
 	char	*file_name;
 
+	file_name = NULL;
 	if (curr->child[0]->sym == IO_HERE)
 	{
 		if (make_heredoc_file(curr->child[0], shell_ctx, &file_name))
 		{
-			unlink(file_name);
+			if (access(file_name, F_OK) == 0)
+				unlink(file_name);
 			free(file_name);
 			return (-1);
 		}

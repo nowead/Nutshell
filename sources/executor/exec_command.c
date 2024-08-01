@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mindaewon <mindaewon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/28 16:11:28 by mindaewon        ###   ########.fr       */
+/*   Updated: 2024/08/01 17:32:02 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	handle_error(char *cmd_name)
 	if (errno != EACCES)
 	{
 		ft_dprintf(STDERR_FILENO, "Nutshell: ");
-		perror(cmd_name);	
+		perror(cmd_name);
 	}
 	exit(EXECVE_FAILURE);
 }

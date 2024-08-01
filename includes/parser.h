@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 22:02:55 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/26 21:17:26 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/01 16:44:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ t_ast		*parse(const char *input, t_shell_ctx *shell_ctx);
 void		handle_parse_error(t_ast_err *err, t_shell_ctx *shell_ctx);
 const char	*get_token_type_string(t_tokentype type);
 const char	*get_token_operator_type_string(t_tokentype type);
-// void		print_ast(t_ast_node *node, int depth);
-// const char	*get_symbol_type_string(t_symbol sym);
+void		print_ast(t_ast_node *node, int depth);
+const char	*get_symbol_type_string(t_symbol sym);
 
 // ast_construction
 
@@ -93,7 +93,7 @@ t_shell_ctx *shell_ctx);
 int			expand_parameters_in_cmd_name(t_ast_node *curr, \
 t_shell_ctx *shell_ctx);
 // unquote_a_token.c
-int			unquote_a_token(t_toknode *curr);
+int			unquote_a_token(t_token *curr);
 size_t		get_unquoted_len(char *str);
 void		copy_str_to_unquoted_str(char *unquoted_str, char *str);
 void		evaluate_quotetype(const char *str, const size_t i, \

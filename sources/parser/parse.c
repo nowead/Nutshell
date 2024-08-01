@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:59:54 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/25 22:16:17 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/01 17:31:24 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ const char	*get_token_operator_type_string(t_tokentype type)
 // 	{
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
-//			printf("  Token Type: %d\n", node->token->type);
+// 			printf("  Token Type: %d\n", node->token->type);
 //         for (int i = 0; i < depth; i++)
 //             printf("  ");
 //         printf("  Token String: %s\n", node->token->str);

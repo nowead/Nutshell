@@ -6,26 +6,26 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:41:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/26 21:16:09 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/01 15:47:41 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unquote_a_token(t_toknode *curr)
+int	unquote_a_token(t_token *token)
 {
 	char	*str;
 	char	*unquoted_str;
 	size_t	unquoted_len;
 
-	str = curr->token->str;
+	str = token->str;
 	unquoted_len = get_unquoted_len(str);
 	unquoted_str = (char *)ft_calloc(unquoted_len + 1, sizeof(char));
 	if (unquoted_str == NULL)
 		return (-1);
 	copy_str_to_unquoted_str(unquoted_str, str);
-	free(curr->token->str);
-	curr->token->str = unquoted_str;
+	free(token->str);
+	token->str = unquoted_str;
 	return (0);
 }
 

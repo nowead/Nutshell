@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 16:39:43 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/26 21:12:55 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/01 17:28:06 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,23 @@ int	exec_io_file(t_ast_node *node, t_shell_ctx *shell_ctx)
 
 int	expand_io_filename(t_ast_node *node, t_shell_ctx *shell_ctx)
 {
-	node->tokenlist = expand_parameters_in_a_token(node->token, shell_ctx);
-	if (node->tokenlist->size != 1)
+	t_tokenlist	*expanded_token;
+
+	expanded_token = expand_parameters_in_a_token(node->token, shell_ctx);
+	if (expanded_token->size != 1)
 	{
+		clear_tokenlist(expanded_token);
 		dprintf(2, "Nutshell: %s: ambiguous redirect\n", node->token->str);
 		return (-1);
 	}
-	free_token(node->token);
-	node->token = node->tokenlist->head->token;
-	free(node->tokenlist->head);
-	node->tokenlist->head = NULL;
-	free(node->tokenlist);
-	node->tokenlist = NULL;
+	free(node->token->str);
+	node->token->str = expanded_token->head->token->str;
+	free(expanded_token->head->token);
+	expanded_token->head->token = NULL;
+	free(expanded_token->head);
+	expanded_token->head = NULL;
+	free(expanded_token);
+	expanded_token = NULL;
 	return (0);
 }
 
