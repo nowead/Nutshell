@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtol1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:18:05 by seonseo           #+#    #+#             */
-/*   Updated: 2024/05/01 19:43:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/03 19:39:52 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ const char	*ft_strtol_handle_sign(const char	*str, int *sign)
 	{
 		if (*str == '-')
 			*sign = -1;
-		else
-			*sign = 1;
 		str++;
 	}
 	return (str);

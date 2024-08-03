@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:16 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/23 20:35:15 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/03 20:04:50 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int		option_made_with_n(char *str);
 void	exec_env(t_shell_ctx *shell_ctx);
 
 // exit.c
-void	exec_exit(char **argv, t_shell_ctx *shell_ctx);
-void	exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx);
+int		exec_exit(char **argv, t_shell_ctx *shell_ctx);
+int		exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx);
 
 // export.c
 int		exec_export(char **argv, char ***envp);

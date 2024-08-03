@@ -6,11 +6,27 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 14:00:48 by damin             #+#    #+#             */
-/*   Updated: 2024/07/24 21:59:48 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/03 20:32:07 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_non_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static int	no_numeric_err_exit(char **argv)
 {
@@ -20,14 +36,36 @@ static int	no_numeric_err_exit(char **argv)
 	exit(255);
 }
 
-void	exec_exit(char **argv, t_shell_ctx *shell_ctx)
+int	exec_exit(char **argv, t_shell_ctx *shell_ctx)
 {
+	long	exit_num;
+
 	restore_stdfd(shell_ctx);
 	restore_echoctl(&(shell_ctx->old_term), shell_ctx->stdfd[0]);
-	exec_exit_in_process(argv, shell_ctx);
+	if (argv[1])
+	{
+		errno = 0;
+		exit_num = ft_strtol(argv[1], NULL, 10);
+		if (is_non_numeric(argv[1]) || errno == ERANGE)
+			no_numeric_err_exit(argv);
+		if (argv[2])
+		{
+			ft_putendl_fd("exit", 1);
+			ft_putendl_fd("Nutshell: exit: too many arguments", 2);
+			return (1);
+		}
+		else
+		{
+			printf("exit\n");
+			exit(ft_atoi(argv[1]));
+		}
+	}
+	printf("exit\n");
+	exit(shell_ctx->exit_status);
+	return (0);
 }
 
-void	exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx)
+int	exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx)
 {
 	long	exit_num;
 
@@ -35,12 +73,16 @@ void	exec_exit_in_process(char **argv, t_shell_ctx *shell_ctx)
 	{
 		errno = 0;
 		exit_num = ft_strtol(argv[1], NULL, 10);
-		if (errno == EINVAL || errno == ERANGE)
+		if (is_non_numeric(argv[1]) || errno == ERANGE)
 			no_numeric_err_exit(argv);
 		if (argv[2])
-			err_exit("exit\nNutshell: exit: too many arguments", 0, 1);
+		{
+			ft_putendl_fd("Nutshell: exit: too many arguments", 2);
+			return (1);
+		}
 		else
 			exit(ft_atoi(argv[1]));
 	}
 	exit(shell_ctx->exit_status);
+	return (0);
 }

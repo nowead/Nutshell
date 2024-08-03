@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 04:05:47 by seonseo           #+#    #+#             */
-/*   Updated: 2024/08/01 17:32:02 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/03 20:22:05 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ void	execute_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	else if (ft_strncmp(cmd_name, "env", 4) == 0)
 		exec_env(shell_ctx);
 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
+	{
 		exec_exit_in_process(argv, shell_ctx);
+		exit(1);
+	}
 	else
 		ft_execvpe(argv[0], argv, shell_ctx->envp);
 }

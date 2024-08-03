@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtol.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:18:05 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/06 20:24:17 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/03 20:11:22 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ long	ft_strtol(const char *str, char **endptr, int base)
 	str = ft_strtol_handle_sign(str, &sign);
 	str = ft_strtol_determine_base(str, &base);
 	result = ft_strtol_convert_to_number(str, base, sign, endptr);
-	if (errno == EINVAL)
+	if (endptr && errno == EINVAL)
 		*endptr = (char *)str_start;
 	return (result);
 }

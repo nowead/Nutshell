@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:26:51 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/26 20:07:24 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/03 20:02:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	execute_builtin_argv(char *cmd_name, char **argv, t_shell_ctx *shell_ctx)
 	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
 		return (exec_unset(argv, &(shell_ctx->envp)));
 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
-		exec_exit(argv, shell_ctx);
+		return (exec_exit(argv, shell_ctx));
 	else if (ft_strncmp(cmd_name, "cd", 3) == 0)
 		return (exec_cd(argv, &(shell_ctx->envp)));
 	return (-1);
