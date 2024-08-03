@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_make_heredoc_filename.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:34:08 by seonseo           #+#    #+#             */
-/*   Updated: 2024/08/01 15:46:02 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/04 02:55:41 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
