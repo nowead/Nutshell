@@ -6,7 +6,7 @@
 /*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/07/26 21:13:24 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/05 18:16:46 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ int		is_there_next_io_here(t_ast_node *curr);
 // make_heredoc_file.c
 int		make_heredoc_file(t_ast_node *node, t_shell_ctx *shell_ctx, \
 char **file_name);
+int		wait_fore_here_doc_child(void);
 int		open_here_doc_tempfile(char **file_name, char *envp[]);
 int		create_unique_file(char **file_name, char *home_path);
-int		io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
-void	remove_new_line_from_line(char **line);
+void	io_readline(int fd, const char *str, t_shell_ctx *shell_ctx);
 
 // exec_io_file.c
 int		exec_io_file(t_ast_node *node, t_shell_ctx *shell_ctx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/07/18 15:19:19 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/05 17:39:41 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void	sigint_handler(int signo)
 
 void	here_doc_handler(int signo)
 {
-	(void)signo;
+	if (signo != SIGINT)
+		return ;
+	printf("\n");
+	exit(1);
 }
 
 void	convert_to_child_process(void)
