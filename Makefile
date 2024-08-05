@@ -74,7 +74,8 @@ ft_dprintf.c	ft_vdprintf.c	ft_snprintf.c	ft_vsnprintf.c\
 get_next_line.c					get_next_line_utils.c)
 LIBFT_OBJ = $(patsubst %.c, %.o, $(SRC))
 
-all: $(NAME)
+all: 
+	@make $(NAME) -j4
 
 $(NAME): $(OBJ) $(LIBFT)
 	@$(CC) $(OBJ) $(RL_FLAG) $(LIBFT_FLAGS) -o $@

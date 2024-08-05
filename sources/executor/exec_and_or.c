@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_and_or.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:56:58 by seonseo           #+#    #+#             */
-/*   Updated: 2024/08/04 02:54:32 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/05 15:34:28 by seonseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	exec_and_or_(t_ast_node *curr, int prev_result, t_shell_ctx *shell_ctx)
 		curr_result = exec_pipe_sequence(curr->child[0], shell_ctx);
 		return (exec_and_or_(curr->child[1], curr_result, shell_ctx));
 	}
-	curr_result = 0;
+	else if (curr->token->type == TOK_AND_IF)
+		curr_result = 1;
+	else
+		curr_result = 0;
 	return (exec_and_or_(curr->child[1], curr_result, shell_ctx));
 }
 
