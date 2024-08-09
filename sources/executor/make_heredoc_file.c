@@ -101,7 +101,6 @@ int	create_unique_file(char **file_name, char *home_path)
 void	io_readline(int fd, const char *delimiter, t_shell_ctx *shell_ctx)
 {
 	char	*line;
-	int		redirected_stdfd[2];
 
 	line = "none";
 	while (line != 0)

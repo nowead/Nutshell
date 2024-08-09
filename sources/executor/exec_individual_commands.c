@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_individual_commands.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:30:12 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:30:49 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/09 17:35:30 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ int	middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 	return (0);
 }
 
-int	last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx, \
-int *is_signaled)
+int	last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx)
 {
 	pid_t			pid;
 
@@ -88,21 +87,29 @@ int *is_signaled)
 		exec_command(curr, shell_ctx);
 	}
 	signal(SIGINT, SIG_IGN);
-	if (save_exit_status(pid, shell_ctx, is_signaled) == -1)
+	if (save_exit_status(pid, shell_ctx) == -1)
 		return (-1);
 	if (restore_stdfd(shell_ctx))
 		return (-1);
 	return (0);
 }
 
-int	save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled)
+int	save_exit_status(pid_t pid, t_shell_ctx *shell_ctx)
 {
 	int	status;
+	int	signaled_status;
 
 	if (waitpid(pid, &status, 0) == -1)
 		return (-1);
 	shell_ctx->exit_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
-		*is_signaled = 1;
+	{
+		signaled_status = WTERMSIG(status);
+		shell_ctx->exit_status = signaled_status + 128;
+		if (signaled_status == SIGQUIT)
+			ft_dprintf(STDERR_FILENO, "Quit: %d\n", signaled_status);
+		else if (signaled_status == SIGINT)
+			printf("\n");
+	}
 	return (0);
 }

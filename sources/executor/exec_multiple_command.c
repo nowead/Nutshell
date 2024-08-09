@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: damin <damin@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/07/19 13:36:54 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/09 17:35:51 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,20 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 	curr = curr->child[1];
 	if (execute_middle_commands(&curr, fd, &cmd_cnt, shell_ctx))
 		return (-1);
-	if (last_command(curr->child[0], fd, shell_ctx, &is_signaled) == -1)
+	if (last_command(curr->child[0], fd, shell_ctx) == -1)
 		return (-1);
 	if (wait_for_all_commands(cmd_cnt, &status, &is_signaled))
 		return (-1);
-	if (is_signaled && handle_signal(shell_ctx, WTERMSIG(status)) == -1)
+	if (is_signaled && handle_signal(WTERMSIG(status)) == -1)
 		return (-1);
 	convert_to_nutshell_terminal();
 	return (shell_ctx->exit_status);
 }
 
-int	handle_signal(t_shell_ctx *shell_ctx, int signaled_status)
+int	handle_signal(int signaled_status)
 {
-	if (signaled_status == SIGQUIT)
-		ft_dprintf(STDERR_FILENO, "Quit: %d\n", signaled_status);
-	else if (signaled_status == SIGINT)
+	if (signaled_status == SIGINT)
 		printf("\n");
-	shell_ctx->exit_status = signaled_status + 128;
 	convert_to_nutshell_terminal();
 	return (0);
 }

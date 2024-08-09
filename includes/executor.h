@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/08/05 18:16:46 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/09 17:35:40 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		execute_middle_commands(t_ast_node **curr, int fd[3], \
 size_t *cmd_cnt, t_shell_ctx *shell_ctx);
 int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
-int		handle_signal(t_shell_ctx *shell_ctx, int signaled_status);
+int		handle_signal(int signaled_status);
 
 // get_here_doc_input.c
 int		get_here_doc_input(t_ast_node *curr, t_shell_ctx *shell_ctx);
@@ -62,9 +62,8 @@ int		get_hd_input_redirect_list(t_ast_node *curr, t_shell_ctx *shell_ctx);
 // exec_individual_commands.c
 int		first_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
 int		middle_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
-int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx, \
-int *is_signaled);
-int		save_exit_status(pid_t pid, t_shell_ctx *shell_ctx, int *is_signaled);
+int		last_command(t_ast_node *curr, int fd[3], t_shell_ctx *shell_ctx);
+int		save_exit_status(pid_t pid, t_shell_ctx *shell_ctx);
 
 // pipe_redirection.c
 int		pipe_redirect_first(int fd[3]);
