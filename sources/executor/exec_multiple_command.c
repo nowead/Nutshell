@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 03:58:30 by seonseo           #+#    #+#             */
-/*   Updated: 2024/08/09 17:35:51 by damin            ###   ########.fr       */
+/*   Updated: 2024/08/12 16:53:33 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int	multiple_command(t_ast_node *curr, t_shell_ctx *shell_ctx)
 		return (-1);
 	if (wait_for_all_commands(cmd_cnt, &status, &is_signaled))
 		return (-1);
-	if (is_signaled && handle_signal(WTERMSIG(status)) == -1)
+	if (is_signaled && handle_signal(WTERMSIG(status), shell_ctx) == -1)
 		return (-1);
 	convert_to_nutshell_terminal();
 	return (shell_ctx->exit_status);
 }
 
-int	handle_signal(int signaled_status)
+int	handle_signal(int signaled_status, t_shell_ctx *shell_ctx)
 {
-	if (signaled_status == SIGINT)
+	if (signaled_status == SIGINT && shell_ctx->exit_status != 130)
 		printf("\n");
 	convert_to_nutshell_terminal();
 	return (0);

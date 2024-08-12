@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonseo <seonseo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damin <damin@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:23:33 by damin             #+#    #+#             */
-/*   Updated: 2024/08/05 17:39:41 by seonseo          ###   ########.fr       */
+/*   Updated: 2024/08/12 16:32:56 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ void	sigint_handler(int signo)
 	rl_replace_line("", 1);
 	rl_redisplay();
 }
+
+// void	sigint_child_handler(int signo)
+// {
+// 	if (signo != SIGINT)
+// 		return ;
+// 	ft
+// 	exit(2);
+// }
 
 void	here_doc_handler(int signo)
 {

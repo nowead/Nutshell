@@ -6,7 +6,7 @@
 /*   By: damin <damin@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:03:05 by damin             #+#    #+#             */
-/*   Updated: 2024/08/09 17:35:40 by damin            ###   ########.fr       */
+/*   Updated: 2024/08/12 16:45:14 by damin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		execute_middle_commands(t_ast_node **curr, int fd[3], \
 size_t *cmd_cnt, t_shell_ctx *shell_ctx);
 int		wait_for_all_commands(size_t cmd_cnt, int *status, int *is_signaled);
 int		is_there_pipe(t_ast_node *curr);
-int		handle_signal(int signaled_status);
+int		handle_signal(int signaled_status, t_shell_ctx *shell_ctx);
 
 // get_here_doc_input.c
 int		get_here_doc_input(t_ast_node *curr, t_shell_ctx *shell_ctx);
